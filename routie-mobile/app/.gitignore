@@ -1,0 +1,15 @@
+# Android 관련 빌드 파일
+/build/
+.gradle/
+.local/
+
+# IDE 관련 설정 파일
+.idea/
+*.iml
+
+# 환경설정 관련 파일
+/local.properties
+.DS_Store
+
+# Log 및 기타 임시 파일
+*.log
