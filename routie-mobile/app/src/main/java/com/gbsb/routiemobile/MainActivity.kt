@@ -14,9 +14,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var btnFetchReward: Button
     private lateinit var btnSendCalories: Button
+    private lateinit var editTextUserId: EditText
     private lateinit var textViewGold: TextView
     private lateinit var textViewSteps: TextView
     private lateinit var editTextCalories: EditText
+    private lateinit var tvRewardData: TextView
+    private lateinit var apiService: RewardApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,36 +28,45 @@ class MainActivity : AppCompatActivity() {
         // 뷰 연결
         btnFetchReward = findViewById(R.id.btnFetchReward)
         btnSendCalories = findViewById(R.id.btnSendCalories)
+        editTextUserId = findViewById(R.id.editTextUserId)
         textViewGold = findViewById(R.id.textViewGold)
         textViewSteps = findViewById(R.id.textViewSteps)
         editTextCalories = findViewById(R.id.editTextCalories)
 
         val userId = 1 // 테스트 용
 
+        // retrofit 인스턴스 생성
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://192.168.45.132:8080/") // 본인 서버 IP 확인
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        apiService = retrofit.create(RewardApiService::class.java)
+
         // 리워드 조회 버튼 클릭 시
         btnFetchReward.setOnClickListener {
-            getUserReward(userId)
+            val userId = editTextUserId.text.toString().toIntOrNull()
+            if (userId != null) {
+                getUserReward(userId)
+            } else {
+                Toast.makeText(this, "Enter a valid User ID", Toast.LENGTH_SHORT).show()
+            }
         }
+
         // 칼로리 전송 버튼 클릭 시
         btnSendCalories.setOnClickListener {
+            val userId = editTextUserId.text.toString().toIntOrNull()
             val calories = editTextCalories.text.toString().toIntOrNull()
-            if (calories != null) {
+            if (userId != null && calories != null) {
                 sendCalories(userId, calories)
             } else {
-                Toast.makeText(this, "Enter valid calorie value", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter valid inputs", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-
+    // 서버에서 리워드 조회
     private fun getUserReward(userId: Int) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.45.132:8080/") // 본인 서버 IP 맞는지 확인
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(RewardApiService::class.java)
-
         apiService.getUserReward(userId).enqueue(object : Callback<RewardResponse> {
             override fun onResponse(
                 call: Call<RewardResponse>,
@@ -91,14 +103,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    // 서버로 칼로리 전송
     private fun sendCalories(userId: Int, calories: Int) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.45.132:8080/") // 서버 IP 확인
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService = retrofit.create(RewardApiService::class.java)
-
         val request = CaloriesRequest(calories)
 
         apiService.sendCalories(userId, request).enqueue(object : Callback<RewardResponse> {
@@ -138,4 +144,5 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
 }

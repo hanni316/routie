@@ -14,4 +14,7 @@ interface RewardApiService {
 
     @POST("/api/reward/{userId}/calories")
     fun sendCalories(@Path("userId") userId: Int, @Body request: CaloriesRequest): Call<RewardResponse>
+
+    @GET("/api/reward/{userId}")
+    fun getUserReward(@Path("userId") userId: Long): Call<RewardResponse>
 }
