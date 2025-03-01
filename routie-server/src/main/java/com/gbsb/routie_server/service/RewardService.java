@@ -20,4 +20,17 @@ public class RewardService {
         return new RewardResponseDto(reward);
     }
 
+    public RewardResponseDto updateCalories(Long userId, int caloriesBurned) {
+        Reward reward = rewardRepository.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID:" + userId));
+
+        // 칼로리를 Gold로 변환 (예: 1kcal = 10 Gold)
+        int earnedGold = caloriesBurned * 10;
+        reward.setTotalGold(reward.getTotalGold() + earnedGold);
+        rewardRepository.save(reward);
+
+        return new RewardResponseDto(reward);
+    }
+
+
 }

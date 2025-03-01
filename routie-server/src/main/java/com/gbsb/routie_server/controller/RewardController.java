@@ -1,13 +1,11 @@
 package com.gbsb.routie_server.controller;
 
+import com.gbsb.routie_server.dto.CaloriesRequestDto;
 import com.gbsb.routie_server.dto.RewardResponseDto;
 import com.gbsb.routie_server.service.RewardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/reward")
@@ -21,4 +19,14 @@ public class RewardController {
         RewardResponseDto reward = rewardService.getRewardBuUserId(userId);
         return ResponseEntity.ok(reward);
     }
+
+    @PostMapping("/{userId}/calories")
+    public ResponseEntity<RewardResponseDto> updateCalories(
+            @PathVariable Long userId,
+            @RequestBody CaloriesRequestDto request) {
+
+        RewardResponseDto updatedReward = rewardService.updateCalories(userId, request.getCaloriesBurned());
+        return ResponseEntity.ok(updatedReward);
+    }
+
 }
