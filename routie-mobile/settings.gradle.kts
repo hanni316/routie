@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "routie-mobile"
 include(":app")
- 
+include(":routie-wear")
