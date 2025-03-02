@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewGold: TextView
     private lateinit var textViewSteps: TextView
     private lateinit var editTextCalories: EditText
-    private lateinit var tvRewardData: TextView
     private lateinit var apiService: RewardApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {

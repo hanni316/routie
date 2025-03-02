@@ -6,7 +6,12 @@
 
 package com.example.routie_wear.presentation
 
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -24,14 +29,54 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.routie_wear.R
 import com.example.routie_wear.presentation.theme.RoutiemobileTheme
+import com.example.routie_wear.sensor.StepSensorListener
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private var stepSensor: Sensor? = null
+    private var stepCount = 0
+    private lateinit var textView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        textView = findViewById(R.id.textView)
+
+        // 센서 리스너 등록 (워치의 걸음 센서 활성화)
+        StepSensorListener(this)
+
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+
+        if (stepSensor != null) {
+            sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+        } else {
+            findViewById<TextView>(R.id.textView).text = "No Step Sensor Available!"
+        }
+
         setContent {
             WearApp("Android")
         }
     }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
+            stepCount = event.values[0].toInt()
+            val caloriesBurned = stepCount * 0.04 // 1 걸음 = 0.04 kcal 계산
+            findViewById<TextView>(R.id.textView).text =
+                "Steps: $stepCount\nCalories: $caloriesBurned kcal"
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sensorManager.unregisterListener(this)
+    }
+
+
 }
 
 @Composable
