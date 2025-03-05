@@ -36,7 +36,9 @@ class StepSensorListener(context: Context) : SensorEventListener {
             val putDataReq = putDataMapReq.asPutDataRequest().setUrgent()
             dataClient.putDataItem(putDataReq)
 
-            Log.d("WearOS", "📡 전송 완료! Calories: $caloriesBurned kcal, Steps: $stepCount")
+            Log.d("WearOS", "전송 완료! Calories: $caloriesBurned kcal, Steps: $stepCount")
+
+            Log.d("StepSensor", "걸음 수: $stepCount, 칼로리: $caloriesBurned kcal") // 디버그 로그 추가
         }
     }
 

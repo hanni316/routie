@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.gbsb.routiemobile"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.gbsb.routiemobile"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 

@@ -1,17 +1,12 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.example.routie_wear.presentation
 
+import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.widget.TextView
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -19,53 +14,55 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import android.content.SharedPreferences
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
-import com.example.routie_wear.R
-import com.example.routie_wear.presentation.theme.RoutiemobileTheme
-import com.example.routie_wear.sensor.StepSensorListener
 
 class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var stepSensor: Sensor? = null
-    private var stepCount = 0
-    private lateinit var textView: TextView
+
+    // 걸음 수를 저장할 SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
+    private var stepCount by mutableStateOf(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        textView = findViewById(R.id.textView)
+        // SharedPreferences 초기화 (걸음 수 저장용)
+        sharedPreferences = getSharedPreferences("step_prefs", Context.MODE_PRIVATE)
+        stepCount = sharedPreferences.getInt("step_count", 0)
 
-        // 센서 리스너 등록 (워치의 걸음 센서 활성화)
-        StepSensorListener(this)
-
-        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        // 센서 매니저 설정
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
         if (stepSensor != null) {
-            sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+            Log.d("SensorCheck", "걸음 센서 감지됨: ${stepSensor!!.name}")
+            val registered = sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_UI)
+            Log.d("SensorCheck", "센서 리스너 등록됨: $registered")
         } else {
-            findViewById<TextView>(R.id.textView).text = "No Step Sensor Available!"
+            Log.e("SensorCheck", "걸음 센서를 찾을 수 없음!")
         }
 
         setContent {
-            WearApp("Android")
+            WearApp(stepCount)
         }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
             stepCount = event.values[0].toInt()
-            val caloriesBurned = stepCount * 0.04 // 1 걸음 = 0.04 kcal 계산
-            findViewById<TextView>(R.id.textView).text =
-                "Steps: $stepCount\nCalories: $caloriesBurned kcal"
+
+            // 걸음 수 업데이트 로그 추가
+            Log.d("StepCounter", "걸음 감지됨! 현재 걸음 수: $stepCount")
+
+            // 걸음 수를 SharedPreferences에 저장
+            sharedPreferences.edit().putInt("step_count", stepCount).apply()
         }
     }
 
@@ -73,42 +70,29 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        sensorManager.unregisterListener(this)
-    }
-
-
-}
-
-@Composable
-fun WearApp(greetingName: String) {
-    RoutiemobileTheme {
-        /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
-         * version of LazyColumn for wear devices with some added features. For more information,
-         * see d.android.com/wear/compose.
-         */
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Greeting(greetingName = greetingName)
-        }
+        sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 }
 
 @Composable
-fun Greeting(greetingName: String) {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colors.primary,
-        text = stringResource(R.string.hello_world, greetingName)
-    )
+fun WearApp(stepCount: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.primary,
+            text = "걸음 수: $stepCount"
+        )
+    }
 }
 
-@Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
+@Preview
 @Composable
 fun DefaultPreview() {
-    WearApp("Preview Android")
+    WearApp(stepCount = 10)
 }
