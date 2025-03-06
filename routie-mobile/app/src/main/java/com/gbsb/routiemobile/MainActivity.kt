@@ -1,147 +1,67 @@
 package com.gbsb.routiemobile
 
-import android.widget.*
-import retrofit2.*
 import android.os.Bundle
-import android.util.Log
+import android.widget.ImageButton
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.gbsb.routiemobile.api.RewardApiService
-import com.gbsb.routiemobile.dto.CaloriesRequest
-import com.gbsb.routiemobile.dto.RewardResponse
-import retrofit2.converter.gson.GsonConverterFactory
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import android.app.DatePickerDialog
+import android.content.Intent
+import android.widget.Button
+import android.widget.TextView
+import java.util.Calendar
+
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var btnFetchReward: Button
-    private lateinit var btnSendCalories: Button
-    private lateinit var editTextUserId: EditText
-    private lateinit var textViewGold: TextView
-    private lateinit var textViewSteps: TextView
-    private lateinit var editTextCalories: EditText
-    private lateinit var apiService: RewardApiService
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        // 뷰 연결
-        btnFetchReward = findViewById(R.id.btnFetchReward)
-        btnSendCalories = findViewById(R.id.btnSendCalories)
-        editTextUserId = findViewById(R.id.editTextUserId)
-        textViewGold = findViewById(R.id.textViewGold)
-        textViewSteps = findViewById(R.id.textViewSteps)
-        editTextCalories = findViewById(R.id.editTextCalories)
+        // Test 화면으로 이동
+        val button = findViewById<Button>(R.id.buttonGoToTest) // 버튼 ID 확인
+        button.setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
 
-        val userId = 1 // 테스트 용
+            // 현재 연/월을 표시할 TextView
+            val textView: TextView = findViewById(R.id.textView)
+            val btnSelectDate: ImageButton = findViewById(R.id.btnSelectDate)
 
-        // retrofit 인스턴스 생성
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.45.132:8080/") // 본인 서버 IP 확인
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+            // 현재 날짜 가져오기
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH) + 1 // 1~12월 표시
 
-        apiService = retrofit.create(RewardApiService::class.java)
+            // 초기 값으로 현재 연/월 설정
+            textView.text = "$year 년 $month 월"
 
-        // 리워드 조회 버튼 클릭 시
-        btnFetchReward.setOnClickListener {
-            val userId = editTextUserId.text.toString().toIntOrNull()
-            if (userId != null) {
-                getUserReward(userId)
-            } else {
-                Toast.makeText(this, "Enter a valid User ID", Toast.LENGTH_SHORT).show()
+            // 버튼 클릭 시 DatePickerDialog 표시
+            btnSelectDate.setOnClickListener {
+                val datePickerDialog = DatePickerDialog(
+                    this,
+                    { _, selectedYear, selectedMonth, _ ->
+                        textView.text = "$selectedYear 년 ${selectedMonth + 1} 월"
+                    },
+                    year,
+                    month - 1, // DatePicker는 0부터 시작하므로 -1 필요
+                    1
+                )
+
+                // 📌 일(day) 숨기기
+                datePickerDialog.datePicker.findViewById<android.view.View>(
+                    resources.getIdentifier("day", "id", "android")
+                )?.visibility = android.view.View.GONE
+
+                datePickerDialog.show()
+            }
+
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
             }
         }
-
-        // 칼로리 전송 버튼 클릭 시
-        btnSendCalories.setOnClickListener {
-            val userId = editTextUserId.text.toString().toIntOrNull()
-            val calories = editTextCalories.text.toString().toIntOrNull()
-            if (userId != null && calories != null) {
-                sendCalories(userId, calories)
-            } else {
-                Toast.makeText(this, "Enter valid inputs", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
-
-    // 서버에서 리워드 조회
-    private fun getUserReward(userId: Int) {
-        apiService.getUserReward(userId).enqueue(object : Callback<RewardResponse> {
-            override fun onResponse(
-                call: Call<RewardResponse>,
-                response: Response<RewardResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val reward = response.body()
-                    runOnUiThread {
-                        textViewGold.text = "Gold: ${reward?.totalGold ?: 0}"
-                        textViewSteps.text = "Steps: ${reward?.totalSteps ?: 0}"
-                    }
-                    Log.d(
-                        "API_SUCCESS",
-                        "User ID: $userId, Gold: ${reward?.totalGold}, Steps: ${reward?.totalSteps}"
-                    )
-                } else {
-                    Log.e("API_FAILURE", "Error: ${response.errorBody()?.string()}")
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "API 요청 실패: ${response.code()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<RewardResponse>, t: Throwable) {
-                Log.e("API_FAILURE", "Failed to fetch reward", t)
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }
-
-    // 서버로 칼로리 전송
-    private fun sendCalories(userId: Int, calories: Int) {
-        val request = CaloriesRequest(calories)
-
-        apiService.sendCalories(userId, request).enqueue(object : Callback<RewardResponse> {
-            override fun onResponse(
-                call: Call<RewardResponse>,
-                response: Response<RewardResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val updatedReward = response.body()
-                    runOnUiThread {
-                        textViewGold.text = "Gold: ${updatedReward?.totalGold ?: 0}"
-                        textViewSteps.text = "Steps: ${updatedReward?.totalSteps ?: 0}"
-                        Toast.makeText(this@MainActivity, "Calories sent!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Log.d(
-                        "API_SUCCESS",
-                        "Updated Gold: ${updatedReward?.totalGold}, Steps: ${updatedReward?.totalSteps}"
-                    )
-                } else {
-                    Log.e("API_FAILURE", "Error: ${response.errorBody()?.string()}")
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Failed to send calories",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<RewardResponse>, t: Throwable) {
-                Log.e("API_FAILURE", "Failed to send calories", t)
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity, "Network error", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-    }
-
 }

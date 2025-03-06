@@ -1,0 +1,91 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestActivity">
+
+    <!-- 리워드 조회 버튼 -->
+    <Button
+        android:id="@+id/btnFetchReward"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Get Reward"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <!-- 골드 정보 -->
+    <TextView
+        android:id="@+id/textViewGold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gold: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/btnFetchReward"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- 스텝 정보 -->
+    <TextView
+        android:id="@+id/textViewSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steps: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/textViewGold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- 사용자 id 입력창 -->
+    <EditText
+        android:id="@+id/editTextUserId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:hint="Enter User ID"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnFetchReward" />
+
+    <!-- 칼로리 입력창 -->
+    <EditText
+        android:id="@+id/editTextCalories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
+        android:hint="Enter Calories"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSteps" />
+
+    <!-- 칼로리 전송 버튼 -->
+    <Button
+        android:id="@+id/btnSendCalories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Send Calories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextCalories" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
