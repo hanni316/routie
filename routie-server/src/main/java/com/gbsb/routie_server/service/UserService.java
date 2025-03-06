@@ -4,7 +4,6 @@ import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,41 +14,28 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // 사용자 생성
+    // 회원가입
     public User createUser(User user) {
-        // 사용자 이름 중복 체크
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("이미 존재하는 username 입니다.");
+        // 중복 이메일 확인
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
         return userRepository.save(user);
     }
 
-    // 모든 사용자 조회
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    // 로그인
+    public User loginUser(String email, String password) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
-    // 특정 사용자 조회 (ID 기반)
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    // 사용자 정보 수정
-    public User updateUser(Long id, User updatedUser) {
-        return userRepository.findById(id).map(user -> {
-            user.setUsername(updatedUser.getUsername());
-            user.setPassword(updatedUser.getPassword());
-            user.setRewardPoints(updatedUser.getRewardPoints());
-            return userRepository.save(user);
-        }).orElseThrow(() -> new RuntimeException("User not found with id " + id));
-    }
-
-    // 사용자 삭제
-    public void deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getPassword().equals(password)) {  // 비밀번호 검증
+                return user;  // 로그인 성공
+            } else {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
         } else {
-            throw new RuntimeException("User not found with id " + id);
+            throw new IllegalArgumentException("해당 이메일의 사용자가 없습니다.");
         }
     }
 }
