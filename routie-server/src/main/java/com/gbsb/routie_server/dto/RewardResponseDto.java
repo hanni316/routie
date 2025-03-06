@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RewardResponseDto {
-    private Long userId;
+    private int userId;
     private int totalGold;
     private int totalSteps;
 
