@@ -16,7 +16,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    //  아이템 조회
+    // 아이템 조회
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {
         return ResponseEntity.ok(itemService.getAllItems());
