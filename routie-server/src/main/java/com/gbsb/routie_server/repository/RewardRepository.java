@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface RewardRepository extends JpaRepository<Reward, Long> {
     Optional<Reward> findByUserId(Long userID);
+    void deleteByUserId(Long userId);
 }

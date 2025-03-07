@@ -52,4 +52,27 @@ public class UserService {
             throw new IllegalArgumentException("해당 이메일의 사용자가 없습니다.");
         }
     }
+
+    // 사용자 정보 수정
+    @Transactional
+    public User updateUser(Long userId, User updatedUser) {
+        return userRepository.findById(userId)
+                .map(user -> {
+                    user.setName(updatedUser.getName()); // 이름 수정
+                    user.setPassword(updatedUser.getPassword()); // 비밀번호 수정
+                    return userRepository.save(user);
+                }).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
+    // 사용자 삭제 (회원 탈퇴)
+    @Transactional
+    public void deleteUser(Long userId) {
+        rewardRepository.deleteByUserId(userId); // reward 테이블에서 관련 데이터 삭제
+
+        if (userRepository.existsById(userId)) {
+            userRepository.deleteById(userId);
+        } else {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+        }
+    }
 }

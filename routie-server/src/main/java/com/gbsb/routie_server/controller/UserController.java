@@ -50,4 +50,27 @@ public class UserController {
             return ResponseEntity.badRequest().body("로그인 실패: " + e.getMessage());
         }
     }
+
+    // 사용자 정보 수정
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+        try {
+            User user = userService.updateUser(userId, updatedUser);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("사용자 정보 수정 실패: " + e.getMessage());
+        }
+    }
+
+    // 사용자 계정 삭제
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("사용자 계정 삭제 완료");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("사용자 삭제 실패: " + e.getMessage());
+        }
+    }
+
 }
