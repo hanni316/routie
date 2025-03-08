@@ -21,7 +21,7 @@ public class CalorieController {
 
     @PostMapping
     public ResponseEntity<String> saveCalorie(@RequestBody Calorie calorie) {
-        calorie.setTimestamp(LocalDateTime.now()); // 현재 시간 저장
+        calorie.setLastUpdated(LocalDateTime.now());// 현재 시간 저장
         calorieRepository.save(calorie); // 데이터 저장
         return ResponseEntity.ok("칼로리 데이터 저장 완료");
     }
