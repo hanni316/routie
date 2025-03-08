@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserItemRepository extends JpaRepository<UserItem, Long> {
-    List<UserItem> findByUserId(Long userId);  // 유저의 모든 아이템 조회
+    List<UserItem> findByUser_UserId(String userId);  // 유저의 모든 아이템 조회
     Optional<UserItem> findByUserAndItem(User user, Item item);  // 특정 아이템 구매 확인
 }

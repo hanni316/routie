@@ -17,7 +17,7 @@ public class Reward {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId") // id -> userId
     private User user;
 
     private int totalGold;

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PurchaseRequestDto {
-    private Long userId;
+    private String userId; // Long → String 변경
     private Long itemId;
     private int quantity;
 }

@@ -55,7 +55,7 @@ public class UserService {
 
     // 사용자 정보 수정
     @Transactional
-    public User updateUser(Long userId, User updatedUser) {
+    public User updateUser(String userId, User updatedUser) {
         return userRepository.findById(userId)
                 .map(user -> {
                     user.setName(updatedUser.getName()); // 이름 수정
@@ -66,8 +66,8 @@ public class UserService {
 
     // 사용자 삭제 (회원 탈퇴)
     @Transactional
-    public void deleteUser(Long userId) {
-        rewardRepository.deleteByUserId(userId); // reward 테이블에서 관련 데이터 삭제
+    public void deleteUser(String userId) {
+        rewardRepository.deleteByUser_UserId(userId); // reward 테이블에서 관련 데이터 삭제
 
         if (userRepository.existsById(userId)) {
             userRepository.deleteById(userId);

@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RewardResponseDto {
-    private int userId;
+    private String userId;
     private int totalGold;
     private int totalSteps;
 
     public RewardResponseDto(Reward reward) {
-        this.userId = reward.getUser().getId();
+        this.userId = reward.getUser().getUserId(); // getId() → getUserid()
         this.totalGold = reward.getTotalGold();
         this.totalSteps = reward.getTotalSteps();
     }

@@ -20,11 +20,11 @@ public class UserItem {
     private Long userItemId;  // 구매 내역 고유 번호 1부터 증가
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)  // 유저 ID (FK)
+    @JoinColumn(name = "user_id", nullable = false)  // FK: userId
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)  // 아이템 ID (FK)
+    @JoinColumn(name = "item_id", nullable = false)  // FK: item_id
     private Item item;
 
     @Column(nullable = false)

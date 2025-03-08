@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CalorieRepository extends JpaRepository<Calorie, Long> {
-    List<Calorie> findByUserId(String userId);
+    List<Calorie> findByUserUserId(String userId);
 }
