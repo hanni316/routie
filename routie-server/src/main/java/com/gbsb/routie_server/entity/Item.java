@@ -22,6 +22,8 @@ public class Item {
     @Column(nullable = false)
     private int price;  // 아이템 가격
 
-    @Column(nullable = false)
-    private int categoryId;  // 카테고리 ID (외래키)
+    // 기존 int categoryId 제거 Category 엔티티와 관계 설정
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)  // FK로 저장
+    private Category category;
 }

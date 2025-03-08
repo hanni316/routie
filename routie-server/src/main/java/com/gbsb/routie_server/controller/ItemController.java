@@ -18,13 +18,12 @@ public class ItemController {
 
     // 아이템 조회
     @GetMapping
-    public ResponseEntity<List<Item>> getAllItems() {
-        return ResponseEntity.ok(itemService.getAllItems());
+    public ResponseEntity<List<Item>> getAllItems() { return ResponseEntity.ok(itemService.getAllItems());
     }
 
     // 카테고리별 아이템 조회
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Item>> getItemsByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<Item>> getItemsByCategory(@PathVariable int categoryId) {
         return ResponseEntity.ok(itemService.getItemsByCategory(categoryId));
     }
 }

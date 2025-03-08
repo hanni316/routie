@@ -13,15 +13,15 @@ public class RewardService {
 
     private final RewardRepository rewardRepository;
 
-    public RewardResponseDto getRewardBuUserId(Long userId) {
-        Reward reward = rewardRepository.findByUserId(userId)
+    public RewardResponseDto getRewardBuUserId(String userId) {
+        Reward reward = rewardRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID:" + userId));
 
         return new RewardResponseDto(reward);
     }
 
-    public RewardResponseDto updateCalories(Long userId, int caloriesBurned) {
-        Reward reward = rewardRepository.findByUserId(userId)
+    public RewardResponseDto updateCalories(String userId, int caloriesBurned) {
+        Reward reward = rewardRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID:" + userId));
 
         // 칼로리를 Gold로 변환 (예: 1kcal = 10 Gold)

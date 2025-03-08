@@ -15,14 +15,14 @@ public class RewardController {
     private final RewardService rewardService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<RewardResponseDto> getUserReward(@PathVariable Long userId) {
+    public ResponseEntity<RewardResponseDto> getUserReward(@PathVariable String userId) {
         RewardResponseDto reward = rewardService.getRewardBuUserId(userId);
         return ResponseEntity.ok(reward);
     }
 
     @PostMapping("/{userId}/calories")
     public ResponseEntity<RewardResponseDto> updateCalories(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @RequestBody CaloriesRequestDto request) {
 
         RewardResponseDto updatedReward = rewardService.updateCalories(userId, request.getCaloriesBurned());

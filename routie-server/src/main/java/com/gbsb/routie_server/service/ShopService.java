@@ -25,7 +25,7 @@ public class ShopService {
     }
 
     @Transactional
-    public String purchaseItem(Long userId, Long itemId, int quantity) {
+    public String purchaseItem(String userId, Long itemId, int quantity) {
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<Item> itemOpt = itemRepository.findById(itemId);
 

@@ -40,7 +40,7 @@ public class UserController {
             // 로그인 성공 시 응답 데이터
             Map<String, Object> response = new HashMap<>();
             response.put("message", "로그인 성공!");
-            response.put("userId", user.getId());
+            response.put("userId", user.getUserId());
             response.put("name", user.getName());
             response.put("gold", user.getGold());
 
@@ -53,7 +53,7 @@ public class UserController {
 
     // 사용자 정보 수정
     @PutMapping("/users/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody User updatedUser) {
         try {
             User user = userService.updateUser(userId, updatedUser);
             return ResponseEntity.ok(user);
@@ -64,7 +64,7 @@ public class UserController {
 
     // 사용자 계정 삭제
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable String userId) {
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok("사용자 계정 삭제 완료");

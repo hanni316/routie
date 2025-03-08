@@ -15,8 +15,8 @@ public class ItemService {
     }
 
     // 카테고리 아이템 조회
-    public List<Item> getItemsByCategory(Long categoryId) {
-        return itemRepository.findByCategoryId(categoryId);
+    public List<Item> getItemsByCategory(int categoryId) {
+        return itemRepository.findByCategory_CategoryId(categoryId);
     }
 
     // 전체 아이템 조회

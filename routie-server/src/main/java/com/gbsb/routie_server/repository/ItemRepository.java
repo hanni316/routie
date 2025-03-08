@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
     // 특정 카테고리 아이템 가져오기
-    List<Item> findByCategoryId(Long categoryId);
+    List<Item> findByCategory_CategoryId(int categoryId);
+
 }
