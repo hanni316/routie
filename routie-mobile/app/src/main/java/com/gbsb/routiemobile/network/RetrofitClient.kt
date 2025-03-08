@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.45.132:8080" // 실제 서버 주소
-    private const val USE_MOCK = true // 서버 없이 테스트할 때 true
+    private const val BASE_URL = "http://192.168.45.132:8080/" // 실제 서버 주소
+    private const val USE_MOCK = false // 서버 없이 테스트할 때 true
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
