@@ -20,8 +20,8 @@ public class UserService {
     @Transactional
     public User createUser(User user) {
         // 중복 이메일 확인
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        if (userRepository.findById(user.getUserId()).isPresent()) {
+            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
         }
 
         // 저장된 사용자 객체를 변수에 저장
@@ -38,18 +38,18 @@ public class UserService {
     }
 
     // 로그인
-    public User loginUser(String email, String password) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+    public User loginUser(String userId, String password) {
+        Optional<User> userOptional = userRepository.findById(userId);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (user.getPassword().equals(password)) {  // 비밀번호 검증
-                return user;  // 로그인 성공
+            if (user.getPassword().equals(password)) {
+                return user;  //
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
         } else {
-            throw new IllegalArgumentException("해당 이메일의 사용자가 없습니다.");
+            throw new IllegalArgumentException("해당 ID의 사용자가 없습니다.");
         }
     }
 
