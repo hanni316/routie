@@ -6,82 +6,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F1EB"
-    tools:context=".MainActivity">
+    tools:context="com.gbsb.routiemobile.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2">
-        <!--  연/월을 표시하는 TextView  -->
-        <!--  날짜 선택 버튼  -->
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_title"
+                    android:layout_width="95dp"
+                    android:layout_height="32dp"
+                    app:srcCompat="@drawable/routie_" />
+
+                <TextView
+                    android:id="@+id/txt_nowdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="년 월"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_selectdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="날짜 선택 버튼"
+                android:src="@android:drawable/ic_menu_my_calendar" />
+
+            <ImageButton
+                android:id="@+id/btn_bell"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="알림버튼"
+                app:srcCompat="@drawable/bell" />
+
+            <ImageButton
+                android:id="@+id/btn_profile"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="프로필로 이동"
+                app:srcCompat="@drawable/profile" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_datefield"
+            android:layout_width="354dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/rectangle" />
+
+        <LinearLayout
+            android:id="@+id/layout_sketchbook"
+            android:layout_width="378dp"
+            android:layout_height="306dp"
+            android:background="@drawable/memo"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:translationY="180dp">
+
+                <ImageView
+                    android:id="@+id/img_sketchbook_staricon"
+                    android:layout_width="66dp"
+                    android:layout_height="69dp"
+                    android:translationX="40dp"
+                    android:translationZ="1dp"
+                    app:srcCompat="@drawable/star" />
+
+                <ImageView
+                    android:id="@+id/img_sketchbook_highlight"
+                    android:layout_width="239dp"
+                    android:layout_height="114dp"
+                    app:srcCompat="@drawable/crayon" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_character"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/character" />
+
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="95dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/routie_" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="354dp"
-        android:layout_height="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.909"
-        app:srcCompat="@drawable/rectangle" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="378dp"
-        android:layout_height="306dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327"
-        app:srcCompat="@drawable/memo" />
-
-    <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/img_dailybriefing"
         android:layout_width="200dp"
         android:layout_height="168dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.353"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/img_sketchbook"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/bubble" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="알림버튼"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.753"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028"
-        app:srcCompat="@drawable/bell" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btn_shop"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@android:color/transparent"
@@ -94,8 +154,15 @@
         app:layout_constraintVertical_bias="0.953"
         app:srcCompat="@drawable/store" />
 
+    <Button
+        android:id="@+id/buttonGoToTest"
+        android:layout_width="93dp"
+        android:layout_height="47dp"
+        android:text="테스트"
+        tools:layout_editor_absoluteY="126dp" />
+
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/img_myroom"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@android:color/transparent"
@@ -109,7 +176,7 @@
         app:srcCompat="@drawable/sofa" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/img_coinfield"
         android:layout_width="87dp"
         android:layout_height="37dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -121,103 +188,28 @@
         app:srcCompat="@drawable/coin_bubble" />
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="239dp"
-        android:layout_height="114dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.539"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.901"
-        app:srcCompat="@drawable/crayon" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="66dp"
-        android:layout_height="69dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.899"
-        app:srcCompat="@drawable/star" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="프로필로 이동"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.929"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028"
-        app:srcCompat="@drawable/profile" />
-
-    <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/img_coin"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.03"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
+        app:layout_constraintStart_toEndOf="@+id/img_myroom"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.942"
         app:srcCompat="@drawable/coin" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/img_noticefield"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.833"
-        app:srcCompat="@drawable/character" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="년 월"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/btnSelectDate"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <ImageButton
-        android:id="@+id/btnSelectDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="248dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="날짜 선택 버튼"
-        android:src="@android:drawable/ic_menu_my_calendar"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/buttonGoToTest"
-        android:layout_width="93dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="36dp"
-        android:text="테스트"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintVertical_bias="0.032"
+        app:srcCompat="@drawable/bubble2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
