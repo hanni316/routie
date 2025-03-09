@@ -13,7 +13,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        val projectRoot = file("C:/GitHub/routie/routie-mobile")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
