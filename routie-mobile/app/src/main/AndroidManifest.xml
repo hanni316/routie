@@ -15,15 +15,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- 기본 실행 액티비티를 MainActivity로 변경 -->
+        <!-- 기본 실행 액티비티를 LoginTestActivity로 변경 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginTestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- MainActivity 로그인 후 이동 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
 
         <!-- TestActivity도 실행 가능하도록 등록 -->
         <activity
