@@ -50,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="132dp"
         android:hint="Enter User ID"
-        android:inputType="number"
         android:minHeight="48dp"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
