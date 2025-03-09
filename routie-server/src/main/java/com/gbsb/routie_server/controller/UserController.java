@@ -1,12 +1,14 @@
 package com.gbsb.routie_server.controller;
 
+import com.gbsb.routie_server.dto.UserDto;
+import com.gbsb.routie_server.dto.SignupRequestDto;
+import com.gbsb.routie_server.dto.LoginResponseDto;
+import com.gbsb.routie_server.dto.LoginRequestDto;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -17,35 +19,41 @@ public class UserController {
         this.userService = userService;
     }
 
-    // 회원가입
+    // 회원가입 DTO추가
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequestDto signupDto) {
         try {
-            User savedUser = userService.createUser(user);
-            return ResponseEntity.ok(savedUser);
+            User newUser = User.builder()
+                    .userId(signupDto.getUserId())  //
+                    .email(signupDto.getEmail())
+                    .password(signupDto.getPassword())
+                    .name(signupDto.getName())
+                    .gold(0)
+                    .isAdmin(false)
+                    .build();
+
+            User savedUser = userService.createUser(newUser);
+            return ResponseEntity.ok(new UserDto(savedUser)); // 성공 시 UserDto 반환
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage());
+            return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage()); //
         }
     }
 
-    // 로그인
+    // 로그인 DTO추가
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDto loginDto) {
         try {
-            String email = loginRequest.get("email");
-            String password = loginRequest.get("password");
+            // UserService 에서 로그인 검증
+            User user = userService.loginUser(loginDto.getUserId(), loginDto.getPassword());
 
-            User user = userService.loginUser(email, password);
-
-            // 로그인 성공 시 응답 데이터
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "로그인 성공!");
-            response.put("userId", user.getUserId());
-            response.put("name", user.getName());
-            response.put("gold", user.getGold());
+            // 로그인 성공 시 응답 DTO 생성
+            LoginResponseDto response = new LoginResponseDto(
+                    user.getUserId(),
+                    user.getName(),
+                    user.getGold()
+            );
 
             return ResponseEntity.ok(response);
-
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("로그인 실패: " + e.getMessage());
         }
