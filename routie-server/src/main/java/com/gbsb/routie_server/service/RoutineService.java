@@ -7,7 +7,6 @@ import com.gbsb.routie_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ public class RoutineService {
     }
 
     // 특정 사용자의 루틴 목록 조회
-    public List<Routine> getUserRoutines(String  userId) {
+    public List<Routine> getUserRoutines(String userId) {
         return routineRepository.findByUser_UserId(userId);
     }
 
@@ -39,8 +38,6 @@ public class RoutineService {
 
         routine.setName(updatedRoutine.getName());
         routine.setDescription(updatedRoutine.getDescription());
-        routine.setDuration(updatedRoutine.getDuration());
-        routine.setCaloriesBurned(updatedRoutine.getCaloriesBurned());
 
         return routineRepository.save(routine);
     }
