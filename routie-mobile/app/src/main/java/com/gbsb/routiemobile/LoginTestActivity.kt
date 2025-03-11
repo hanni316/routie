@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.gbsb.routiemobile.api.UserApiService
 import com.gbsb.routiemobile.dto.LoginRequest
 import com.gbsb.routiemobile.dto.LoginResponse
-import com.gbsb.routiemobile.api.SignupRequest
+import com.gbsb.routiemobile.dto.SignupRequest
 import com.gbsb.routiemobile.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
