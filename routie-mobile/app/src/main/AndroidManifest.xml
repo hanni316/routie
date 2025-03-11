@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- 기본 실행 액티비티를 LoginTestActivity로 변경 -->
+        <application>
+        <!-- SettingActivity 등록 -->
         <activity
-            android:name=".LoginTestActivity"
+            android:name=".SettingActivity"
+            android:exported="false" />
+
+        <!-- 기본 실행 액티비티를 MainActivity로 설정 -->
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,14 +32,14 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity 로그인 후 이동 -->
+        <!-- 로그인 액티비티 (필요하면 MainActivity에서 호출) -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"/>
+            android:name=".LoginTestActivity"
+            android:exported="true" />
 
         <!-- TestActivity도 실행 가능하도록 등록 -->
         <activity
             android:name=".TestActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 </manifest>
