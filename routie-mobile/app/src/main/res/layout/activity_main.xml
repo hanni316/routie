@@ -9,18 +9,23 @@
     tools:context="com.gbsb.routiemobile.MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/TopLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="68dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <LinearLayout
+                android:id="@+id/TitleLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -33,32 +38,21 @@
                     android:layout_height="32dp"
                     app:srcCompat="@drawable/routie_" />
 
-                <TextView
-                    android:id="@+id/txt_nowdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="년 월"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/TopBtnLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/buttonGoToTest"
+                    android:layout_width="93dp"
+                    android:layout_height="48dp"
+                    android:text="테스트" />
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/btn_selectdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="날짜 선택 버튼"
-                android:src="@android:drawable/ic_menu_my_calendar" />
 
             <ImageButton
                 android:id="@+id/btn_bell"
@@ -78,20 +72,63 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_datefield"
-            android:layout_width="354dp"
-            android:layout_height="48dp"
-            app:srcCompat="@drawable/rectangle" />
+        <LinearLayout
+            android:id="@+id/DateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/YMLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_nowdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:padding="8dp"
+                    android:text="년 월"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btn_selectdate"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="날짜 선택 버튼"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_datefield"
+                    android:layout_width="354dp"
+                    android:layout_height="67dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/rectangle" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_sketchbook"
+            android:id="@+id/SketchbookLayout"
             android:layout_width="378dp"
             android:layout_height="306dp"
             android:background="@drawable/memo"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/DrawingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -116,100 +153,82 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"></LinearLayout>
-
-        <ImageView
-            android:id="@+id/img_character"
-            android:layout_width="wrap_content"
+            android:id="@+id/DailyLayout"
+            android:layout_width="412dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/character" />
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_dailybriefing"
+                android:layout_width="200dp"
+                android:layout_height="168dp"
+                app:srcCompat="@drawable/bubble" />
+
+            <ImageView
+                android:id="@+id/img_character"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/character" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="414dp"
+            android:layout_height="147dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_shop"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="상점이동"
+                app:srcCompat="@drawable/store" />
+
+            <ImageButton
+                android:id="@+id/img_myroom"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="방꾸미기"
+                app:srcCompat="@drawable/sofa" />
+
+            <ImageView
+                android:id="@+id/img_coin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/coin" />
+
+            <ImageView
+                android:id="@+id/img_coinfield"
+                android:layout_width="87dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/coin_bubble" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_dailybriefing"
-        android:layout_width="200dp"
-        android:layout_height="168dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_sketchbook"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/bubble" />
+    <FrameLayout
+        android:id="@+id/TogleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="90dp">
 
-    <ImageButton
-        android:id="@+id/btn_shop"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="상점이동"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953"
-        app:srcCompat="@drawable/store" />
-
-    <Button
-        android:id="@+id/buttonGoToTest"
-        android:layout_width="93dp"
-        android:layout_height="47dp"
-        android:text="테스트"
-        tools:layout_editor_absoluteY="126dp" />
-
-    <ImageButton
-        android:id="@+id/img_myroom"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="방꾸미기"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.236"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953"
-        app:srcCompat="@drawable/sofa" />
-
-    <ImageView
-        android:id="@+id/img_coinfield"
-        android:layout_width="87dp"
-        android:layout_height="37dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.586"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942"
-        app:srcCompat="@drawable/coin_bubble" />
-
-    <ImageView
-        android:id="@+id/img_coin"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.03"
-        app:layout_constraintStart_toEndOf="@+id/img_myroom"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942"
-        app:srcCompat="@drawable/coin" />
-
-    <ImageView
-        android:id="@+id/img_noticefield"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032"
-        app:srcCompat="@drawable/bubble2" />
+        <ImageView
+            android:id="@+id/img_noticefield"
+            android:layout_width="260dp"
+            android:layout_height="248dp"
+            android:layout_marginLeft="100dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/bubble2" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
