@@ -75,7 +75,7 @@
                 android:src="@drawable/pwbar" />
 
             <EditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/gender"
                 android:layout_width="266dp"
                 android:layout_height="81dp"
                 android:layout_gravity="center"

@@ -45,17 +45,47 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/signup_2" />
 
-        <ImageView
-            android:id="@+id/imageView3"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/idbar" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView4"
+            <ImageView
+                android:id="@+id/img_ID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/idbar" />
+
+            <EditText
+                android:id="@+id/id_"
+                android:layout_width="269dp"
+                android:layout_height="85dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="55dp"
+                android:background="@android:color/transparent"
+                android:hint="아이디 입력"
+                android:inputType="text" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/pwbar" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_PW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pwbar" />
+
+            <EditText
+                android:id="@+id/password_"
+                android:layout_width="266dp"
+                android:layout_height="81dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="55dp"
+                android:background="@android:color/transparent"
+                android:hint="비밀번호 입력"
+                android:inputType="textPassword" />
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/imageView6"
@@ -63,29 +93,97 @@
             android:layout_height="60dp"
             app:srcCompat="@drawable/line" />
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/gender" />
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/age" />
 
-        <ImageView
-            android:id="@+id/imageView9"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/height" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView10"
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/gender" />
+
+            <EditText
+                android:id="@+id/gender"
+                android:layout_width="266dp"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="2dp"
+                android:background="@android:color/transparent"
+                android:hint="남 / 여 "
+                android:inputType="text" />
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/weight" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/age" />
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="266dp"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="2dp"
+                android:background="@android:color/transparent"
+                android:hint="21 "
+                android:inputType="number" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/height" />
+
+            <EditText
+                android:id="@+id/height"
+                android:layout_width="266dp"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="2dp"
+                android:background="@android:color/transparent"
+                android:hint="160"
+                android:inputType="number" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/weight" />
+
+            <EditText
+                android:id="@+id/weight"
+                android:layout_width="266dp"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="2dp"
+                android:background="@android:color/transparent"
+                android:hint="53"
+                android:inputType="number"
+                android:paddingLeft="10dp" />
+        </FrameLayout>
 
         <ImageButton
             android:id="@+id/imageButton3"
