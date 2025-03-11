@@ -1,4 +1,4 @@
-package com.gbsb.routiemobile.api
+package com.gbsb.routiemobile.dto
 //회원가입 요청 dto
 data class SignupRequest(
     val userId: String,

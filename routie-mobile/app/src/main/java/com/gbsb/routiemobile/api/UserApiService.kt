@@ -2,6 +2,7 @@ package com.gbsb.routiemobile.api
 
 import com.gbsb.routiemobile.dto.LoginRequest
 import com.gbsb.routiemobile.dto.LoginResponse
+import com.gbsb.routiemobile.dto.SignupRequest
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
