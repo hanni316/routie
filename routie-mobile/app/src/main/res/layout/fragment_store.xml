@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".fragment.StoreFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/storeText"
+        android:layout_width="57dp"
+        android:layout_height="44dp"
+        android:fontFamily="@font/ownglyp"
+        android:text="상점"
+        android:textColor="@color/font_color"
+        android:textSize="42sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="63dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+    <ImageView
+        android:id="@+id/arrowButton"
+        android:layout_width="63dp"
+        android:layout_height="72dp"
+        android:src="@drawable/arrow"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="5dp" />
+
+    <ImageView
+        android:id="@+id/homeButton"
+        android:layout_width="95dp"
+        android:layout_height="127dp"
+        android:src="@drawable/house_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="674dp" />
+
+    <ImageView
+        android:id="@+id/curtain"
+        android:layout_width="396dp"
+        android:layout_height="414dp"
+        android:layout_marginTop="68dp"
+        android:src="@drawable/curtain"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-2dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

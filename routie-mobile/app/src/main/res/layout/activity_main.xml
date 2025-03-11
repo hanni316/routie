@@ -52,6 +52,7 @@
                     android:layout_width="93dp"
                     android:layout_height="48dp"
                     android:text="테스트" />
+
             </LinearLayout>
 
             <ImageButton
@@ -211,6 +212,12 @@
                 android:layout_height="37dp"
                 android:layout_marginTop="10dp"
                 app:srcCompat="@drawable/coin_bubble" />
+
+            <Button
+                android:id="@+id/buttontest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
         </LinearLayout>
 

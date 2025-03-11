@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val buttonGoToTest = findViewById<Button>(R.id.buttonGoToTest)
         val textView: TextView = findViewById(R.id.txt_nowdate)
         val btnSelectDate: ImageButton = findViewById(R.id.btn_selectdate)
-
+        val buttontest : Button = findViewById(R.id.buttontest)
         val btn_bell : ImageButton = findViewById(R.id.btn_bell)
         val bubble2 : ImageView = findViewById(R.id.img_noticefield)
 
@@ -44,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         // ✅ 프로필 버튼 클릭 시 SettingActivity 이동
         buttonProfile.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java) // 클래스명 수정
+            startActivity(intent)
+        }
+
+        buttontest.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
