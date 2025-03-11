@@ -18,10 +18,19 @@
 
         <!-- SettingActivity 등록 -->
         <activity
-            android:name=".SettingActivity"
+            android:name=".SignupActivity"
             android:exported="false" />
 
-        <!-- 기본 실행 액티비티를 MainActivity로 설정 -->
+        <activity
+            android:name=".network.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingActivity"
+            android:exported="false" /> <!-- 기본 실행 액티비티를 MainActivity로 변경 -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

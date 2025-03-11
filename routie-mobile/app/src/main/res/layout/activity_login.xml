@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="#F5F1EB"
-    android:orientation="vertical">
+    tools:context=".LoginActivity">
 
-    <!-- Title Layout -->
-
-    <!-- 로그인 섹션 -->
     <LinearLayout
         android:id="@+id/TitleLayout"
         android:layout_width="409dp"
         android:layout_height="71dp"
+        android:layout_marginBottom="843dp"
         android:gravity="center_horizontal|left"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/img_title"
@@ -22,7 +27,8 @@
             android:layout_height="32dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/routie_" />
+            app:srcCompat="@drawable/routie_" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -30,18 +36,26 @@
         android:layout_width="412dp"
         android:layout_height="419dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleLayout"
+        app:layout_constraintVertical_bias="0.063">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="102dp"
             android:layout_height="36dp"
-            android:src="@drawable/login_txt" />
+            app:srcCompat="@drawable/login_txt" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_height="57dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -51,7 +65,7 @@
                 android:id="@+id/img_ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/idbar" />
+                app:srcCompat="@drawable/idbar" />
 
             <EditText
                 android:id="@+id/editTextTextID"
@@ -61,7 +75,7 @@
                 android:layout_marginLeft="55dp"
                 android:background="@android:color/transparent"
                 android:hint="아이디 입력"
-                android:inputType="text" />
+                android:inputType="text" /> <!-- 배경 투명 처리 -->
         </FrameLayout>
 
         <FrameLayout
@@ -72,7 +86,7 @@
                 android:id="@+id/img_PW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pwbar" />
+                app:srcCompat="@drawable/pwbar" />
 
             <EditText
                 android:id="@+id/editTextPassword"
@@ -82,8 +96,9 @@
                 android:layout_marginLeft="55dp"
                 android:background="@android:color/transparent"
                 android:hint="비밀번호 입력"
-                android:inputType="textPassword" />
+                android:inputType="textPassword" /> <!-- 배경 투명 처리 -->
         </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,9 +116,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:contentDescription="로그인"
                 android:paddingLeft="30dp"
-                android:src="@drawable/loginbtn" />
+                android:contentDescription="로그인"
+                app:srcCompat="@drawable/loginbtn" />
 
             <ImageButton
                 android:id="@+id/btn_signup"
@@ -113,7 +128,9 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="회원가입 페이지 이동"
                 android:paddingRight="30dp"
-                android:src="@drawable/signup" />
+                app:srcCompat="@drawable/signup" />
         </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
