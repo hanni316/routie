@@ -2,11 +2,8 @@ package com.gbsb.routiemobile.network
 
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.dto.CaloriesRequest
-import com.gbsb.routiemobile.dto.RewardResponse
+import com.gbsb.routiemobile.api.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
-import com.gbsb.routiemobile.dto.LoginRequest
-import com.gbsb.routiemobile.dto.LoginResponse
-import com.gbsb.routiemobile.dto.SignupRequest
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call

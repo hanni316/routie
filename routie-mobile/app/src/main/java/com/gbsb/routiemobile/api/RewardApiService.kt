@@ -1,7 +1,6 @@
 package com.gbsb.routiemobile.api
 
 import com.gbsb.routiemobile.dto.CaloriesRequest
-import com.gbsb.routiemobile.dto.RewardResponse
 import retrofit2.Call
 import retrofit2.http.*
 
