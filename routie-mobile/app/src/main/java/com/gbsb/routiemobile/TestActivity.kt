@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.dto.CaloriesRequest
-import com.gbsb.routiemobile.dto.RewardResponse
+import com.gbsb.routiemobile.api.RewardResponse
 import com.gbsb.routiemobile.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback

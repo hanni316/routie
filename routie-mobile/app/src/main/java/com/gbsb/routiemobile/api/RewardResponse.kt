@@ -1,4 +1,4 @@
-package com.gbsb.routiemobile.dto
+package com.gbsb.routiemobile.api
 
 data class RewardResponse(
     val userId: String,

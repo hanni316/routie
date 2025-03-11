@@ -1,6 +1,5 @@
 package com.gbsb.routiemobile.api
 
-import com.gbsb.routiemobile.dto.SignupRequest
 import com.gbsb.routiemobile.dto.LoginRequest
 import com.gbsb.routiemobile.dto.LoginResponse
 import retrofit2.Call

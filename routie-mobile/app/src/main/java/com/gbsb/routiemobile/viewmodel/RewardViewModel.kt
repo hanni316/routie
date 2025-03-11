@@ -3,7 +3,7 @@ package com.gbsb.routiemobile.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbsb.routiemobile.dto.RewardResponse
+import com.gbsb.routiemobile.api.RewardResponse
 import com.gbsb.routiemobile.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
