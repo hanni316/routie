@@ -15,23 +15,31 @@
         android:theme="@style/Theme.RoutieMobile"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <application>
+        <!-- SettingActivity 등록 -->
         <activity
             android:name=".SettingActivity"
             android:exported="false" />
-        <!-- 기본 실행 액티비티를 MainActivity로 변경 -->
+
+        <!-- 기본 실행 액티비티를 MainActivity로 설정 -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- TestActivity도 실행 가능하도록 등록 -->
+        </activity>
+
+        <!-- 로그인 액티비티 (필요하면 MainActivity에서 호출) -->
+        <activity
+            android:name=".LoginTestActivity"
+            android:exported="true" />
+
+        <!-- TestActivity도 실행 가능하도록 등록 -->
         <activity
             android:name=".TestActivity"
             android:exported="true" />
     </application>
-
-
 </manifest>

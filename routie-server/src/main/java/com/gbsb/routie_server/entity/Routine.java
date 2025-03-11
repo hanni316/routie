@@ -2,6 +2,7 @@ package com.gbsb.routie_server.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "routine")
@@ -22,12 +23,16 @@ public class Routine {
     @Column(nullable = false)
     private String name;  // 운동 루틴 이름
 
-    @Column(nullable = false)
-    private String description;  // 운동 루틴 설명
+    @Column(nullable = true)
+    private String description;  // 루틴 설명 (선택 사항)
 
-    @Column(nullable = false)
-    private int duration;  // 운동 시간 (분)
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoutineExercise> exercises;  // 루틴에 포함된 운동들
 
-    @Column(nullable = false)
-    private int caloriesBurned;  // 예상 소모 칼로리
+    public double getTotalCaloriesBurned() {
+        if (exercises == null || exercises.isEmpty()) {
+            return 0;
+        }
+        return exercises.stream().mapToDouble(RoutineExercise::getCaloriesBurned).sum();
+    }
 }

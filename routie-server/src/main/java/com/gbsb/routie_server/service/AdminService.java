@@ -20,8 +20,8 @@ public class AdminService {
         return userRepository.findAll();
     }
 
-    // 특정 이메일로 사용자 조회
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    // 특정 id로 사용자 조회
+    public Optional<User> getUserById(String id) {
+        return userRepository.findById(id);
     }
 }

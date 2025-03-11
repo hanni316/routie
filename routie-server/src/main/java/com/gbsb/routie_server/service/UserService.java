@@ -19,9 +19,14 @@ public class UserService {
     // 회원가입
     @Transactional
     public User createUser(User user) {
-        // 중복 이메일 확인
+        // 중복 ID 확인
         if (userRepository.findById(user.getUserId()).isPresent()) {
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+        }
+
+        // 중복 이메일 확인
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
         // 저장된 사용자 객체를 변수에 저장
@@ -44,7 +49,7 @@ public class UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.getPassword().equals(password)) {
-                return user;  //
+                return user;
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
             }
@@ -58,11 +63,16 @@ public class UserService {
     public User updateUser(String userId, User updatedUser) {
         return userRepository.findById(userId)
                 .map(user -> {
-                    user.setName(updatedUser.getName()); // 이름 수정
-                    user.setPassword(updatedUser.getPassword()); // 비밀번호 수정
+                    if (updatedUser.getName() != null) {
+                        user.setName(updatedUser.getName()); // 이름 수정
+                    }
+                    if (updatedUser.getPassword() != null) {
+                        user.setPassword(updatedUser.getPassword()); // 비밀번호 수정
+                    }
                     return userRepository.save(user);
                 }).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
+
 
     // 사용자 삭제 (회원 탈퇴)
     @Transactional
