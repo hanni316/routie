@@ -16,7 +16,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <application>
         <!-- SettingActivity 등록 -->
         <activity
             android:name=".SignupActivity"
@@ -50,5 +49,6 @@
         <activity
             android:name=".TestActivity"
             android:exported="true" />
+
     </application>
 </manifest>

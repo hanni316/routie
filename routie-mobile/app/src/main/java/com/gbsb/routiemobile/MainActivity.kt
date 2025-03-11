@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         // ✅ 버튼 클릭 시 TestActivity로 이동
-        buttonGoToTest.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-        }
+//        //buttonGoToTest.setOnClickListener {
+//            val intent = Intent(this, TestActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // ✅ 현재 날짜 가져오기
         val calendar = Calendar.getInstance()
