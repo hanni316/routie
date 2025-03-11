@@ -1,14 +1,16 @@
 package com.gbsb.routiemobile
 
 import android.widget.*
-import retrofit2.*
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
-import retrofit2.converter.gson.GsonConverterFactory
+import com.gbsb.routiemobile.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class TestActivity : AppCompatActivity() {
 
@@ -32,40 +34,36 @@ class TestActivity : AppCompatActivity() {
         textViewSteps = findViewById(R.id.textViewSteps)
         editTextCalories = findViewById(R.id.editTextCalories)
 
-        val userId = 1 // 테스트 용
-
-        // retrofit 인스턴스 생성
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.45.132:8080/") // 본인 서버 IP 확인
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        apiService = retrofit.create(RewardApiService::class.java)
+        apiService = RetrofitClient.api // RetrofitClient에서 API 인스턴스 가져오기
 
         // 리워드 조회 버튼 클릭 시
         btnFetchReward.setOnClickListener {
-            val userId = editTextUserId.text.toString().toIntOrNull()
-            if (userId != null) {
-                getUserReward(userId)
-            } else {
-                Toast.makeText(this, "Enter a valid User ID", Toast.LENGTH_SHORT).show()
+            val userId = editTextUserId.text.toString().trim()
+            if (userId.isEmpty()) {
+                Toast.makeText(this, "User ID를 입력하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            getUserReward(userId)
         }
 
         // 칼로리 전송 버튼 클릭 시
         btnSendCalories.setOnClickListener {
-            val userId = editTextUserId.text.toString().toIntOrNull()
-            val calories = editTextCalories.text.toString().toIntOrNull()
-            if (userId != null && calories != null) {
-                sendCalories(userId, calories)
-            } else {
-                Toast.makeText(this, "Enter valid inputs", Toast.LENGTH_SHORT).show()
+            val userId = editTextUserId.text.toString().trim()
+            val caloriesStr = editTextCalories.text.toString().trim()
+
+            if (userId.isEmpty() || caloriesStr.isEmpty()) {
+                Toast.makeText(this, "User ID와 칼로리를 입력하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            val calories = caloriesStr.toInt()
+            sendCalories(userId, calories)
         }
     }
 
     // 서버에서 리워드 조회
-    private fun getUserReward(userId: Int) {
+    private fun getUserReward(userId: String) {
         apiService.getUserReward(userId).enqueue(object : Callback<RewardResponse> {
             override fun onResponse(
                 call: Call<RewardResponse>,
@@ -73,37 +71,33 @@ class TestActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val reward = response.body()
-                    runOnUiThread {
-                        textViewGold.text = "Gold: ${reward?.totalGold ?: 0}"
-                        textViewSteps.text = "Steps: ${reward?.totalSteps ?: 0}"
-                    }
+                    textViewGold.text = "Gold: ${reward?.totalGold ?: 0}"
+                    textViewSteps.text = "Steps: ${reward?.totalSteps ?: 0}"
+
                     Log.d(
                         "API_SUCCESS",
                         "User ID: $userId, Gold: ${reward?.totalGold}, Steps: ${reward?.totalSteps}"
                     )
                 } else {
-                    Log.e("API_FAILURE", "Error: ${response.errorBody()?.string()}")
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@TestActivity,
-                            "API 요청 실패: ${response.code()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e("API_FAILURE", "Error: $errorMessage")
+                    Toast.makeText(
+                        this@TestActivity,
+                        "API 요청 실패 (${response.code()}): $errorMessage",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<RewardResponse>, t: Throwable) {
                 Log.e("API_FAILURE", "Failed to fetch reward", t)
-                runOnUiThread {
-                    Toast.makeText(this@TestActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this@TestActivity, "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     // 서버로 칼로리 전송
-    private fun sendCalories(userId: Int, calories: Int) {
+    private fun sendCalories(userId: String, calories: Int) {
         val request = CaloriesRequest(calories)
 
         apiService.sendCalories(userId, request).enqueue(object : Callback<RewardResponse> {
@@ -113,35 +107,20 @@ class TestActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val updatedReward = response.body()
-                    runOnUiThread {
-                        textViewGold.text = "Gold: ${updatedReward?.totalGold ?: 0}"
-                        textViewSteps.text = "Steps: ${updatedReward?.totalSteps ?: 0}"
-                        Toast.makeText(this@TestActivity, "Calories sent!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    Log.d(
-                        "API_SUCCESS",
-                        "Updated Gold: ${updatedReward?.totalGold}, Steps: ${updatedReward?.totalSteps}"
-                    )
+                    textViewGold.text = "Gold: ${updatedReward?.totalGold ?: 0}"
+                    textViewSteps.text = "Steps: ${updatedReward?.totalSteps ?: 0}"
+                    Toast.makeText(this@TestActivity, "Calories sent!", Toast.LENGTH_SHORT).show()
                 } else {
-                    Log.e("API_FAILURE", "Error: ${response.errorBody()?.string()}")
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@TestActivity,
-                            "Failed to send calories",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e("API_FAILURE", "Error: $errorMessage")
+                    Toast.makeText(this@TestActivity, "Failed to send calories", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<RewardResponse>, t: Throwable) {
                 Log.e("API_FAILURE", "Failed to send calories", t)
-                runOnUiThread {
-                    Toast.makeText(this@TestActivity, "Network error", Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this@TestActivity, "Network error", Toast.LENGTH_SHORT).show()
             }
         })
     }
-
 }

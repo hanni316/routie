@@ -18,22 +18,18 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    // 모든 사용자 조회 (GET /api/admin/users)
+    // 모든 사용자 조회
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = adminService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    // 이메일을 조회 (GET /api/admin/user?email=example@example.com)
-    @GetMapping("/user")
-    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
-        Optional<User> userOpt = adminService.getUserByEmail(email);
-        if (userOpt.isPresent()) {
-            return ResponseEntity.ok(userOpt.get());
-        } else {
-            return ResponseEntity.status(404)
-                    .body("해당 이메일의 사용자가 존재하지 않습니다.");
-        }
+    // 사용자 ID로 조회
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable String userId) {
+        return adminService.getUserById(userId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
