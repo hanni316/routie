@@ -12,15 +12,31 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.Calendar
+import com.gbsb.routiemobile.utils.SharedPrefManager
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
     private var isNoticeBubbleVisible = false
+    private lateinit var sharedPrefManager: SharedPrefManager//시즌
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        sharedPrefManager = SharedPrefManager(this)//시즌
+
+
+        val storedUserId = sharedPrefManager.getUserId()
+        Log.d("MainActivity", "저장된 userId: $storedUserId") // ✅ 값 확인
+
+        if (!sharedPrefManager.isLoggedIn()) {
+            // 저장된 로그인 정보가 없으면 로그인 화면으로 이동
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish() // ✅ 현재 액티비티 종료
+        }
 
         // ✅ 버튼 미리 찾기
         val buttonProfile = findViewById<ImageButton>(R.id.btn_profile)

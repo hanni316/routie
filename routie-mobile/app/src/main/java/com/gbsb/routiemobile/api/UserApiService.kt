@@ -18,8 +18,8 @@ interface UserApiService {
     fun loginUser(@Body request: LoginRequest): Call<LoginResponse>
 
     // 사용자 정보 수정 API
-    //@PUT("/api/users/{userId}")
-    //fun updateUser(@Path("userId") userId: String, @Body updatedUser: user): Call<user>
+    @PUT("/api/users/{userId}")
+    fun updateUser(@Path("userId") userId: String, @Body updatedUser: SignupRequest): Call<SignupRequest>
 
     // 사용자 계정 삭제 API
     @DELETE("/api/users/{userId}")

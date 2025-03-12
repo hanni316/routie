@@ -35,7 +35,7 @@
         <!-- 설정 액티비티 -->
         <activity
             android:name=".SettingActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <!-- 테스트 액티비티 -->
         <!--<activity

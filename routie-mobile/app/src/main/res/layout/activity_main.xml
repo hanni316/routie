@@ -80,36 +80,36 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/YMLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txt_nowdate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:padding="8dp"
-                    android:text="년 월"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/btn_selectdate"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="날짜 선택 버튼"
-                    android:src="@android:drawable/ic_menu_my_calendar" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/YMLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_nowdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:padding="8dp"
+                        android:text="년 월"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/btn_selectdate"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="날짜 선택 버튼"
+                        android:src="@android:drawable/ic_menu_my_calendar" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/img_datefield"
