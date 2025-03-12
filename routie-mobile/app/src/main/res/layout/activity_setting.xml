@@ -55,7 +55,7 @@
             app:srcCompat="@drawable/character_information" />
 
         <ImageButton
-            android:id="@+id/imageButton9"
+            android:id="@+id/logoutButton"
             android:layout_width="335dp"
             android:layout_height="76dp"
             android:layout_marginBottom="12dp"
