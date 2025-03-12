@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
 
 private const val ARG_PARAM1 = "param1"
@@ -30,14 +32,12 @@ class StoreFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_store, container, false)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StoreFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val backIcon = view.findViewById<ImageView>(R.id.arrowButton)
+        backIcon.setOnClickListener {
+            findNavController().navigateUp() // 이전 Fragment(MainFragment)로 이동
+        }
     }
 }
