@@ -38,17 +38,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="674dp" />
+        tools:layout_editor_absoluteY="731dp" />
 
     <ImageView
         android:id="@+id/curtain"
-        android:layout_width="396dp"
-        android:layout_height="414dp"
+        android:layout_width="415dp"
+        android:layout_height="425dp"
         android:layout_marginTop="68dp"
         android:src="@drawable/curtain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-2dp" />
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
