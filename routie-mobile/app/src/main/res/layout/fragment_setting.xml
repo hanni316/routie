@@ -51,11 +51,11 @@
             android:layout_height="76dp"
             android:layout_marginBottom="12dp"
             android:background="@android:color/transparent"
-            android:contentDescription="캐릭터 정보 수정"
+            android:contentDescription="사용자정보수정"
             app:srcCompat="@drawable/character_information" />
 
         <ImageButton
-            android:id="@+id/logoutButton"
+            android:id="@+id/imageButton9"
             android:layout_width="335dp"
             android:layout_height="76dp"
             android:layout_marginBottom="12dp"

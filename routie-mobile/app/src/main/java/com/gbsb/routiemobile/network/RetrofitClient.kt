@@ -6,7 +6,6 @@ import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
 import okhttp3.Request
-
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
