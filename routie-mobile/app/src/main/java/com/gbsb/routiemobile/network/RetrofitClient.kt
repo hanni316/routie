@@ -34,6 +34,10 @@ object RetrofitClient {
         retrofit.create(RewardApiService::class.java)
     }
 
+    val routineApi: RoutineApiService by lazy {
+        retrofit.create(RoutineApiService::class.java)
+    }
+
     // 🛠 Mock API: 서버 없이 개발할 수 있도록 가짜 데이터 제공
     private val mockInstance: RewardApiService = object : RewardApiService {
 
