@@ -17,7 +17,14 @@
         android:id="@+id/MainFragment"
         android:name="com.gbsb.routiemobile.fragment.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_MainFragment_to_MakingroutineFragment"
+            app:destination="@id/MakingroutineFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_StoreFragment"
+            app:destination="@id/StoreFragment" />
+    </fragment>
 
     <!-- 회원가입 프래그먼트 -->
     <fragment
@@ -74,11 +81,25 @@
         tools:layout="@layout/fragment_user_info"/>
 
     <!-- 스토어 화면 프래그먼트 -->
-
     <fragment
         android:id="@+id/StoreFragment"
         android:name="com.gbsb.routiemobile.fragment.StoreFragment"
         android:label="fragment_store"
-        tools:layout="@layout/fragment_store" />
+        tools:layout="@layout/fragment_store" >
+        <action
+            android:id="@+id/action_StoreFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
+
+    <!--루틴생성 프래그먼트-->
+    <fragment
+        android:id="@+id/MakingroutineFragment"
+        android:name="com.gbsb.routiemobile.fragment.MakingroutineFragment"
+        android:label="fragment_makingroutine"
+        tools:layout="@layout/fragment_makingroutine" >
+        <action
+            android:id="@+id/action_MakingroutineFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
 
 </navigation>
