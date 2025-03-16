@@ -28,8 +28,10 @@ class MainFragment : Fragment() {
         val buttonProfile = view.findViewById<ImageButton>(R.id.btn_profile)
         val textView: TextView = view.findViewById(R.id.txt_nowdate)
         val btnSelectDate: ImageButton = view.findViewById(R.id.btn_selectdate)
+        //val buttonTest: Button = view.findViewById(R.id.buttontest)
         val btnBell: ImageButton = view.findViewById(R.id.btn_bell)
         val bubble2: ImageView = view.findViewById(R.id.img_noticefield)
+        val starButton: ImageButton = view.findViewById(R.id.star_icon)
 
         // ✅ 알림 버튼 클릭 시 토글
         btnBell.setOnClickListener {
@@ -45,6 +47,16 @@ class MainFragment : Fragment() {
         // ✅ 프로필 버튼 클릭 시 SettingActivity 이동
         buttonProfile.setOnClickListener {
             findNavController().navigate(R.id.SettingFragment)
+        }
+
+        // ✅ 테스트 버튼 클릭 시 LoginActivity 이동
+//        buttonTest.setOnClickListener {
+//            findNavController().navigate(R.id.LoginFragment)
+//        }
+
+        // 별 버튼 누르면 MakingroutineFragment 이동
+        starButton.setOnClickListener {
+            findNavController().navigate(R.id.MakingroutineFragment)
         }
 
         // ✅ 현재 날짜 가져오기

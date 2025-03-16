@@ -92,12 +92,15 @@
         app:layout_constraintTop_toTopOf="@id/SketchbookLayout"
         app:srcCompat="@drawable/crayon" />
 
-    <ImageView
-        android:id="@+id/img_sketchbook_staricon"
+    <ImageButton
+        android:id="@+id/star_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:contentDescription="별 버튼"
         app:layout_constraintStart_toStartOf="@id/SketchbookLayout"
         app:layout_constraintTop_toTopOf="@id/img_sketchbook_highlight"
         app:srcCompat="@drawable/star" />
