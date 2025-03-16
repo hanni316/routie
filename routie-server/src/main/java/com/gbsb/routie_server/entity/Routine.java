@@ -26,6 +26,12 @@ public class Routine {
     @Column(nullable = true)
     private String description;  // 루틴 설명 (선택 사항)
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int caloriesBurned = 0;  // 소모 칼로리
+
+    @Column(nullable = false, columnDefinition = "int default 30") 
+    private int duration;
+
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoutineExercise> exercises;  // 루틴에 포함된 운동들
 
