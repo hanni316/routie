@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
 import java.util.Calendar
 
@@ -44,18 +45,12 @@ class MainFragment : Fragment() {
 
         // ✅ 프로필 버튼 클릭 시 SettingActivity 이동
         buttonProfile.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.SettingFragment, SettingFragment()) // 여기에 실제 Fragment 레이아웃 ID 입력
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.SettingFragment)
         }
 
         // ✅ 테스트 버튼 클릭 시 LoginActivity 이동
         buttonTest.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.LoginFragment, LoginFragment()) // 여기에 실제 Fragment 레이아웃 ID 입력
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.LoginFragment)
         }
 
         // ✅ 현재 날짜 가져오기

@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
 
          // 회원가입 버튼 클릭 시
         binding.btnSignup.setOnClickListener {
-            findNavController().navigate(R.id.signupFragment)
+            findNavController().navigate(R.id.SignupFragment)
         }
     }
 
