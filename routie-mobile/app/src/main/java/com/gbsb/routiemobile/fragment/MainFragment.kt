@@ -1,7 +1,6 @@
 package com.gbsb.routiemobile.fragment
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.gbsb.routiemobile.LoginFragment
 import com.gbsb.routiemobile.R
 import java.util.Calendar
 

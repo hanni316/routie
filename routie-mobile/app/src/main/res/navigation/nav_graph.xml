@@ -8,7 +8,7 @@
     <!-- 로그인 프래그먼트 -->
     <fragment
         android:id="@+id/LoginFragment"
-        android:name="com.gbsb.routiemobile.LoginFragment"
+        android:name="com.gbsb.routiemobile.fragment.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_login" />
 
@@ -21,10 +21,14 @@
 
     <!-- 회원가입 프래그먼트 -->
     <fragment
-        android:id="@+id/SignupFragment"
-        android:name="com.gbsb.routiemobile.SignupFragment"
-        android:label="SignupFragment"
-        tools:layout="@layout/fragment_signup" />
+        android:id="@+id/signupFragment"
+        android:name="com.gbsb.routiemobile.fragment.SignupFragment"
+        android:label="Signup">
+
+        <action
+            android:id="@+id/action_signupFragment_to_mainFragment"
+            app:destination="@+id/MainFragment" />
+    </fragment>
 
     <!-- 설정 화면 프래그먼트 -->
     <fragment
