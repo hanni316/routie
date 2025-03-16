@@ -37,7 +37,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ 로그인 상태 확인 후 자동 로그인
+        //  로그인 상태 확인 후 자동 로그인
         val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
@@ -70,7 +70,8 @@ class LoginFragment : Fragment() {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) { //PreferenceManager -> getSharedPreferences로 변경
                     val loginResponse = response.body()  //PreperenceManager 지원중단됨
-                    Log.d("API_SUCCESS", "로그인 성공: ${loginResponse?.userId}")
+                    Toast.makeText(requireContext(), "환영합니다~ ID: ${loginResponse?.userId}", Toast.LENGTH_SHORT).show()
+
 
                     val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
                     with(sharedPreferences.edit()) {

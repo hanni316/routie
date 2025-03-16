@@ -31,6 +31,9 @@
         android:id="@+id/SignupFragment"
         android:name="com.gbsb.routiemobile.fragment.SignupFragment"
         android:label="Signup">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/LoginFragment" />
 
         <action
             android:id="@+id/action_signupFragment_to_mainFragment"
