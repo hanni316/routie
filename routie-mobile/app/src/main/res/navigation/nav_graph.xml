@@ -21,7 +21,7 @@
 
     <!-- 회원가입 프래그먼트 -->
     <fragment
-        android:id="@+id/signupFragment"
+        android:id="@+id/SignupFragment"
         android:name="com.gbsb.routiemobile.fragment.SignupFragment"
         android:label="Signup">
 
@@ -34,12 +34,49 @@
     <fragment
         android:id="@+id/SettingFragment"
         android:name="com.gbsb.routiemobile.fragment.SettingFragment"
-        android:label="SettingFragment"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting">
+
+        <action
+            android:id="@+id/action_settingFragment_to_accountFragment"
+            app:destination="@id/AccountFragment" />
+
+        <action
+            android:id="@+id/action_settingFragment_to_alarmFragment"
+            app:destination="@id/AlarmFragment" />
+
+        <action
+            android:id="@+id/action_settingFragment_to_userInfoFragment"
+            app:destination="@id/UserInfoFragment" />
+
+        <action
+            android:id="@+id/action_settingFragment_to_loginFragment"
+            app:destination="@id/LoginFragment"
+            app:popUpTo="@id/MainFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+<!--  계정 프래그먼트  -->
+    <fragment
+        android:id="@+id/AccountFragment"
+        android:name="com.gbsb.routiemobile.fragment.AccountFragment"
+        tools:layout="@layout/fragment_account"/>
+
+<!--알림 설정 프래그먼트-->
+    <fragment
+        android:id="@+id/AlarmFragment"
+        android:name="com.gbsb.routiemobile.fragment.AlarmFragment"
+        tools:layout="@layout/fragment_alarm"/>
+
+<!--사용자정보수정 프래그먼트-->
+    <fragment
+        android:id="@+id/UserInfoFragment"
+        android:name="com.gbsb.routiemobile.fragment.UserInfoFragment"
+        tools:layout="@layout/fragment_user_info"/>
 
     <!-- 스토어 화면 프래그먼트 -->
+
     <fragment
-        android:id="@+id/storeFragment"
+        android:id="@+id/StoreFragment"
         android:name="com.gbsb.routiemobile.fragment.StoreFragment"
         android:label="fragment_store"
         tools:layout="@layout/fragment_store" />
