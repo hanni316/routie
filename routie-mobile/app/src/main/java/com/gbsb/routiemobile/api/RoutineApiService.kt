@@ -1,6 +1,7 @@
 package com.gbsb.routiemobile.api
 
 import com.gbsb.routiemobile.dto.Routine
+import com.gbsb.routiemobile.dto.RoutineRequest
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -8,6 +9,10 @@ interface RoutineApiService {
     // 운동 루틴 조회 (사용자 ID 기반)
     @GET("/api/routines/{userId}")
     fun getUserRoutines(@Path("userId") userId: String): Call<List<Routine>>
+
+    @POST("api/routines/{userId}")
+    fun createRoutineWithExercises(
+        @Path("userId") userId: String, @Body routineRequest: RoutineRequest): Call<Routine>
 
     // 운동 루틴 생성
     @POST("/api/routines/{userId}")
