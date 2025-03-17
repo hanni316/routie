@@ -26,10 +26,10 @@ public class Routine {
     @Column(nullable = true)
     private String description;  // 루틴 설명 (선택 사항)
 
-    @Column(nullable = false, columnDefinition = "int default 0")
-    private int caloriesBurned = 0;  // 소모 칼로리
+    @Column(nullable = false)
+    private double caloriesBurned;  // 소모 칼로리
 
-    @Column(nullable = false, columnDefinition = "int default 30") 
+    @Column(nullable = false)
     private int duration;
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,5 +40,16 @@ public class Routine {
             return 0;
         }
         return exercises.stream().mapToDouble(RoutineExercise::getCaloriesBurned).sum();
+
     }
+    /*public void updateRoutineStats() { 얘 실행 안 됨.
+        if (exercises == null || exercises.isEmpty()) {
+            this.duration = 0;
+            this.caloriesBurned = 0;
+            return;
+        }
+
+        this.duration = exercises.stream().mapToInt(RoutineExercise::getDuration).sum();
+        this.caloriesBurned = exercises.stream().mapToDouble(RoutineExercise::getCaloriesBurned).sum();
+    }*/
 }

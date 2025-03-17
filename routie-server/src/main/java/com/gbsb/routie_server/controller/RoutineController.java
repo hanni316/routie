@@ -1,6 +1,7 @@
 package com.gbsb.routie_server.controller;
 
 import com.gbsb.routie_server.entity.Routine;
+import com.gbsb.routie_server.dto.RoutineRequestDto;
 import com.gbsb.routie_server.service.RoutineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,13 @@ import java.util.List;
 public class RoutineController {
 
     private final RoutineService routineService;
-
     // 운동 루틴 생성
     @PostMapping("/{userId}")
-    public ResponseEntity<Routine> createRoutine(@PathVariable String userId, @RequestBody Routine routine) {
-        Routine createdRoutine = routineService.createRoutine(userId, routine);
+    public ResponseEntity<Routine> createRoutineWithExercises(
+            @PathVariable String userId,
+            @RequestBody RoutineRequestDto routineRequestDto) {
+
+        Routine createdRoutine = routineService.createRoutineWithExercises(userId, routineRequestDto);
         return ResponseEntity.ok(createdRoutine);
     }
 
