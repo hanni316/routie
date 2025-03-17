@@ -6,15 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.FragmentMakingroutineBinding
 import com.gbsb.routiemobile.dto.Exercise
 import com.gbsb.routiemobile.dto.Routine
-import com.gbsb.routiemobile.network.ExerciseAdapter
+import com.gbsb.routiemobile.adapter.ExerciseAdapter
 import com.gbsb.routiemobile.network.RetrofitClient
 import com.google.gson.Gson
 import retrofit2.Call
@@ -125,6 +123,12 @@ class MakingroutineFragment : Fragment() {
         val routineName = binding.routineNameEditText.text.toString()
         val description = binding.descriptionEditText.text.toString()
 
+        // 운동이 추가되지 않으면 저장할 수 없도록 처리
+        if (selectedExercises.isEmpty()) {
+            Toast.makeText(requireContext(), "운동을 최소 1개 이상 추가해야 합니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (routineName.isEmpty() || description.isEmpty()) {
             Toast.makeText(requireContext(), "루틴 이름과 설명을 입력하세요.", Toast.LENGTH_SHORT).show()
             return
@@ -134,7 +138,8 @@ class MakingroutineFragment : Fragment() {
             name = routineName,
             description = description,
             duration = 30, // 기본값 (운동 시간)
-            caloriesBurned = 200 // 기본값 (소모 칼로리)
+            caloriesBurned = 200, // 기본값 (소모 칼로리)
+            exercises = selectedExercises
         )
 
         // ✅ SharedPreferences에서 userId 가져오기

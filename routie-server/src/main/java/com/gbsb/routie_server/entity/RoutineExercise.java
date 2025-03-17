@@ -30,4 +30,5 @@ public class RoutineExercise {
 
     @Column(nullable = false, columnDefinition = "int default 0")
     private double caloriesBurned;  // 운동 시간에 따른 소모 칼로리 값
+
 }

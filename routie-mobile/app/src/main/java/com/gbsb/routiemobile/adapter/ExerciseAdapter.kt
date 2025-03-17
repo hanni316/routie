@@ -1,9 +1,8 @@
-package com.gbsb.routiemobile.network
+package com.gbsb.routiemobile.adapter
 
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import com.gbsb.routiemobile.dto.Exercise
 
