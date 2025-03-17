@@ -9,18 +9,18 @@ import android.widget.ImageView
 import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//private const val ARG_PARAM1 = "param1"
+//private const val ARG_PARAM2 = "param2"
 
 class StoreFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+   // private var param1: String? = null
+   // private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+           // param1 = it.getString(ARG_PARAM1)
+           // param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -34,6 +34,7 @@ class StoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val backIcon = view.findViewById<ImageView>(R.id.arrowButton)
         backIcon.setOnClickListener {
