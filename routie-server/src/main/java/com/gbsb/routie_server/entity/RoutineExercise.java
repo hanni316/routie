@@ -28,6 +28,7 @@ public class RoutineExercise {
     @Column(nullable = false)
     private int duration;  // 사용자가 입력한 운동 시간 (초)
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "int default 0")
     private double caloriesBurned;  // 운동 시간에 따른 소모 칼로리 값
+
 }

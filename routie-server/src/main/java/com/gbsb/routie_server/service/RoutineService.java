@@ -7,6 +7,7 @@ import com.gbsb.routie_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -21,8 +22,17 @@ public class RoutineService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        routine.setUser(user);
-        return routineRepository.save(routine);
+        Routine newRoutine = new Routine();
+        newRoutine.setName(routine.getName());
+        newRoutine.setDescription(routine.getDescription());
+        newRoutine.setUser(user);
+
+        // 운동이 포함되지 않은 루틴은 저장 불가
+        if (routine.getExercises() == null || routine.getExercises().isEmpty()) {
+            throw new IllegalArgumentException("운동이 포함되지 않은 루틴은 저장할 수 없습니다.");
+        }
+
+        return routineRepository.save(newRoutine);
     }
 
     // 특정 사용자의 루틴 목록 조회
