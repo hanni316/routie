@@ -38,4 +38,21 @@ public class RoutineExerciseController {
         routineExerciseService.removeExerciseFromRoutine(routineExerciseId);
         return ResponseEntity.ok("운동이 루틴에서 삭제되었습니다.");
     }
+    /* 운동 시간 변경 API(아직 미사용)
+    @PutMapping("/{routineExerciseId}/duration")
+    public ResponseEntity<RoutineExercise> updateExerciseDuration(
+            @PathVariable Long routineExerciseId,
+            @RequestParam int duration) {
+
+        // 특정 루틴운동 조회
+        RoutineExercise routineExercise = routineExerciseService.getRoutineExerciseById(routineExerciseId);
+
+        // 자동으로 칼로리 재계산
+        routineExercise.setDuration(duration);
+
+        // 변경된 내용 저장
+        RoutineExercise updatedRoutineExercise = routineExerciseService.saveRoutineExercise(routineExercise);
+
+        return ResponseEntity.ok(updatedRoutineExercise);
+    }*/
 }

@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.databinding.FragmentMakingroutineBinding
 import com.gbsb.routiemobile.dto.Exercise
+import com.gbsb.routiemobile.dto.ExerciseRequest
 import com.gbsb.routiemobile.dto.Routine
+import com.gbsb.routiemobile.dto.RoutineRequest
 import com.gbsb.routiemobile.adapter.ExerciseAdapter
 import com.gbsb.routiemobile.network.RetrofitClient
 import com.google.gson.Gson
@@ -49,8 +51,9 @@ class MakingroutineFragment : Fragment() {
             showExerciseSelectionDialog()
         }
 
+        // 루틴 저장 버튼 클릭 시 루틴 + 운동 함께 저장
         binding.saveButton.setOnClickListener {
-            createRoutine()
+            createRoutineWithExercises()
         }
     }
 
@@ -72,7 +75,6 @@ class MakingroutineFragment : Fragment() {
 
             override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
                 Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                Log.e("API_ERROR", "운동 목록 불러오기 실패: ${t.localizedMessage}")
             }
         })
     }
@@ -118,12 +120,10 @@ class MakingroutineFragment : Fragment() {
         dialog.show()
     }
 
-
-    private fun createRoutine() {
+    private fun createRoutineWithExercises() {
         val routineName = binding.routineNameEditText.text.toString()
         val description = binding.descriptionEditText.text.toString()
 
-        // 운동이 추가되지 않으면 저장할 수 없도록 처리
         if (selectedExercises.isEmpty()) {
             Toast.makeText(requireContext(), "운동을 최소 1개 이상 추가해야 합니다.", Toast.LENGTH_SHORT).show()
             return
@@ -134,12 +134,16 @@ class MakingroutineFragment : Fragment() {
             return
         }
 
-        val newRoutine = Routine(
+        // 선택된 운동 목록을 ExerciseRequest 리스트로 변환
+        val exerciseRequestList = selectedExercises.map {
+            ExerciseRequest(it.id, 30) //일단 duration값 : 30
+        }
+
+        // RoutineRequest 생성 (루틴 + 운동 리스트)
+        val routineRequest = RoutineRequest(
             name = routineName,
             description = description,
-            duration = 30, // 기본값 (운동 시간)
-            caloriesBurned = 200, // 기본값 (소모 칼로리)
-            exercises = selectedExercises
+            exercises = exerciseRequestList
         )
 
         // ✅ SharedPreferences에서 userId 가져오기
@@ -151,25 +155,19 @@ class MakingroutineFragment : Fragment() {
             return
         }
 
-        // json 변환 로그 출력
-        val requestJson = Gson().toJson(newRoutine)
-        Log.d("API_REQUEST", "보내는 데이터: $requestJson")
-
-        RetrofitClient.routineApi.createRoutine(userId, newRoutine)
+        // 서버에 루틴과 운동 함께 저장 요청
+        RetrofitClient.routineApi.createRoutineWithExercises(userId, routineRequest)
             .enqueue(object : Callback<Routine> {
                 override fun onResponse(call: Call<Routine>, response: Response<Routine>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "루틴이 성공적으로 저장되었습니다!", Toast.LENGTH_SHORT).show()
-                        Log.d("API_SUCCESS", "루틴 생성 성공: ${response.body()}")
                     } else {
                         Toast.makeText(requireContext(), "루틴 저장 실패", Toast.LENGTH_SHORT).show()
-                        Log.e("API_ERROR", "루틴 생성 실패: ${response.errorBody()?.string()}")
                     }
                 }
 
                 override fun onFailure(call: Call<Routine>, t: Throwable) {
                     Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                    Log.e("API_FAILURE", "네트워크 오류: ${t.localizedMessage}")
                 }
             })
     }
