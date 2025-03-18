@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|left"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/img_title"
@@ -29,99 +29,163 @@
 
     <!-- 입력 필드 영역 -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:id="@+id/linearLayout4"
+        android:layout_width="424dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="7dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/TitleLayout"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TitleLayout">
 
-        <EditText
-            android:id="@+id/editTextID"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/signup_2" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="422dp"
+        android:layout_height="600dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="6dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="아이디 입력"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/idbar"
-            android:textSize="16sp"
-            android:textColor="#000000"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="비밀번호 입력"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/pwbar"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:inputType="textPassword|textVisiblePassword"/>
+            <EditText
+                android:id="@+id/editTextID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/idbar"
+                android:gravity="center"
+                android:hint="아이디 입력"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/line" />
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pwbar"
+                android:gravity="center"
+                android:hint="비밀번호 입력"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/editTextGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="성별 (남/여)"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/gender"
-            android:textSize="16sp"
-            android:textColor="#000000"/>
+            <EditText
+                android:id="@+id/editTextPemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/email"
+                android:gravity="center"
+                android:hint="이메일 입력"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/editTextAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="나이 입력"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/age"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:inputType="number"/>
+            <EditText
+                android:id="@+id/editTextnickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/nickname"
+                android:gravity="center"
+                android:hint="닉네임 입력"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/editTextHeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="키 입력 (cm)"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/height"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:inputType="numberDecimal"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/line" />
 
-        <EditText
-            android:id="@+id/editTextWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="몸무게 입력 (kg)"
-            android:gravity="center"
-            android:padding="10dp"
-            android:background="@drawable/weight"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:inputType="numberDecimal"/>
+            <EditText
+                android:id="@+id/editTextGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gender"
+                android:gravity="center"
+                android:hint="성별 (남/여)"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-        <!-- 완료 버튼 -->
+            <EditText
+                android:id="@+id/editTextAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/age"
+                android:gravity="center"
+                android:hint="나이 입력"
+                android:inputType="number"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextHeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/height"
+                android:gravity="center"
+                android:hint="키 입력 (cm)"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/weight"
+                android:gravity="center"
+                android:hint="몸무게 입력 (kg)"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- 완료 버튼 -->
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="422dp"
+        android:layout_height="104dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="96dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+
         <ImageButton
             android:id="@+id/btnSignup"
-            android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:contentDescription="회원가입 완료"
             app:srcCompat="@drawable/finish" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
