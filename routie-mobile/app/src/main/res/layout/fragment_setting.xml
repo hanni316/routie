@@ -52,7 +52,7 @@
             android:layout_marginBottom="12dp"
             android:background="@android:color/transparent"
             android:contentDescription="사용자정보수정"
-            app:srcCompat="@drawable/character_information" />
+            app:srcCompat="@drawable/edit_information" />
 
         <ImageButton
             android:id="@+id/logoutBtn"

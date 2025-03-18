@@ -1,9 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F1EB"
     tools:context=".fragment.AlarmFragment">
 
+
+    <LinearLayout
+        android:id="@+id/TitleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|left"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_title"
+            android:layout_width="95dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/routie_" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="61dp"
+                    android:fontFamily="@font/ownglyp"
+                    android:gravity="center"
+                    android:text="알림 설정"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="349dp"
+                android:layout_height="105dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="197dp"
+                    android:layout_height="48dp"
+                    android:fontFamily="@font/ownglyp"
+                    android:text="공지사항"
+                    android:textSize="25sp" />
+
+                <Switch
+                    android:id="@+id/switch4"
+                    android:layout_width="196dp"
+                    android:layout_height="48dp"
+                    android:fontFamily="@font/ownglyp"
+                    android:text="시스템 알림"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="설정완료"
+                    android:src="@drawable/finish" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>
