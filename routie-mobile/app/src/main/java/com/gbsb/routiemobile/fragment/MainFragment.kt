@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
         val btnSelectDate: ImageButton = view.findViewById(R.id.btn_selectdate)
         val btnBell: ImageButton = view.findViewById(R.id.btn_bell)
         val bubble2: ImageView = view.findViewById(R.id.img_noticefield)
-        val starButton: ImageButton = view.findViewById(R.id.star_icon)
+        val starButton: ImageButton = view.findViewById(R.id.img_sketchbook_staricon)
         val btnShop: ImageButton = view.findViewById(R.id.btn_shop)
 
         // ✅ 알림 버튼 클릭 시 토글
