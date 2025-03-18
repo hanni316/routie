@@ -128,12 +128,15 @@
                 android:orientation="horizontal"
                 android:translationY="180dp">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/img_sketchbook_staricon"
                     android:layout_width="80dp"
                     android:layout_height="74dp"
                     android:translationX="40dp"
                     android:translationZ="1dp"
+                    android:scaleType="centerInside"
+                    android:background="@null"
+                    android:contentDescription="루틴 생성 버튼"
                     app:srcCompat="@drawable/star" />
 
                 <ImageView
