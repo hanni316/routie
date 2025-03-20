@@ -8,8 +8,7 @@ import com.gbsb.routie_server.repository.RoutineRepository;
 import com.gbsb.routie_server.repository.UserRepository;
 import com.gbsb.routie_server.repository.ExerciseRepository;
 import com.gbsb.routie_server.repository.RoutineExerciseRepository;
-import com.gbsb.routie_server.dto.RoutineRequestDto;
-import com.gbsb.routie_server.dto.ExerciseRequestDto;
+import com.gbsb.routie_server.dto.*;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,22 +37,24 @@ public class RoutineService {
 
         Routine savedRoutine = routineRepository.save(newRoutine);
 
-        if (routineRequestDto.getExercises() != null && !routineRequestDto.getExercises().isEmpty()) {
-            for (ExerciseRequestDto exerciseRequest : routineRequestDto.getExercises()) {
-                Exercise exercise = exerciseRepository.findById(exerciseRequest.getExerciseId())
-                        .orElseThrow(() -> new IllegalArgumentException("운동을 찾을 수 없습니다."));
-
-                RoutineExercise routineExercise = new RoutineExercise();
-                routineExercise.setRoutine(savedRoutine);  // 방금 저장된 루틴 사용
-                routineExercise.setExercise(exercise);
-                routineExercise.setDuration(exerciseRequest.getDuration());
-
-                routineExerciseRepository.save(routineExercise); // 운동 저장
-            }
-        } else {
+        if (routineRequestDto.getExercises() == null || routineRequestDto.getExercises().isEmpty()) {
             throw new IllegalArgumentException("운동이 포함되지 않은 루틴은 저장할 수 없습니다.");
         }
-        return routineRepository.save(newRoutine);
+
+        for (ExerciseRequestDto exerciseRequest : routineRequestDto.getExercises()) {
+            Exercise exercise = exerciseRepository.findById(exerciseRequest.getExerciseId())
+                    .orElseThrow(() -> new IllegalArgumentException("운동을 찾을 수 없습니다."));
+
+            RoutineExercise routineExercise = RoutineExercise.builder()
+                    .routine(savedRoutine)
+                    .exercise(exercise)
+                    .build();
+
+            routineExerciseRepository.save(routineExercise);
+            savedRoutine.getExercises().add(routineExercise);
+        }
+
+        return savedRoutine;
     }
 
     // 특정 사용자의 루틴 목록 조회
@@ -63,12 +64,12 @@ public class RoutineService {
 
     // 운동 루틴 수정
     @Transactional
-    public Routine updateRoutine(Long routineId, Routine updatedRoutine) {
+    public Routine updateRoutine(Long routineId, RoutineRequestDto dto) {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new IllegalArgumentException("루틴을 찾을 수 없습니다."));
 
-        routine.setName(updatedRoutine.getName());
-        routine.setDescription(updatedRoutine.getDescription());
+        routine.setName(dto.getName());
+        routine.setDescription(dto.getDescription());
 
         return routineRepository.save(routine);
     }

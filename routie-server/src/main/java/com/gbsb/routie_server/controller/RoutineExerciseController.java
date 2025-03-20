@@ -14,14 +14,12 @@ import java.util.List;
 public class RoutineExerciseController {
     private final RoutineExerciseService routineExerciseService;
 
-    // 루틴에 운동 추가 (운동 ID, 운동 시간 입력)
+    // 특정 루틴에 운동 추가
     @PostMapping("/{routineId}/exercises/{exerciseId}")
     public ResponseEntity<RoutineExercise> addExerciseToRoutine(
             @PathVariable Long routineId,
-            @PathVariable Long exerciseId,
-            @RequestParam int duration) {
-
-        RoutineExercise routineExercise = routineExerciseService.addExerciseToRoutine(routineId, exerciseId, duration);
+            @PathVariable Long exerciseId) {
+        RoutineExercise routineExercise = routineExerciseService.addExerciseToRoutine(routineId, exerciseId);
         return ResponseEntity.ok(routineExercise);
     }
 
@@ -32,27 +30,10 @@ public class RoutineExerciseController {
         return ResponseEntity.ok(exercises);
     }
 
-    // 루틴에서 특정 운동 삭제
+    // 특정 루틴에서 운동 삭제
     @DeleteMapping("/exercises/{routineExerciseId}")
     public ResponseEntity<String> removeExerciseFromRoutine(@PathVariable Long routineExerciseId) {
         routineExerciseService.removeExerciseFromRoutine(routineExerciseId);
         return ResponseEntity.ok("운동이 루틴에서 삭제되었습니다.");
     }
-    /* 운동 시간 변경 API(아직 미사용)
-    @PutMapping("/{routineExerciseId}/duration")
-    public ResponseEntity<RoutineExercise> updateExerciseDuration(
-            @PathVariable Long routineExerciseId,
-            @RequestParam int duration) {
-
-        // 특정 루틴운동 조회
-        RoutineExercise routineExercise = routineExerciseService.getRoutineExerciseById(routineExerciseId);
-
-        // 자동으로 칼로리 재계산
-        routineExercise.setDuration(duration);
-
-        // 변경된 내용 저장
-        RoutineExercise updatedRoutineExercise = routineExerciseService.saveRoutineExercise(routineExercise);
-
-        return ResponseEntity.ok(updatedRoutineExercise);
-    }*/
 }

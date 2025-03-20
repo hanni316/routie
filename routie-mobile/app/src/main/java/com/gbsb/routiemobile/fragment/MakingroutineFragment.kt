@@ -62,21 +62,26 @@ class MakingroutineFragment : Fragment() {
         _binding = null
     }
 
-    private fun showExerciseSelectionDialog() {
-        RetrofitClient.exerciseApi.getAllExercises().enqueue(object : Callback<List<Exercise>> {
-            override fun onResponse(call: Call<List<Exercise>>, response: Response<List<Exercise>>) {
-                if (response.isSuccessful) {
-                    val exerciseList = response.body() ?: emptyList()
-                    showExerciseDialog(exerciseList)
-                } else {
-                    Toast.makeText(requireContext(), "운동 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
+    private var cachedExerciseList: List<Exercise>? = null
 
-            override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
-                Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-            }
-        })
+    private fun showExerciseSelectionDialog() {
+        if (cachedExerciseList != null) {
+            showExerciseDialog(cachedExerciseList!!)
+        } else {
+            RetrofitClient.exerciseApi.getAllExercises().enqueue(object : Callback<List<Exercise>> {
+                override fun onResponse(call: Call<List<Exercise>>, response: Response<List<Exercise>>) {
+                    if (response.isSuccessful) {
+                        cachedExerciseList = response.body() ?: emptyList()
+                        showExerciseDialog(cachedExerciseList!!)
+                    } else {
+                        Toast.makeText(requireContext(), "운동 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun showExerciseDialog(exerciseList: List<Exercise>) {
@@ -121,16 +126,16 @@ class MakingroutineFragment : Fragment() {
     }
 
     private fun createRoutineWithExercises() {
-        val routineName = binding.routineNameEditText.text.toString()
-        val description = binding.descriptionEditText.text.toString()
+        val routineName = binding.routineNameEditText.text.toString().trim()
+        val description = binding.descriptionEditText.text.toString().trim()
 
         if (selectedExercises.isEmpty()) {
             Toast.makeText(requireContext(), "운동을 최소 1개 이상 추가해야 합니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (routineName.isEmpty() || description.isEmpty()) {
-            Toast.makeText(requireContext(), "루틴 이름과 설명을 입력하세요.", Toast.LENGTH_SHORT).show()
+        if (routineName.isEmpty()) {
+            Toast.makeText(requireContext(), "루틴 이름을 입력하세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -167,6 +172,7 @@ class MakingroutineFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<Routine>, t: Throwable) {
+                    Log.e("RoutineApi", "네트워크 오류: ${t.message}")
                     Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
                 }
             })

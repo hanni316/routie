@@ -1,13 +1,15 @@
 package com.gbsb.routie_server.controller;
 
-import com.gbsb.routie_server.entity.Routine;
 import com.gbsb.routie_server.dto.RoutineRequestDto;
+import com.gbsb.routie_server.dto.RoutineResponseDto;
+import com.gbsb.routie_server.entity.Routine;
 import com.gbsb.routie_server.service.RoutineService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/routines")
@@ -15,34 +17,40 @@ import java.util.List;
 public class RoutineController {
 
     private final RoutineService routineService;
+
     // 운동 루틴 생성
     @PostMapping("/{userId}")
-    public ResponseEntity<Routine> createRoutineWithExercises(
+    public ResponseEntity<RoutineResponseDto> createRoutineWithExercises(
             @PathVariable String userId,
-            @RequestBody RoutineRequestDto routineRequestDto) {
+            @RequestBody RoutineRequestDto dto) {
 
-        Routine createdRoutine = routineService.createRoutineWithExercises(userId, routineRequestDto);
-        return ResponseEntity.ok(createdRoutine);
+        Routine created = routineService.createRoutineWithExercises(userId, dto);
+        return ResponseEntity.ok(new RoutineResponseDto(created));
     }
 
     // 특정 사용자의 루틴 목록 조회
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Routine>> getUserRoutines(@PathVariable String userId) {
-        List<Routine> routines = routineService.getUserRoutines(userId);
-        return ResponseEntity.ok(routines);
+    public ResponseEntity<List<RoutineResponseDto>> getUserRoutines(@PathVariable String userId) {
+        List<RoutineResponseDto> list = routineService.getUserRoutines(userId).stream()
+                .map(RoutineResponseDto::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(list);
     }
 
-    // 운동 루틴 수정
+    // 루틴 수정(루틴 이름, 루틴 설명만)
     @PutMapping("/{routineId}")
-    public ResponseEntity<Routine> updateRoutine(@PathVariable Long routineId, @RequestBody Routine routine) {
-        Routine updatedRoutine = routineService.updateRoutine(routineId, routine);
-        return ResponseEntity.ok(updatedRoutine);
+    public ResponseEntity<RoutineResponseDto> updateRoutine(
+            @PathVariable Long routineId,
+            @RequestBody RoutineRequestDto dto) {
+
+        Routine updated = routineService.updateRoutine(routineId, dto);
+        return ResponseEntity.ok(new RoutineResponseDto(updated));
     }
 
-    // 운동 루틴 삭제
+    // 루틴 삭제(안에 운동도 함께 다 삭제)
     @DeleteMapping("/{routineId}")
-    public ResponseEntity<String> deleteRoutine(@PathVariable Long routineId) {
+    public ResponseEntity<Void> deleteRoutine(@PathVariable Long routineId) {
         routineService.deleteRoutine(routineId);
-        return ResponseEntity.ok("운동 루틴이 삭제되었습니다.");
+        return ResponseEntity.noContent().build();
     }
 }

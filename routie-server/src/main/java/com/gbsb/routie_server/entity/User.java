@@ -1,7 +1,7 @@
 package com.gbsb.routie_server.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
+
 import lombok.*;
 
 @Entity
@@ -44,16 +44,4 @@ public class User {
     @Builder.Default
     @Column(nullable = false)
     private boolean isAdmin = false; // 유저 : false, 관리자 : true
-
-    // 유저가 기록한 칼로리 데이터 (1:N 관계)
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Calorie> calories;
-
-    // 누적된 총 칼로리 계산 메서드
-    public double getTotalCaloriesBurned() {
-        if (calories == null) {
-            return 0;
-        }
-        return calories.stream().mapToDouble(Calorie::getCaloriesBurned).sum();
-    }
 }
