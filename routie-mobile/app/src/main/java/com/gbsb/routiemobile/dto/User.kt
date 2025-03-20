@@ -1,6 +1,6 @@
 package com.gbsb.routiemobile.dto
-//회원가입 요청 dto
-data class SignupRequest(
+
+data class User(
     val userId: String,
     val email: String,
     val password: String,
