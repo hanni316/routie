@@ -63,11 +63,23 @@ public class UserService {
     public User updateUser(String userId, User updatedUser) {
         return userRepository.findById(userId)
                 .map(user -> {
+                    if (updatedUser.getEmail() != null) {
+                        user.setEmail(updatedUser.getEmail());
+                    }
                     if (updatedUser.getName() != null) {
-                        user.setName(updatedUser.getName()); // 이름 수정
+                        user.setName(updatedUser.getName());
+                    }
+                    if (updatedUser.getAge() != 0) {
+                        user.setAge(updatedUser.getAge());
                     }
                     if (updatedUser.getPassword() != null) {
-                        user.setPassword(updatedUser.getPassword()); // 비밀번호 수정
+                        user.setPassword(updatedUser.getPassword());
+                    }
+                    if (updatedUser.getHeight() != 0) {
+                        user.setHeight(updatedUser.getHeight());
+                    }
+                    if (updatedUser.getWeight() != 0) {
+                        user.setWeight(updatedUser.getWeight());
                     }
                     return userRepository.save(user);
                 }).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));

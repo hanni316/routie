@@ -82,4 +82,7 @@ dependencies {
     //Navigation 버전 확인
     implementation("androidx.navigation:navigation-fragment:$nav_version")
     implementation("androidx.navigation:navigation-ui:$nav_version")
+
+    //삼성 SDK
+    implementation (files("libs/samsung-health-data-1.5.1.aar"))
 }

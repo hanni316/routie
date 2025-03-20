@@ -25,6 +25,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String name; // 사용자 이름 (중복 불가)
 
+    @Column(nullable = false)
+    private int age; // 나이
+
+    @Column(nullable = false)
+    private String gender; // 성별
+
+    @Column(nullable = false)
+    private int height; // 키
+
+    @Column(nullable = false)
+    private int weight; // 몸무게
+
     @Builder.Default
     @Column(nullable = false)
     private int gold = 0; // 골드 초기값 0

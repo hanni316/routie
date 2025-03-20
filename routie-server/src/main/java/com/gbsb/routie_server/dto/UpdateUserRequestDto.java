@@ -5,12 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SignupRequestDto {
-    private String userId;
+public class UpdateUserRequestDto {
     private String email;
-    private String password;
     private String name;
-    private String gender;
+    private String password;
     private Integer age;
     private Integer height;
     private Integer weight;
