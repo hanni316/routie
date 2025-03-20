@@ -3,6 +3,7 @@ package com.gbsb.routie_server.controller;
 import com.gbsb.routie_server.dto.SignupRequestDto;
 import com.gbsb.routie_server.dto.LoginResponseDto;
 import com.gbsb.routie_server.dto.LoginRequestDto;
+import com.gbsb.routie_server.dto.UpdateUserRequestDto;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,10 @@ public class UserController {
                     .email(signupDto.getEmail())
                     .password(signupDto.getPassword())
                     .name(signupDto.getName())
+                    .age(signupDto.getAge())
+                    .gender(signupDto.getGender())
+                    .height(signupDto.getHeight())
+                    .weight(signupDto.getWeight())
                     .gold(0)
                     .isAdmin(false)
                     .build();
@@ -70,10 +75,18 @@ public class UserController {
 
     // 사용자 정보 수정
     @PutMapping("/users/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody UpdateUserRequestDto updateDto) {
         try {
-            User user = userService.updateUser(userId, updatedUser);
-            return ResponseEntity.ok(user);
+            User updatedUser = userService.updateUser(userId, User.builder()
+                    .email(updateDto.getEmail())
+                    .name(updateDto.getName())
+                    .age(updateDto.getAge() != null ? updateDto.getAge() : 0)
+                    .password(updateDto.getPassword())
+                    .height(updateDto.getHeight())
+                    .weight(updateDto.getWeight())
+                    .build());
+
+            return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("사용자 정보 수정 실패: " + e.getMessage());
         }
