@@ -63,8 +63,7 @@ public class UserController {
             LoginResponseDto response = new LoginResponseDto(
                     user.getUserId(),
                     user.getName(),
-                    user.getGold(),
-                    user.getTotalCaloriesBurned()
+                    user.getGold()
             );
 
             return ResponseEntity.ok(response);

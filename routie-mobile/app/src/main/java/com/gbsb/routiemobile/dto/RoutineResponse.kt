@@ -1,6 +1,6 @@
 package com.gbsb.routiemobile.dto
 
-data class Routine(
+data class RoutineResponse(
     val id: Long,
     val name: String,
     val description: String,
