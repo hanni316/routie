@@ -2,6 +2,7 @@ package com.gbsb.routiemobile.api
 
 import com.gbsb.routiemobile.dto.LoginRequest
 import com.gbsb.routiemobile.dto.LoginResponse
+import com.gbsb.routiemobile.dto.PasswordUpdateRequest
 import com.gbsb.routiemobile.dto.SignupRequest
 import com.gbsb.routiemobile.dto.User
 import com.gbsb.routiemobile.dto.UserUpdateRequest
@@ -26,11 +27,18 @@ interface UserApiService {
     @GET("/api/users/{userId}")
     fun getUser(@Path("userId") userId: String): Call<User>
 
-    // 회원 정보 수정
+    // 회원 정보 변경
     @PUT("/api/users/{userId}")
     fun updateUser(@Path("userId") userId: String, @Body user: UserUpdateRequest): Call<User>
 
-    // 회원 삭제
+    // 비밀번호 변경
+    @PUT("/api/users/{userId}/password")
+    fun updatePassword(
+        @Path("userId") userId: String,
+        @Body request: PasswordUpdateRequest
+    ): Call<Void>
+
+    // 회원 탈퇴
     @DELETE("/api/users/{userId}")
     fun deleteUser(@Path("userId") userId: String): Call<Void>
 }
