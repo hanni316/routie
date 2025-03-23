@@ -2,92 +2,111 @@ package com.gbsb.routiemobile.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.R
-import java.util.Calendar
+import com.gbsb.routiemobile.adapter.WeekDayAdapter
+import com.gbsb.routiemobile.databinding.FragmentMainBinding
+import com.gbsb.routiemobile.dto.WeekDay
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.util.*
 
 class MainFragment : Fragment() {
 
     private var isNoticeBubbleVisible = false
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+    private var selectedDate: LocalDate = LocalDate.now()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // ✅ UI 요소 찾기
-        val buttonProfile = view.findViewById<ImageButton>(R.id.btn_profile)
-        val textView: TextView = view.findViewById(R.id.txt_nowdate)
-        val btnSelectDate: ImageButton = view.findViewById(R.id.btn_selectdate)
-        val btnBell: ImageButton = view.findViewById(R.id.btn_bell)
-        val bubble2: ImageView = view.findViewById(R.id.img_noticefield)
-        val starButton: ImageButton = view.findViewById(R.id.img_sketchbook_staricon)
-        val btnShop: ImageButton = view.findViewById(R.id.btn_shop)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // ✅ 알림 버튼 클릭 시 토글
-        btnBell.setOnClickListener {
-            if (!isNoticeBubbleVisible) {
-                bubble2.visibility = View.VISIBLE
-                isNoticeBubbleVisible = true
-            } else {
-                bubble2.visibility = View.GONE
-                isNoticeBubbleVisible = false
-            }
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        binding.txtNowdate.text = "$year 년 $month 월"
+
+        val btnSelectDate = binding.btnSelectdate
+        btnSelectDate.setOnClickListener {
+            val dialog = DatePickerDialog(requireContext(), { _, y, m, d ->
+                binding.txtNowdate.text = "$y 년 ${m + 1} 월"
+
+                val cal = Calendar.getInstance()
+                cal.set(y, m, d)
+                selectedDate = LocalDate.of(y, m + 1, d)
+
+                showWeekDayButtons(getStartOfWeek(selectedDate))
+            }, year, month - 1, day)
+
+            val dayPickerId = resources.getIdentifier("day", "id", "android")
+            dialog.datePicker.findViewById<View>(dayPickerId)?.visibility = View.GONE
+            dialog.show()
         }
 
-        // ✅ 프로필 버튼 클릭 시 SettingActivity 이동
-        buttonProfile.setOnClickListener {
+        binding.btnBell.setOnClickListener {
+            binding.imgNoticefield.visibility =
+                if (isNoticeBubbleVisible) View.GONE else View.VISIBLE
+            isNoticeBubbleVisible = !isNoticeBubbleVisible
+        }
+
+        binding.btnProfile.setOnClickListener {
             findNavController().navigate(R.id.SettingFragment)
         }
 
-        // 별 버튼 누르면 MakingroutineFragment 이동
-        starButton.setOnClickListener {
+        binding.imgSketchbookStaricon.setOnClickListener {
             findNavController().navigate(R.id.MakingroutineFragment)
         }
 
-        btnShop.setOnClickListener {
+        binding.btnShop.setOnClickListener {
             findNavController().navigate(R.id.StoreFragment)
         }
 
-        // ✅ 현재 날짜 가져오기
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1 // 1~12월 표시
+        // 최초 주간 버튼 생성
+        showWeekDayButtons(getStartOfWeek(selectedDate))
+    }
 
-        // ✅ 초기 값으로 현재 연/월 설정
-        textView.text = "$year 년 $month 월"
+    private fun getStartOfWeek(date: LocalDate): LocalDate {
+        return date.with(DayOfWeek.MONDAY)
+    }
 
-        // ✅ 날짜 선택 버튼 클릭 시 DatePickerDialog 표시
-        btnSelectDate.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, selectedYear, selectedMonth, _ ->
-                    textView.text = "$selectedYear 년 ${selectedMonth + 1} 월"
-                },
-                year,
-                month - 1, // DatePicker는 0부터 시작하므로 -1 필요
-                1
+    private fun showWeekDayButtons(startOfWeek: LocalDate) {
+        val weekDays = (0..6).map { offset ->
+            val date = startOfWeek.plusDays(offset.toLong())
+            WeekDay(
+                date = date,
+                dayOfWeek = date.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, Locale.KOREAN),
+                isSelected = offset == 0
             )
-
-            // 📌 일(day) 숨기기 (오류 방지)
-            val dayPickerId = resources.getIdentifier("day", "id", "android")
-            if (dayPickerId != 0) {
-                val dayPicker = datePickerDialog.datePicker.findViewById<View>(dayPickerId)
-                dayPicker?.visibility = View.GONE
-            }
-
-            datePickerDialog.show()
         }
 
-        return view
+        val adapter = WeekDayAdapter(weekDays) { selectedDate ->
+            Log.d("DATE_SELECT", "선택된 날짜: $selectedDate")
+            // 여기에 운동 기록/계획 조회 연결
+        }
+
+        binding.recyclerWeekDays.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerWeekDays.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
