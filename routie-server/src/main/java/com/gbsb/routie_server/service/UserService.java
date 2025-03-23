@@ -3,6 +3,7 @@ package com.gbsb.routie_server.service;
 import com.gbsb.routie_server.entity.Reward;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.repository.RewardRepository;
+import com.gbsb.routie_server.repository.RoutineRepository;
 import com.gbsb.routie_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final RewardRepository rewardRepository;
+    private final RoutineRepository routineRepository;
 
     // 회원가입
     @Transactional
@@ -72,9 +74,6 @@ public class UserService {
                     if (updatedUser.getAge() != 0) {
                         user.setAge(updatedUser.getAge());
                     }
-                    if (updatedUser.getPassword() != null) {
-                        user.setPassword(updatedUser.getPassword());
-                    }
                     if (updatedUser.getHeight() != 0) {
                         user.setHeight(updatedUser.getHeight());
                     }
@@ -85,11 +84,26 @@ public class UserService {
                 }).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 
+    @Transactional
+    public void updatePassword(String userId, String currentPassword, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        if (!user.getPassword().equals(currentPassword)) {
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+        }
+
+        user.setPassword(newPassword);
+        userRepository.save(user);
+    }
+
+
 
     // 사용자 삭제 (회원 탈퇴)
     @Transactional
     public void deleteUser(String userId) {
-        rewardRepository.deleteByUser_UserId(userId); // reward 테이블에서 관련 데이터 삭제
+        routineRepository.deleteByUser_UserId(userId); // 관련 루틴 삭제
+        rewardRepository.deleteByUser_UserId(userId); // 관련 리워드 삭제
 
         if (userRepository.existsById(userId)) {
             userRepository.deleteById(userId);

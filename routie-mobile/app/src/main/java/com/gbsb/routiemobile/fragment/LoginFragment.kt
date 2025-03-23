@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-         // 회원가입 버튼 클릭 시
+        // 회원가입 버튼 클릭 시
         binding.btnSignup.setOnClickListener {
             findNavController().navigate(R.id.SignupFragment)
         }
@@ -70,7 +70,11 @@ class LoginFragment : Fragment() {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) { //PreferenceManager -> getSharedPreferences로 변경
                     val loginResponse = response.body()  //PreperenceManager 지원중단됨
-                    Toast.makeText(requireContext(), "환영합니다~ ID: ${loginResponse?.userId}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "환영합니다~ ID: ${loginResponse?.userId}",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
 
                     val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
@@ -83,7 +87,8 @@ class LoginFragment : Fragment() {
                     // 로그인 성공 후 MainFragment로 이동
                     findNavController().navigate(R.id.MainFragment)
                 } else {
-                    Toast.makeText(requireContext(), "로그인 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "아이디와 비밀번호가 잘못되었습니다", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
 

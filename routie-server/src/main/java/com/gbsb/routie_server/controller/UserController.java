@@ -1,13 +1,11 @@
 package com.gbsb.routie_server.controller;
 
-import com.gbsb.routie_server.dto.SignupRequestDto;
-import com.gbsb.routie_server.dto.LoginResponseDto;
-import com.gbsb.routie_server.dto.LoginRequestDto;
-import com.gbsb.routie_server.dto.UpdateUserRequestDto;
+import com.gbsb.routie_server.dto.*;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // 회원가입 DTO추가
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody SignupRequestDto signupDto) {
         try {
@@ -40,7 +38,6 @@ public class UserController {
 
             userService.createUser(newUser);
 
-            // JSON 응답 반환
             Map<String, String> response = new HashMap<>();
             response.put("message", "회원가입 성공");
             return ResponseEntity.ok(response);
@@ -51,8 +48,7 @@ public class UserController {
         }
     }
 
-
-    // 로그인 DTO추가
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequestDto loginDto) {
         try {
@@ -72,7 +68,7 @@ public class UserController {
         }
     }
 
-    // 사용자 정보 수정
+    // 사용자 정보 변경
     @PutMapping("/users/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody UpdateUserRequestDto updateDto) {
         try {
@@ -80,7 +76,6 @@ public class UserController {
                     .email(updateDto.getEmail())
                     .name(updateDto.getName())
                     .age(updateDto.getAge() != null ? updateDto.getAge() : 0)
-                    .password(updateDto.getPassword())
                     .height(updateDto.getHeight())
                     .weight(updateDto.getWeight())
                     .build());
@@ -88,6 +83,19 @@ public class UserController {
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("사용자 정보 수정 실패: " + e.getMessage());
+        }
+    }
+
+    // 비밀번호 변경
+    @PutMapping("/users/{userId}/password")
+    public ResponseEntity<?> changePassword(
+            @PathVariable String userId,
+            @RequestBody PasswordUpdateRequestDto dto) {
+        try {
+            userService.updatePassword(userId, dto.getCurrentPassword(), dto.getNewPassword());
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("비밀번호 변경 실패: " + e.getMessage());
         }
     }
 
@@ -101,5 +109,4 @@ public class UserController {
             return ResponseEntity.badRequest().body("사용자 삭제 실패: " + e.getMessage());
         }
     }
-
 }
