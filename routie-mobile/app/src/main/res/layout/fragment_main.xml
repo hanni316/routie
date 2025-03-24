@@ -104,12 +104,27 @@
                     android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/img_datefield"
-                android:layout_width="354dp"
-                android:layout_height="67dp"
+            <!-- 날짜 이미지와 텍스트를 겹치기 위한 FrameLayout -->
+            <FrameLayout
+                android:id="@+id/dateFieldContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/rectangle" />
+                android:layout_marginTop="8dp">
+
+                <ImageView
+                    android:id="@+id/img_datefield"
+                    android:layout_width="354dp"
+                    android:layout_height="67dp"
+                    app:srcCompat="@drawable/rectangle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerWeekDays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="16dp" />
+            </FrameLayout>
         </LinearLayout>
 
         <!-- 스케치북 레이아웃 -->
@@ -132,11 +147,11 @@
                     android:id="@+id/img_sketchbook_staricon"
                     android:layout_width="80dp"
                     android:layout_height="74dp"
-                    android:translationX="40dp"
-                    android:translationZ="1dp"
-                    android:scaleType="centerInside"
                     android:background="@null"
                     android:contentDescription="루틴 생성 버튼"
+                    android:scaleType="centerInside"
+                    android:translationX="40dp"
+                    android:translationZ="1dp"
                     app:srcCompat="@drawable/star" />
 
                 <ImageView
