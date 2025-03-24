@@ -52,7 +52,7 @@ class MakingroutineFragment : Fragment() {
         }
 
         // 루틴 저장 버튼 클릭 시 루틴 + 운동 함께 저장
-        binding.saveButton.setOnClickListener {
+        binding.createButton.setOnClickListener { // saveButton이 인식 안돼서 createButton으로 연결해 놓음
             createRoutineWithExercises()
         }
     }
