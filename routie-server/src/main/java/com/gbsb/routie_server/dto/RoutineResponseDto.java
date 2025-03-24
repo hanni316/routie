@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 @Getter
 public class RoutineResponseDto {
-    @JsonIgnore
     private Long id;
     private String name;
     private String description;

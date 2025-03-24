@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.FragmentMakingroutineBinding
 import com.gbsb.routiemobile.dto.Exercise
 import com.gbsb.routiemobile.dto.ExerciseRequest
@@ -52,7 +54,7 @@ class MakingroutineFragment : Fragment() {
         }
 
         // 루틴 저장 버튼 클릭 시 루틴 + 운동 함께 저장
-        binding.createButton.setOnClickListener { // saveButton이 인식 안돼서 createButton으로 연결해 놓음
+        binding.createButton.setOnClickListener {
             createRoutineWithExercises()
         }
     }
@@ -166,6 +168,7 @@ class MakingroutineFragment : Fragment() {
                 override fun onResponse(call: Call<Routine>, response: Response<Routine>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "루틴이 성공적으로 저장되었습니다!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.RoutineFragment)
                     } else {
                         Toast.makeText(requireContext(), "루틴 저장 실패", Toast.LENGTH_SHORT).show()
                     }

@@ -82,7 +82,7 @@ class MainFragment : Fragment() {
         }
 
         binding.imgSketchbookStaricon.setOnClickListener {
-            findNavController().navigate(R.id.MakingroutineFragment)
+            findNavController().navigate(R.id.RoutineFragment)
         }
 
         binding.btnShop.setOnClickListener {
