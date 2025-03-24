@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    app:cardCornerRadius="16dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#F5F1EB"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp">
+
+        <!-- 루틴 이름 (실제 앱 실행 시 어댑터에서 교체) -->
+        <TextView
+            android:id="@+id/tvRoutineName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="근력 운동 루틴"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+
+            android:fontFamily="@font/ownglyp" />
+
+        <!-- 삭제 버튼 -->
+        <TextView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:textSize="15sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:layout_gravity="center_vertical"
+
+            android:fontFamily="@font/ownglyp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

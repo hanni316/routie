@@ -19,8 +19,8 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_MainFragment_to_MakingroutineFragment"
-            app:destination="@id/MakingroutineFragment" />
+            android:id="@+id/action_MainFragment_to_routineFragment"
+            app:destination="@id/RoutineFragment" />
         <action
             android:id="@+id/action_MainFragment_to_StoreFragment"
             app:destination="@id/StoreFragment" />
@@ -100,6 +100,16 @@
             app:destination="@id/MainFragment" />
     </fragment>
 
+    <!-- 2) 루틴 목록 프래그먼트 -->
+    <fragment
+        android:id="@+id/RoutineFragment"
+        android:name="com.gbsb.routiemobile.fragment.RoutineFragment"
+        android:label="fragment_routine"
+        tools:layout="@layout/fragment_routine" >
+        <action
+            android:id="@+id/action_routineFragment_to_makingroutineFragment"
+            app:destination="@id/MakingroutineFragment" />
+    </fragment>
     <!--루틴생성 프래그먼트-->
     <fragment
         android:id="@+id/MakingroutineFragment"
@@ -107,8 +117,8 @@
         android:label="fragment_makingroutine"
         tools:layout="@layout/fragment_makingroutine" >
         <action
-            android:id="@+id/action_MakingroutineFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            android:id="@+id/action_MakingroutineFragment_to_routineFragment"
+            app:destination="@id/RoutineFragment" />
     </fragment>
 
 </navigation>
