@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F1EB"
+    tools:context=".fragment.AlarmFragment">
+
+
+    <LinearLayout
+        android:id="@+id/TitleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:gravity="center_horizontal|left"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <ImageView
+                android:id="@+id/img_title"
+                android:layout_width="95dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/routie_" />
+
+            <LinearLayout
+                android:layout_width="161dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"></LinearLayout>
+
+            <Button
+                android:id="@+id/createRoutineButton"
+                android:layout_width="143dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/ownglyp"
+                android:text="루틴 생성 +"
+                android:textColor="#453536"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="839dp"
+            android:orientation="vertical"></LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

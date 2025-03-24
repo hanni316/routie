@@ -23,14 +23,15 @@
 
 
     <ImageButton
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="296dp"
+        android:id="@+id/create_button"
+        android:layout_width="70dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="308dp"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:src="@drawable/save_button"
-        android:contentDescription="저장 버튼"
+        android:contentDescription="생성 버튼"
+        android:scaleType="fitCenter"
+        android:src="@drawable/create_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
