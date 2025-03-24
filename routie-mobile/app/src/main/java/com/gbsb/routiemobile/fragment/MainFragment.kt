@@ -24,6 +24,9 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private var selectedDate: LocalDate = LocalDate.now()
 
+    // ✅ 어댑터를 전역 변수로 유지
+    private lateinit var weekDayAdapter: WeekDayAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,16 +45,25 @@ class MainFragment : Fragment() {
 
         binding.txtNowdate.text = "$year 년 $month 월"
 
-        val btnSelectDate = binding.btnSelectdate
-        btnSelectDate.setOnClickListener {
+        // ✅ 어댑터 초기화
+        weekDayAdapter = WeekDayAdapter(emptyList()) { newlySelectedDate ->
+            selectedDate = newlySelectedDate
+            showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+            Log.d("DATE_SELECT", "선택된 날짜: $selectedDate")
+        }
+
+        binding.recyclerWeekDays.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = weekDayAdapter
+        }
+
+        binding.btnSelectdate.setOnClickListener {
             val dialog = DatePickerDialog(requireContext(), { _, y, m, d ->
                 binding.txtNowdate.text = "$y 년 ${m + 1} 월"
-
                 val cal = Calendar.getInstance()
                 cal.set(y, m, d)
                 selectedDate = LocalDate.of(y, m + 1, d)
-
-                showWeekDayButtons(getStartOfWeek(selectedDate))
+                showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
             }, year, month - 1, day)
 
             val dayPickerId = resources.getIdentifier("day", "id", "android")
@@ -77,32 +89,26 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.StoreFragment)
         }
 
-        // 최초 주간 버튼 생성
-        showWeekDayButtons(getStartOfWeek(selectedDate))
+        // 초기 주간 버튼 표시
+        showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
     }
 
     private fun getStartOfWeek(date: LocalDate): LocalDate {
         return date.with(DayOfWeek.MONDAY)
     }
 
-    private fun showWeekDayButtons(startOfWeek: LocalDate) {
+    private fun showWeekDayButtons(startOfWeek: LocalDate, selected: LocalDate) {
         val weekDays = (0..6).map { offset ->
             val date = startOfWeek.plusDays(offset.toLong())
             WeekDay(
                 date = date,
                 dayOfWeek = date.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, Locale.KOREAN),
-                isSelected = offset == 0
+                isSelected = date == selected
             )
         }
 
-        val adapter = WeekDayAdapter(weekDays) { selectedDate ->
-            Log.d("DATE_SELECT", "선택된 날짜: $selectedDate")
-            // 여기에 운동 기록/계획 조회 연결
-        }
-
-        binding.recyclerWeekDays.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerWeekDays.adapter = adapter
+        // 어댑터에 데이터 갱신
+        weekDayAdapter.updateDays(weekDays, selected)
     }
 
     override fun onDestroyView() {
