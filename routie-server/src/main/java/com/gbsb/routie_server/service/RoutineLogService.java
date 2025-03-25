@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,19 @@ public class RoutineLogService {
         this.routineLogRepository = routineLogRepository;
         this.objectMapper = objectMapper;
     }
+
+    public List<RoutineLog> getLogsByDate(String userId, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay(); // 2025-03-25 00:00:00
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 2025-03-25 23:59:59.999999999
+
+        System.out.println("Start: " + startOfDay);
+        System.out.println("End: " + endOfDay);
+        System.out.println("UserId: " + userId);
+
+        return routineLogRepository.findByUserIdAndDate(userId, date);
+    }
+
+
 
     public RoutineLog completeRoutine(RoutineLogRequestDto requestDto, User user) {
         Routine routine = routineRepository.findById(requestDto.getRoutineId())

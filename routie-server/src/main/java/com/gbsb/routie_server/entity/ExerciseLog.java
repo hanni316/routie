@@ -17,7 +17,7 @@ public class ExerciseLog {
     private Long id;  // 고유 ID
 
     // 이 운동 로그가 속한 루틴 실행 로그
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "routine_log_id", nullable = false)
     private RoutineLog routineLog;
 

@@ -23,6 +23,9 @@ public class RoutineLogDto {
     private String routineSnapshot;            // 완료 시점의 루틴 구성 스냅샷 (JSON 문자열)
 
     public RoutineLogDto(RoutineLog log) {
+        this.totalCaloriesBurned = log.getTotalCaloriesBurned();
+        this.totalDuration = log.getTotalDuration();
+
         this.exerciseLogs = log.getExerciseLogs().stream()
                 .map(el -> {
                     ExerciseLogDto dto = new ExerciseLogDto();
