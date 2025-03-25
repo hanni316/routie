@@ -1,60 +1,111 @@
 package com.gbsb.routiemobile.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
+import com.gbsb.routiemobile.dto.RoutineResponse
+import com.gbsb.routiemobile.dto.RoutineUpdateRequest
+import com.gbsb.routiemobile.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ModifyroutineFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ModifyroutineFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var routineId: Long = 0L
+
+    private lateinit var routineNameEditText: EditText
+    private lateinit var descriptionEditText: EditText
+    private lateinit var saveButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        routineId = arguments?.getLong("routineId") ?: 0L
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_modifyroutine, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Modifyroutine.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ModifyroutineFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // UI 요소 초기화
+        routineNameEditText = view.findViewById(R.id.routineNameEditText)
+        descriptionEditText = view.findViewById(R.id.descriptionEditText)
+        saveButton = view.findViewById(R.id.save_button)
+
+        // 서버에서 루틴 상세 정보를 불러와 EditText에 세팅
+        loadRoutineDetail()
+
+        // 저장 버튼 클릭 시 수정 API 호출
+        saveButton.setOnClickListener {
+            updateRoutine()
+        }
+    }
+
+    // 루틴 상세 정보(루틴 이름, 루틴 설명)
+    private fun loadRoutineDetail() {
+        RetrofitClient.routineApi.getRoutineDetail(routineId.toString())
+            .enqueue(object : Callback<RoutineResponse> {
+                override fun onResponse(call: Call<RoutineResponse>, response: Response<RoutineResponse>) {
+                    if (response.isSuccessful) {
+                        val routine = response.body()
+                        if (routine != null) {
+                            routineNameEditText.setText(routine.name)
+                            descriptionEditText.setText(routine.description)
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "루틴 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
+                override fun onFailure(call: Call<RoutineResponse>, t: Throwable) {
+                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+    //루틴 이름, 루틴 설명 수정
+    private fun updateRoutine() {
+        val newName = routineNameEditText.text.toString().trim()
+        val newDescription = descriptionEditText.text.toString().trim()
+
+
+        if (newName.isEmpty()) {
+            Toast.makeText(requireContext(), "루틴 이름을 입력하세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val routineUpdateRequest = RoutineUpdateRequest(
+            name = newName,
+            description = newDescription
+        )
+        //운동 추가, 삭제 추가예정
+
+        RetrofitClient.routineApi.updateRoutine(routineId.toString(), routineUpdateRequest)
+            .enqueue(object : Callback<RoutineResponse> {
+                override fun onResponse(call: Call<RoutineResponse>, response: Response<RoutineResponse>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "루틴이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                        // 수정 성공 시 이전 화면으로 돌아갑니다.
+                        findNavController().popBackStack()
+                    } else {
+                        Toast.makeText(requireContext(), "루틴 수정 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<RoutineResponse>, t: Throwable) {
+                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 }

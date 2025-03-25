@@ -64,15 +64,18 @@ public class RoutineService {
 
     // 운동 루틴 수정
     @Transactional
-    public Routine updateRoutine(Long routineId, RoutineRequestDto dto) {
+    public Routine updateRoutine(Long routineId, RoutineUpdateRequestDto dto) {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new IllegalArgumentException("루틴을 찾을 수 없습니다."));
-
         routine.setName(dto.getName());
         routine.setDescription(dto.getDescription());
-
         return routineRepository.save(routine);
     }
+
+    public Routine getRoutine(Long routineId) {
+        return routineRepository.findById(routineId).orElse(null);
+    }
+
 
     // 운동 루틴 삭제
     @Transactional
