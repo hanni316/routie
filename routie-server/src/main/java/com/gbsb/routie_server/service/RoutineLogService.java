@@ -31,13 +31,6 @@ public class RoutineLogService {
     }
 
     public List<RoutineLog> getLogsByDate(String userId, LocalDate date) {
-        LocalDateTime startOfDay = date.atStartOfDay(); // 2025-03-25 00:00:00
-        LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 2025-03-25 23:59:59.999999999
-
-        System.out.println("Start: " + startOfDay);
-        System.out.println("End: " + endOfDay);
-        System.out.println("UserId: " + userId);
-
         return routineLogRepository.findByUserIdAndDate(userId, date);
     }
 
