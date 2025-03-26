@@ -10,7 +10,8 @@ import com.gbsb.routiemobile.dto.Routine
 
 class RoutineAdapter(
     private val routineList: MutableList<Routine>,
-    private val onDeleteClick: (Routine) -> Unit
+    private val onDeleteClick: (Routine) -> Unit,
+    private val onItemClick: (Routine) -> Unit
 ) : RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>() {
 
     inner class RoutineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,11 +28,13 @@ class RoutineAdapter(
     override fun onBindViewHolder(holder: RoutineViewHolder, position: Int) {
         val routine = routineList[position]
 
-        // routine_item.xml에 있는 TextView/버튼에 데이터 세팅
         holder.tvRoutineName.text = routine.name
+
         holder.btnDelete.setOnClickListener {
-            // 삭제 로직 (서버 호출/목록에서 제거 등) 콜백으로 넘김
             onDeleteClick(routine)
+        }
+        holder.itemView.setOnClickListener {
+            onItemClick(routine)
         }
     }
 

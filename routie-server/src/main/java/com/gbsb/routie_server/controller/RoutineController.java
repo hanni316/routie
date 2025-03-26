@@ -2,6 +2,7 @@ package com.gbsb.routie_server.controller;
 
 import com.gbsb.routie_server.dto.RoutineRequestDto;
 import com.gbsb.routie_server.dto.RoutineResponseDto;
+import com.gbsb.routie_server.dto.RoutineUpdateRequestDto;
 import com.gbsb.routie_server.entity.Routine;
 import com.gbsb.routie_server.service.RoutineService;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +38,20 @@ public class RoutineController {
         return ResponseEntity.ok(list);
     }
 
+    // 단일 루틴의 전체 정보
+    @GetMapping("/detail/{routineId}")
+    public ResponseEntity<RoutineResponseDto> getRoutineDetail(@PathVariable Long routineId) {
+        Routine routine = routineService.getRoutine(routineId);
+        if (routine == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new RoutineResponseDto(routine));
+    }
     // 루틴 수정(루틴 이름, 루틴 설명만)
     @PutMapping("/{routineId}")
     public ResponseEntity<RoutineResponseDto> updateRoutine(
             @PathVariable Long routineId,
-            @RequestBody RoutineRequestDto dto) {
+            @RequestBody RoutineUpdateRequestDto dto) {
 
         Routine updated = routineService.updateRoutine(routineId, dto);
         return ResponseEntity.ok(new RoutineResponseDto(updated));

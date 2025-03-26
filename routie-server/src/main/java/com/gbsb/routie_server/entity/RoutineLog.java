@@ -41,7 +41,7 @@ public class RoutineLog {
     private int totalDuration;
 
     // 각 운동별 실제 수행 로그 목록
-    @OneToMany(mappedBy = "routineLog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "routineLog", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ExerciseLog> exerciseLogs;
 
     // 완료 시점의 루틴 구성 스냅샷 (JSON 문자열로 저장)
