@@ -91,6 +91,36 @@ class MainFragment : Fragment() {
 
         // 초기 주간 버튼 표시
         showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
+        val samsungHealthManager = com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
+
+        samsungHealthManager.fetchStepsAndCalories(
+            onResult = { steps, calories ->
+                Log.d("MainFragment", "걸음수: $steps, 칼로리: $calories")
+
+                val request = com.gbsb.routiemobile.dto.HealthDataDto(steps, calories)
+
+                // 서버 전송 (userId 없이)
+                com.gbsb.routiemobile.network.RetrofitClient.healthApi
+                    .sendHealthData(request)
+                    .enqueue(object : retrofit2.Callback<Void> {
+                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                            if (response.isSuccessful) {
+                                Log.d("MainFragment", "헬스 데이터 전송 성공")
+                            } else {
+                                Log.e("MainFragment", "헬스 데이터 전송 실패: ${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                            Log.e("MainFragment", "헬스 데이터 전송 오류: ${t.message}")
+                        }
+                    })
+            },
+            onError = { error ->
+                Log.e("MainFragment", "Samsung Health 오류: $error")
+            }
+        )
     }
 
     private fun getStartOfWeek(date: LocalDate): LocalDate {

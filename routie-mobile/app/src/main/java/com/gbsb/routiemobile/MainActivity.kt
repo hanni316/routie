@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             )
             insets
         }
+
+
     }
     private fun checkLoginState() { //PreferenxeManager -> getSharedPreferences로 변경
         val sharedPreferences = getSharedPreferences("app_prefs", 0)
