@@ -1,11 +1,13 @@
 package com.gbsb.routiemobile.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,6 @@ import com.google.android.material.button.MaterialButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.util.Log
 
 class RoutineFragment : Fragment() {
 
@@ -45,10 +46,17 @@ class RoutineFragment : Fragment() {
 
         // RecyclerView 설정
         val recyclerRoutine: RecyclerView = view.findViewById(R.id.recyclerRoutine)
-        // 삭제 버튼 클릭 시, 바로 삭제하지 않고 확인 다이얼로그를 띄웁니다.
-        routineAdapter = RoutineAdapter(routineList) { routine ->
-            showDeleteConfirmationDialog(routine)
-        }
+        routineAdapter = RoutineAdapter(
+            routineList,
+            onDeleteClick = { routine ->
+                // 삭제 확인 다이얼로그
+                showDeleteConfirmationDialog(routine)
+            },
+            onItemClick = { routine ->
+                // 아이템 전체를 클릭하면 수정 화면으로 이동
+                goToModifyRoutine(routine)
+            }
+        )
         recyclerRoutine.layoutManager = LinearLayoutManager(requireContext())
         recyclerRoutine.adapter = routineAdapter
 
@@ -59,7 +67,6 @@ class RoutineFragment : Fragment() {
     }
 
     private fun loadUserRoutines() {
-        // SharedPreferences에서 userId를 가져옴
         val sharedPref = requireContext().getSharedPreferences("app_prefs", 0)
         val userId = sharedPref.getString("userId", null)
         if (userId.isNullOrEmpty()) {
@@ -89,7 +96,15 @@ class RoutineFragment : Fragment() {
         })
     }
 
-    // 삭제 확인 함수
+    // 아이템 클릭 시 루틴 수정 화면으로 이동
+    private fun goToModifyRoutine(routine: Routine) {
+        // 예) Safe Args 없이 Bundle로 넘기는 경우
+        val bundle = bundleOf("routineId" to routine.id)
+        findNavController().navigate(R.id.action_routineFragment_to_modifyRoutineFragment, bundle)
+
+    }
+
+    // 삭제 확인 다이얼로그
     private fun showDeleteConfirmationDialog(routine: Routine) {
         AlertDialog.Builder(requireContext())
             .setTitle("")

@@ -109,7 +109,11 @@
         <action
             android:id="@+id/action_routineFragment_to_makingroutineFragment"
             app:destination="@id/MakingroutineFragment" />
+        <action
+            android:id="@+id/action_routineFragment_to_modifyRoutineFragment"
+            app:destination="@id/ModifyRoutineFragment" />
     </fragment>
+
     <!--루틴생성 프래그먼트-->
     <fragment
         android:id="@+id/MakingroutineFragment"
@@ -120,5 +124,16 @@
             android:id="@+id/action_MakingroutineFragment_to_routineFragment"
             app:destination="@id/RoutineFragment" />
     </fragment>
+
+    <!--루틴수정 프래그먼트-->
+    <fragment
+        android:id="@+id/ModifyRoutineFragment"
+        android:name="com.gbsb.routiemobile.fragment.ModifyroutineFragment"
+        android:label="fragment_modifyroutine"
+        tools:layout="@layout/fragment_modifyroutine" />
+        <action
+            android:id="@+id/action_ModifyroutineFragment_to_routineFragment"
+            app:destination="@id/RoutineFragment" />
+
 
 </navigation>
