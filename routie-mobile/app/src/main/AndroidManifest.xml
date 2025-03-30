@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.samsung.android.health.permission.READ_STEP_COUNT_DATA" />
+    <uses-permission android:name="com.samsung.android.health.permission.READ_CALORIE_DATA" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.samsung.android.health.permission.SDK_VERSION"
+            android:value="1.5.1" />
 
         <activity
             android:name=".MainActivity"

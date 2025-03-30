@@ -49,6 +49,9 @@ android {
 repositories {
     google()  //Google 저장소 추가
     mavenCentral()  //Maven 중앙 저장소 추가
+    flatDir {
+        dirs("libs")
+    }
 }
 
 val nav_version = "2.8.9"
@@ -84,5 +87,5 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:$nav_version")
 
     //삼성 SDK
-    implementation (files("libs/samsung-health-data-1.5.1.aar"))
+    implementation(mapOf("name" to "samsung-health-data-1.5.1", "ext" to "aar"))
 }
