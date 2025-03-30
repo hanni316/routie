@@ -3,6 +3,7 @@ package com.gbsb.routiemobile.network
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.api.RoutineApiService
 import com.gbsb.routiemobile.api.ExerciseApiService
+import com.gbsb.routiemobile.api.RoutineLogApi
 import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
@@ -43,6 +44,8 @@ object RetrofitClient {
     val exerciseApi: ExerciseApiService by lazy {
         retrofit.create(ExerciseApiService::class.java)
     }
+
+    val routineLogApi: RoutineLogApi = retrofit.create(RoutineLogApi::class.java)
 
     // 🛠 Mock API: 서버 없이 개발할 수 있도록 가짜 데이터 제공
     private val mockInstance: RewardApiService = object : RewardApiService {
