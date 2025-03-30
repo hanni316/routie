@@ -1,6 +1,7 @@
 package com.gbsb.routiemobile.fragment
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.R
+import com.gbsb.routiemobile.adapter.RoutineLogAdapter
 import com.gbsb.routiemobile.adapter.WeekDayAdapter
 import com.gbsb.routiemobile.databinding.FragmentMainBinding
+import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
+import com.gbsb.routiemobile.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.*
@@ -36,6 +43,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         val calendar = Calendar.getInstance()
@@ -45,11 +53,15 @@ class MainFragment : Fragment() {
 
         binding.txtNowdate.text = "$year 년 $month 월"
 
-        // ✅ 어댑터 초기화
+        // 날짜 선택 시 루틴 로그 조회
         weekDayAdapter = WeekDayAdapter(emptyList()) { newlySelectedDate ->
             selectedDate = newlySelectedDate
             showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
-            Log.d("DATE_SELECT", "선택된 날짜: $selectedDate")
+
+            val userId = getUserIdFromPrefs()
+            userId?.let {
+                fetchRoutineLogs(it, selectedDate.toString())
+            }
         }
 
         binding.recyclerWeekDays.apply {
@@ -64,6 +76,11 @@ class MainFragment : Fragment() {
                 cal.set(y, m, d)
                 selectedDate = LocalDate.of(y, m + 1, d)
                 showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
+                val userId = getUserIdFromPrefs()
+                userId?.let {
+                    fetchRoutineLogs(it, selectedDate.toString())
+                }
             }, year, month - 1, day)
 
             val dayPickerId = resources.getIdentifier("day", "id", "android")
@@ -89,8 +106,13 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.StoreFragment)
         }
 
-        // 초기 주간 버튼 표시
+        // 초기 표시
         showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
+        // 앱 처음 진입 시 오늘 날짜 기준 루틴 로그 표시
+        getUserIdFromPrefs()?.let {
+            fetchRoutineLogs(it, selectedDate.toString())
+        }
 
         val samsungHealthManager = com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
 
@@ -137,8 +159,42 @@ class MainFragment : Fragment() {
             )
         }
 
-        // 어댑터에 데이터 갱신
         weekDayAdapter.updateDays(weekDays, selected)
+    }
+
+    private fun fetchRoutineLogs(userId: String, date: String) {
+        RetrofitClient.routineLogApi.getRoutineLogsByDate(userId, date)
+            .enqueue(object : Callback<List<RoutineLog>> {
+                override fun onResponse(
+                    call: Call<List<RoutineLog>>,
+                    response: Response<List<RoutineLog>>
+                ) {
+                    if (response.isSuccessful) {
+                        val logs = response.body() ?: emptyList()
+
+                        Log.d("RoutineLog", "받아온 로그 개수: ${logs.size}")
+                        logs.forEachIndexed { index, log ->
+                            Log.d("RoutineLog", "[$index] 총 ${log.exerciseLogs.size}개 운동 포함됨")
+                        }
+
+                        val logAdapter = RoutineLogAdapter(logs)
+                        binding.recyclerRoutineLogs.layoutManager = LinearLayoutManager(requireContext())
+                        binding.recyclerRoutineLogs.adapter = logAdapter
+                    } else {
+                        Log.e("RoutineLog", "응답 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<List<RoutineLog>>, t: Throwable) {
+                    Log.e("RoutineLog", "API 호출 실패: ${t.message}")
+                }
+            })
+    }
+
+    private fun getUserIdFromPrefs(): String? {
+        val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        return prefs.getString("userId", null)
+
     }
 
     override fun onDestroyView() {

@@ -4,6 +4,7 @@ import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.api.RoutineApiService
 import com.gbsb.routiemobile.api.ExerciseApiService
 import com.gbsb.routiemobile.api.HealthdataApi
+import com.gbsb.routiemobile.api.RoutineLogApi
 import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
@@ -44,6 +45,8 @@ object RetrofitClient {
     val exerciseApi: ExerciseApiService by lazy {
         retrofit.create(ExerciseApiService::class.java)
     }
+
+    val routineLogApi: RoutineLogApi = retrofit.create(RoutineLogApi::class.java)
 
     val healthApi: HealthdataApi by lazy {
         retrofit.create(HealthdataApi::class.java)
