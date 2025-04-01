@@ -27,10 +27,12 @@ public class ExerciseLog {
     private Exercise exercise;
 
     // 실제 운동 수행 시간(초)
+    @Builder.Default
     @Column(nullable = false)
-    private int duration;
+    private int duration = 0;
 
     // 실제 소모된 칼로리 값
+    @Builder.Default
     @Column(nullable = false)
-    private double caloriesBurned;
+    private double caloriesBurned = 0;
 }

@@ -6,9 +6,11 @@ import com.gbsb.routie_server.dto.RoutineUpdateRequestDto;
 import com.gbsb.routie_server.entity.Routine;
 import com.gbsb.routie_server.service.RoutineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,16 @@ public class RoutineController {
         }
         return ResponseEntity.ok(new RoutineResponseDto(routine));
     }
+
+    @GetMapping
+    public List<Routine> getRoutinesByDate(
+            @RequestParam String userId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        LocalDate targetDate = (date != null) ? date : LocalDate.now(); // date 없으면 오늘로
+        return routineService.getRoutinesByDate(userId, targetDate);
+    }
+
     // 루틴 수정(루틴 이름, 루틴 설명만)
     @PutMapping("/{routineId}")
     public ResponseEntity<RoutineResponseDto> updateRoutine(
