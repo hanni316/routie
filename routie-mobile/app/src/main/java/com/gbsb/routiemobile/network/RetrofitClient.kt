@@ -15,9 +15,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.45.132:8080/"
+    private const val BASE_URL = "http://10.0.2.2:8080/"
     // 실제 서버 주소 http://192.168.45.132:8080/
     //http://172.30.1.75:8080/
     // 에뮬레이터에서 실행 "http://10.0.2.2:8080/"
@@ -51,6 +52,7 @@ object RetrofitClient {
     val healthApi: HealthdataApi by lazy {
         retrofit.create(HealthdataApi::class.java)
     }
+
 
     // 🛠 Mock API: 서버 없이 개발할 수 있도록 가짜 데이터 제공
     private val mockInstance: RewardApiService = object : RewardApiService {

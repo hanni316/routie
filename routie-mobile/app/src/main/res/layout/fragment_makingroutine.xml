@@ -22,19 +22,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- 생성 버튼 -->
-    <ImageButton
-        android:id="@+id/create_button"
-        android:layout_width="70dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/create_button"
-        android:contentDescription="생성 버튼"
-        android:src="@drawable/create_button"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 루틴 이름 -->
+    <ImageButton
+        android:id="@+id/save_button"
+        android:layout_width="70dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="308dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:contentDescription="생성 버튼"
+        android:scaleType="fitCenter"
+        android:src="@drawable/create_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/routineNameEditText"
         android:layout_width="0dp"
@@ -44,8 +46,10 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/making_routine_box"
         android:hint="루틴이름을 입력하세요."
+        android:textColorHint="@color/hint_font_color"
         android:padding="12dp"
         android:textSize="16sp"
+        android:textColor="@color/font_color"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -60,8 +64,10 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/making_routine_box"
         android:hint="설명을 입력하세요."
+        android:textColorHint="@color/hint_font_color"
         android:padding="12dp"
         android:textSize="16sp"
+        android:textColor="@color/font_color"
         app:layout_constraintTop_toBottomOf="@id/routineNameEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -81,44 +87,44 @@
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/sundayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="일" android:textOff="일" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/mondayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="월" android:textOff="월" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/tuesdayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="화" android:textOff="화" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/wednesdayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="수" android:textOff="수" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/thursdayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="목" android:textOff="목" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/fridayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="금" android:textOff="금" />
 
         <ToggleButton android:fontFamily="@font/ownglyp" android:id="@+id/saturdayButton"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:layout_marginHorizontal="4dp" android:background="#F6D6D6"
-            android:textColor="#000000" android:textSize="15sp"
+            android:layout_marginHorizontal="4dp" android:background="@drawable/weekend_button"
+            android:textColor="@color/font_color" android:textSize="18sp"
             android:textOn="토" android:textOff="토" />
     </LinearLayout>
 

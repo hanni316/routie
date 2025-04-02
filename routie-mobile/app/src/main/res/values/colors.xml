@@ -5,4 +5,7 @@
     <color name="background_color">#F5F1EB</color>
     <color name="font_color">#453536</color>
     <color name="routine_box">#FFF4EF</color>
+    <color name="hint_font_color">#7B6466</color>
+    <color name="button_unchecked_color">#D2A692</color>
+    <color name="button_checked_color">#C58E7B</color>
 </resources>

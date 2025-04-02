@@ -57,6 +57,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-wearable:19.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+
     // ✅ 최신 Compose BOM 유지
     implementation(platform("androidx.compose:compose-bom:2025.02.00"))
     implementation("androidx.compose.ui:ui")
@@ -70,6 +73,11 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.wear.compose:compose-navigation:1.2.0")  // ✅ Wear OS 네비게이션 추가
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 
     //Accompanist 테마 어댑터 유지 (Material 3)
     implementation("com.google.accompanist:accompanist-themeadapter-material3:0.31.1-alpha")
