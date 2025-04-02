@@ -2,6 +2,8 @@ package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.entity.*;
 import com.gbsb.routie_server.repository.*;
+import com.gbsb.routie_server.dto.ExerciseResponseDto;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +32,29 @@ public class RoutineExerciseService {
         return routineExerciseRepository.save(routineExercise);
     }
 
-    // 특정 루틴의 운동 목록 조회
+    /*// 특정 루틴의 운동 목록 조회
     public List<RoutineExercise> getExercisesByRoutine(Long routineId) {
         return routineExerciseRepository.findByRoutine_Id(routineId);
+    }*/
+
+    public List<ExerciseResponseDto> getExercisesByRoutine(Long routineId) {
+        return routineExerciseRepository.findByRoutine_Id(routineId).stream()
+                .map(re -> new ExerciseResponseDto(
+                        re.getId(),
+                        re.getExercise().getName()
+                ))
+                .collect(Collectors.toList());
     }
+
 
     // 루틴 내 특정 운동 삭제
     @Transactional
     public void removeExerciseFromRoutine(Long routineExerciseId) {
         RoutineExercise routineExercise = routineExerciseRepository.findById(routineExerciseId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 운동을 찾을 수 없습니다."));
+        Routine routine = routineExercise.getRoutine();
+        routine.getExercises().remove(routineExercise);
         routineExerciseRepository.delete(routineExercise);
+        routineExerciseRepository.flush();
     }
 }

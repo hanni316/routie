@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ExerciseResponseDto {
-    @JsonIgnore
     private Long routineExerciseId;
     private String exerciseName;
 }
