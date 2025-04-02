@@ -131,6 +131,16 @@ class MakingroutineFragment : Fragment() {
         val routineName = binding.routineNameEditText.text.toString().trim()
         val description = binding.descriptionEditText.text.toString().trim()
 
+        val selectedDays = mutableListOf<String>()
+
+        if (binding.sundayButton.isChecked) selectedDays.add("일")
+        if (binding.mondayButton.isChecked) selectedDays.add("월")
+        if (binding.tuesdayButton.isChecked) selectedDays.add("화")
+        if (binding.wednesdayButton.isChecked) selectedDays.add("수")
+        if (binding.thursdayButton.isChecked) selectedDays.add("목")
+        if (binding.fridayButton.isChecked) selectedDays.add("금")
+        if (binding.saturdayButton.isChecked) selectedDays.add("토")
+
         if (selectedExercises.isEmpty()) {
             Toast.makeText(requireContext(), "운동을 최소 1개 이상 추가해야 합니다.", Toast.LENGTH_SHORT).show()
             return
@@ -150,6 +160,7 @@ class MakingroutineFragment : Fragment() {
         val routineRequest = RoutineRequest(
             name = routineName,
             description = description,
+            days = selectedDays,
             exercises = exerciseRequestList
         )
 

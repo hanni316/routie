@@ -50,14 +50,14 @@ public class RoutineController {
         return ResponseEntity.ok(new RoutineResponseDto(routine));
     }
 
-    @GetMapping
+    /*@GetMapping
     public List<Routine> getRoutinesByDate(
             @RequestParam String userId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         LocalDate targetDate = (date != null) ? date : LocalDate.now(); // date 없으면 오늘로
         return routineService.getRoutinesByDate(userId, targetDate);
-    }
+    }*/
 
     // 루틴 수정(루틴 이름, 루틴 설명만)
     @PutMapping("/{routineId}")

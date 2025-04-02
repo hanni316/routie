@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class RoutineRequestDto {
     private String name;  // 루틴 이름
     private String description;  // 루틴 설명 (선택 사항)
+    private List<String> days;
     private List<ExerciseRequestDto> exercises;
-    private LocalDate scheduledDate; // 루틴 생성 날짜
+    /*private LocalDate scheduledDate; // 루틴 생성 날짜*/
 }

@@ -36,12 +36,13 @@ public class RoutineService {
         newRoutine.setName(routineRequestDto.getName());
         newRoutine.setDescription(routineRequestDto.getDescription());
         newRoutine.setUser(user);
+        newRoutine.setDays(routineRequestDto.getDays());
 
-        LocalDate scheduledDate = routineRequestDto.getScheduledDate() != null
+        /*LocalDate scheduledDate = routineRequestDto.getScheduledDate() != null
                 ? routineRequestDto.getScheduledDate()
                 : LocalDate.now();
         Date convertedDate = java.sql.Date.valueOf(scheduledDate);
-        newRoutine.setScheduledDate(convertedDate);
+        newRoutine.setScheduledDate(convertedDate);*/
 
         Routine savedRoutine = routineRepository.save(newRoutine);
 
@@ -70,10 +71,10 @@ public class RoutineService {
         return routineRepository.findByUser_UserId(userId);
     }
 
-    // 날짜로 루틴 조회
+    /*// 날짜로 루틴 조회
     public List<Routine> getRoutinesByDate(String userId, LocalDate date) {
         return routineRepository.findByUserUserIdAndScheduledDate(userId, date);
-    }
+    }*/
 
     // 운동 루틴 수정
     @Transactional
