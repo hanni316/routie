@@ -4,6 +4,7 @@ import com.gbsb.routiemobile.dto.Routine
 import com.gbsb.routiemobile.dto.RoutineRequest
 import com.gbsb.routiemobile.dto.RoutineResponse
 import com.gbsb.routiemobile.dto.RoutineUpdateRequest
+import com.gbsb.routiemobile.dto.ExerciseResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -17,7 +18,7 @@ interface RoutineApiService {
     @GET("/api/routines/{userId}")
     fun getUserRoutines(@Path("userId") userId: String): Call<List<Routine>>
 
-    // 운동 루틴 수정
+    // 운동 루틴 수정(루틴 이름, 루틴 설명 만)
     @PUT("api/routines/{routineId}")
     fun updateRoutine(
         @Path("routineId") routineId: String,
@@ -28,17 +29,17 @@ interface RoutineApiService {
     fun getRoutineDetail(@Path("routineId") routineId: String): Call<RoutineResponse>
 
     // 특정 루틴에 운동 추가
-    @POST("/api/routines/{routineId}/exercises/{exerciseId}")
+    @POST("/api/routine-exercises/{routineId}/exercises/{exerciseId}")
     fun addExerciseToRoutine(@Path("routineId") routineId: String,
-        @Path("exerciseId") exerciseId: String): Call<String>
+        @Path("exerciseId") exerciseId: String): Call<ExerciseResponse>
 
     // 특정 루틴의 운동 목록 조회
-    @GET("/api/routines/{routineId}/exercises")
-    fun getExercisesByRoutine(@Path("routineId") routineId: String): Call<List<String>>
+    @GET("api/routine-exercises/{routineId}/exercises")
+    fun getExercisesByRoutine(@Path("routineId") routineId: String): Call<List<ExerciseResponse>>
 
     // 특정 루틴에서 운동 삭제
-    @DELETE("/api/routines/exercises/{routineExerciseId}")
-    fun removeExerciseFromRoutine(@Path("routineExerciseId") routineExerciseId: String): Call<String>
+    @DELETE("api/routine-exercises/exercises/{routineExerciseId}")
+    fun removeExerciseFromRoutine(@Path("routineExerciseId") routineExerciseId: Long): Call<String>
 
     // 운동 루틴 삭제
     @DELETE("/api/routines/{routineId}")

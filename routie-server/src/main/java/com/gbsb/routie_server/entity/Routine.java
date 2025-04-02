@@ -31,12 +31,12 @@ public class Routine {
     @Column
     private String description;  // 루틴 설명
 
-    @Builder.Default
+    /*@Builder.Default
     @Column(name = "scheduled_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date scheduledDate = new Date();  // 루틴 날짜 (기본값은 오늘 날짜)
+    private Date scheduledDate = new Date();  // 루틴 날짜 (기본값은 오늘 날짜)*/
 
     // 루틴에 포함된 운동들
-    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<RoutineExercise> exercises = new ArrayList<>();
 }

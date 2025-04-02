@@ -2,10 +2,12 @@ package com.gbsb.routie_server.controller;
 
 import com.gbsb.routie_server.entity.RoutineExercise;
 import com.gbsb.routie_server.service.RoutineExerciseService;
+import com.gbsb.routie_server.dto.ExerciseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 @RestController
@@ -24,16 +26,22 @@ public class RoutineExerciseController {
     }
 
     // 특정 루틴의 운동 목록 조회
-    @GetMapping("/{routineId}/exercises")
+    /*@GetMapping("/{routineId}/exercises")
     public ResponseEntity<List<RoutineExercise>> getExercisesByRoutine(@PathVariable Long routineId) {
         List<RoutineExercise> exercises = routineExerciseService.getExercisesByRoutine(routineId);
         return ResponseEntity.ok(exercises);
+    }*/
+    @GetMapping("/{routineId}/exercises")
+    public ResponseEntity<List<ExerciseResponseDto>> getExercisesByRoutine(@PathVariable Long routineId) {
+        return ResponseEntity.ok(routineExerciseService.getExercisesByRoutine(routineId));
     }
 
     // 특정 루틴에서 운동 삭제
     @DeleteMapping("/exercises/{routineExerciseId}")
-    public ResponseEntity<String> removeExerciseFromRoutine(@PathVariable Long routineExerciseId) {
+    public ResponseEntity<Map<String, String>> removeExerciseFromRoutine(@PathVariable Long routineExerciseId) {
         routineExerciseService.removeExerciseFromRoutine(routineExerciseId);
-        return ResponseEntity.ok("운동이 루틴에서 삭제되었습니다.");
+        Map<String, String> result = new HashMap<>();
+        result.put("message", "운동이 루틴에서 삭제되었습니다.");
+        return ResponseEntity.ok(result);
     }
 }
