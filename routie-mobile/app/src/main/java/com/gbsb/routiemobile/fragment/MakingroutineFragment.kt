@@ -18,6 +18,7 @@ import com.gbsb.routiemobile.dto.Routine
 import com.gbsb.routiemobile.dto.RoutineRequest
 import com.gbsb.routiemobile.adapter.ExerciseAdapter
 import com.gbsb.routiemobile.network.RetrofitClient
+import android.graphics.Color
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +42,37 @@ class MakingroutineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // ✅ ToggleButton 선택 시 스타일 변경
+        val toggleButtons = listOf(
+            binding.sundayButton,
+            binding.mondayButton,
+            binding.tuesdayButton,
+            binding.wednesdayButton,
+            binding.thursdayButton,
+            binding.fridayButton,
+            binding.saturdayButton
+        )
+
+        for (button in toggleButtons) {
+            button.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    button.setBackgroundColor(Color.parseColor("#B08968"))  // 선택된 배경
+                    button.setTextColor(Color.WHITE)
+                } else {
+                    button.setBackgroundColor(Color.parseColor("#F6D6D6"))  // 기본 배경
+                    button.setTextColor(Color.BLACK)
+                }
+            }
+
+            // ✅ 초기화 시 상태 반영
+            if (button.isChecked) {
+                button.setBackgroundColor(Color.parseColor("#B08968"))
+                button.setTextColor(Color.WHITE)
+            } else {
+                button.setBackgroundColor(Color.parseColor("#F6D6D6"))
+                button.setTextColor(Color.BLACK)
+            }
+        }
         // RecyclerView 설정
         exerciseAdapter = ExerciseAdapter(selectedExercises)
         binding.routineRecyclerView.apply {
