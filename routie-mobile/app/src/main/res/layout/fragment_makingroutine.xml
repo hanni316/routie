@@ -25,7 +25,7 @@
 
     <!-- 루틴 이름 -->
     <ImageButton
-        android:id="@+id/save_button"
+        android:id="@+id/create_button"
         android:layout_width="70dp"
         android:layout_height="48dp"
         android:layout_marginStart="308dp"
