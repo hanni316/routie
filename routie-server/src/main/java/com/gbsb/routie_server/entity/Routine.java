@@ -36,6 +36,11 @@ public class Routine {
     @Temporal(TemporalType.DATE)
     private Date scheduledDate = new Date();  // 루틴 날짜 (기본값은 오늘 날짜)*/
 
+    @ElementCollection
+    @CollectionTable(name = "routine_days", joinColumns = @JoinColumn(name = "routine_id"))
+    @Column(name = "day")
+    private List<String> days;
+
     // 루틴에 포함된 운동들
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<RoutineExercise> exercises = new ArrayList<>();
