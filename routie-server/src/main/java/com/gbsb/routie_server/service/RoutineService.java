@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,12 +35,6 @@ public class RoutineService {
         newRoutine.setDescription(routineRequestDto.getDescription());
         newRoutine.setUser(user);
         newRoutine.setDays(routineRequestDto.getDays());
-
-        /*LocalDate scheduledDate = routineRequestDto.getScheduledDate() != null
-                ? routineRequestDto.getScheduledDate()
-                : LocalDate.now();
-        Date convertedDate = java.sql.Date.valueOf(scheduledDate);
-        newRoutine.setScheduledDate(convertedDate);*/
 
         Routine savedRoutine = routineRepository.save(newRoutine);
 
@@ -71,18 +63,21 @@ public class RoutineService {
         return routineRepository.findByUser_UserId(userId);
     }
 
-    /*// 날짜로 루틴 조회
-    public List<Routine> getRoutinesByDate(String userId, LocalDate date) {
-        return routineRepository.findByUserUserIdAndScheduledDate(userId, date);
-    }*/
-
     // 운동 루틴 수정
     @Transactional
     public Routine updateRoutine(Long routineId, RoutineUpdateRequestDto dto) {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new IllegalArgumentException("루틴을 찾을 수 없습니다."));
+
         routine.setName(dto.getName());
         routine.setDescription(dto.getDescription());
+
+        // 요일 수정 로직 추가
+        routine.getDays().clear();  // 기존 요일 제거
+        if (dto.getDays() != null && !dto.getDays().isEmpty()) {
+            routine.getDays().addAll(dto.getDays());
+        }
+
         return routineRepository.save(routine);
     }
 

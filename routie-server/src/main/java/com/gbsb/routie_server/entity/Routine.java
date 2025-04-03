@@ -31,11 +31,6 @@ public class Routine {
     @Column
     private String description;  // 루틴 설명
 
-    /*@Builder.Default
-    @Column(name = "scheduled_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date scheduledDate = new Date();  // 루틴 날짜 (기본값은 오늘 날짜)*/
-
     @ElementCollection
     @CollectionTable(name = "routine_days", joinColumns = @JoinColumn(name = "routine_id"))
     @Column(name = "day")
