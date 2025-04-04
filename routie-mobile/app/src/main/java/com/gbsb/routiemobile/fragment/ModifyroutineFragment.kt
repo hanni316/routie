@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,9 @@ class ModifyroutineFragment : Fragment() {
     private lateinit var saveButton: ImageButton
     private lateinit var addExerciseButton: ImageButton
 
+    private lateinit var dayButtons: Map<String, ToggleButton>
+    private val selectedDays = mutableListOf<String>()
+
     private lateinit var exerciseRecyclerView: RecyclerView
     private lateinit var exerciseAdapter: ExerciseResponseAdapter
     private val exerciseList = mutableListOf<ExerciseResponse>()
@@ -57,6 +61,16 @@ class ModifyroutineFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dayButtons = mapOf(
+            "일" to view.findViewById(R.id.sundayButton),
+            "월" to view.findViewById(R.id.mondayButton),
+            "화" to view.findViewById(R.id.tuesdayButton),
+            "수" to view.findViewById(R.id.wednesdayButton),
+            "목" to view.findViewById(R.id.thursdayButton),
+            "금" to view.findViewById(R.id.fridayButton),
+            "토" to view.findViewById(R.id.saturdayButton),
+        )
 
         routineNameEditText = view.findViewById(R.id.routineNameEditText)
         descriptionEditText = view.findViewById(R.id.descriptionEditText)
@@ -120,6 +134,10 @@ class ModifyroutineFragment : Fragment() {
                         response.body()?.let { routine ->
                             routineNameEditText.setText(routine.name)
                             descriptionEditText.setText(routine.description)
+
+                            selectedDays.clear()
+                            routine.days?.let { selectedDays.addAll(it) }
+                            updateDayToggleUI()
                         }
                     } else {
                         context?.let {
@@ -135,6 +153,21 @@ class ModifyroutineFragment : Fragment() {
             })
     }
 
+    private fun updateDayToggleUI() {
+        for ((day, button) in dayButtons) {
+            button.isChecked = selectedDays.contains(day)
+        }
+    }
+
+    private fun collectSelectedDays() {
+        selectedDays.clear()
+        for ((day, button) in dayButtons) {
+            if (button.isChecked) {
+                selectedDays.add(day)
+            }
+        }
+    }
+
     private fun updateRoutine() {
         val newName = routineNameEditText.text.toString().trim()
         val newDescription = descriptionEditText.text.toString().trim()
@@ -146,7 +179,9 @@ class ModifyroutineFragment : Fragment() {
             return
         }
 
-        val routineUpdateRequest = RoutineUpdateRequest(name = newName, description = newDescription)
+        collectSelectedDays()
+
+        val routineUpdateRequest = RoutineUpdateRequest(name = newName, description = newDescription, days = selectedDays)
 
         RetrofitClient.routineApi.updateRoutine(routineId.toString(), routineUpdateRequest)
             .enqueue(object : Callback<RoutineResponse> {
