@@ -15,4 +15,5 @@ public class RoutineRequestDto {
     private String description;  // 루틴 설명 (선택 사항)
     private List<String> days;
     private List<ExerciseRequestDto> exercises;
+    private LocalDate scheduledDate;
 }

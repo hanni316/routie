@@ -53,26 +53,6 @@ class MakingroutineFragment : Fragment() {
             binding.saturdayButton
         )
 
-        for (button in toggleButtons) {
-            button.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    button.setBackgroundColor(Color.parseColor("#B08968"))  // 선택된 배경
-                    button.setTextColor(Color.WHITE)
-                } else {
-                    button.setBackgroundColor(Color.parseColor("#F6D6D6"))  // 기본 배경
-                    button.setTextColor(Color.BLACK)
-                }
-            }
-
-            // ✅ 초기화 시 상태 반영
-            if (button.isChecked) {
-                button.setBackgroundColor(Color.parseColor("#B08968"))
-                button.setTextColor(Color.WHITE)
-            } else {
-                button.setBackgroundColor(Color.parseColor("#F6D6D6"))
-                button.setTextColor(Color.BLACK)
-            }
-        }
         // RecyclerView 설정
         exerciseAdapter = ExerciseAdapter(selectedExercises)
         binding.routineRecyclerView.apply {

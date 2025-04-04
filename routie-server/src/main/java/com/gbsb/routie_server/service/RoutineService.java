@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -55,12 +56,23 @@ public class RoutineService {
             savedRoutine.getExercises().add(routineExercise);
         }
 
+        if (routineRequestDto.getScheduledDate() != null) {
+            newRoutine.setScheduledDate(routineRequestDto.getScheduledDate());
+        } else {
+            newRoutine.setScheduledDate(LocalDate.now());
+        }
+
         return savedRoutine;
     }
 
     // 특정 사용자의 루틴 목록 조회
     public List<Routine> getUserRoutines(String userId) {
         return routineRepository.findByUser_UserId(userId);
+    }
+
+    // 특정 날짜 루틴 조회
+    public List<Routine> getRoutinesByDate(String userId, LocalDate date) {
+        return routineRepository.findByUserUserIdAndScheduledDate(userId, date);
     }
 
     // 운동 루틴 수정

@@ -7,13 +7,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.R
+import com.gbsb.routiemobile.adapter.RoutineAdapter
 import com.gbsb.routiemobile.adapter.RoutineLogAdapter
 import com.gbsb.routiemobile.adapter.WeekDayAdapter
 import com.gbsb.routiemobile.databinding.FragmentMainBinding
+import com.gbsb.routiemobile.dto.ExerciseResponse
+import com.gbsb.routiemobile.dto.Routine
 import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
 import com.gbsb.routiemobile.network.RetrofitClient
@@ -31,8 +36,8 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private var selectedDate: LocalDate = LocalDate.now()
 
-    // ✅ 어댑터를 전역 변수로 유지
     private lateinit var weekDayAdapter: WeekDayAdapter
+    private lateinit var exerciseNameTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +66,7 @@ class MainFragment : Fragment() {
             val userId = getUserIdFromPrefs()
             userId?.let {
                 fetchRoutineLogs(it, selectedDate.toString())
+                loadScheduledRoutines(it, selectedDate.toString())
             }
         }
 
@@ -86,6 +92,14 @@ class MainFragment : Fragment() {
             val dayPickerId = resources.getIdentifier("day", "id", "android")
             dialog.datePicker.findViewById<View>(dayPickerId)?.visibility = View.GONE
             dialog.show()
+        }
+
+        exerciseNameTextView = binding.tvExerciseNames
+
+        val userId = getUserIdFromPrefs()
+        userId?.let {
+            fetchRoutineLogs(it, selectedDate.toString())
+            loadScheduledRoutines(it, selectedDate.toString())
         }
 
         binding.btnBell.setOnClickListener {
@@ -195,6 +209,69 @@ class MainFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         return prefs.getString("userId", null)
 
+    }
+
+    private fun loadScheduledRoutines(userId: String, date: String) {
+        RetrofitClient.routineApi.getScheduledRoutines(userId, date)
+            .enqueue(object : Callback<List<Routine>> {
+                override fun onResponse(call: Call<List<Routine>>, response: Response<List<Routine>>) {
+                    if (response.isSuccessful) {
+                        val routines = response.body().orEmpty()
+
+                        if (routines.isEmpty()) {
+                            binding.recyclerRoutineList.adapter = null
+                            binding.tvExerciseNames.text = "해당 날짜에 등록된 루틴이 없습니다."
+                            return
+                        }
+
+                        binding.recyclerRoutineList.adapter = RoutineAdapter(
+                            routines.toMutableList(),
+                            onDeleteClick = {},
+                            onItemClick = { routine ->
+                                loadExercisesForRoutine(routine.id, routine.name)
+                            }
+                        )
+
+                        // ⭐ 첫 번째 루틴 자동 표시
+                        val first = routines[0]
+                        loadExercisesForRoutine(first.id, first.name)
+
+                    } else {
+                        Toast.makeText(requireContext(), "예약된 루틴 불러오기 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Routine>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+    private fun loadExercisesForRoutine(routineId: Long, routineName: String) {
+        RetrofitClient.routineApi.getExercisesByRoutine(routineId.toString())
+            .enqueue(object : Callback<List<ExerciseResponse>> {
+                override fun onResponse(
+                    call: Call<List<ExerciseResponse>>,
+                    response: Response<List<ExerciseResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        val exercises = response.body().orEmpty()
+                        updateSketchbookText(routineName, exercises)
+                    } else {
+                        Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<ExerciseResponse>>, t: Throwable) {
+                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+
+    private fun updateSketchbookText(routineName: String, exercises: List<ExerciseResponse>) {
+        val exerciseText = exercises.joinToString("\t\t\t") { it.exerciseName }
+        val displayText = if (exerciseText.isNotEmpty()) exerciseText else "운동이 없습니다."
+        binding.tvExerciseNames.text = "$routineName\n\n $displayText"
     }
 
     override fun onDestroyView() {
