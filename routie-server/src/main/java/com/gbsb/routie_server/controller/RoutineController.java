@@ -40,6 +40,20 @@ public class RoutineController {
         return ResponseEntity.ok(list);
     }
 
+    // 특정 날짜에 해당하는 루틴만 조회
+    @GetMapping("/scheduled")
+    public ResponseEntity<List<RoutineResponseDto>> getRoutinesByDate(
+            @RequestParam String userId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+        List<Routine> routines = routineService.getRoutinesByDate(userId, date);
+        List<RoutineResponseDto> result = routines.stream()
+                .map(RoutineResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
+    }
+
     // 단일 루틴의 전체 정보
     @GetMapping("/detail/{routineId}")
     public ResponseEntity<RoutineResponseDto> getRoutineDetail(@PathVariable Long routineId) {

@@ -3,6 +3,7 @@ package com.gbsb.routie_server.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -35,6 +36,9 @@ public class Routine {
     @CollectionTable(name = "routine_days", joinColumns = @JoinColumn(name = "routine_id"))
     @Column(name = "day")
     private List<String> days;
+
+    @Column(name = "scheduled_date")
+    private LocalDate scheduledDate;
 
     // 루틴에 포함된 운동들
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

@@ -18,6 +18,13 @@ interface RoutineApiService {
     @GET("/api/routines/{userId}")
     fun getUserRoutines(@Path("userId") userId: String): Call<List<Routine>>
 
+    // 날짜로 루틴 조회
+    @GET("api/routines/scheduled")
+    fun getScheduledRoutines(
+        @Query("userId") userId: String,
+        @Query("date") date: String
+    ): Call<List<Routine>>
+
     // 운동 루틴 수정(루틴 이름, 설명, 요일)
     @PUT("api/routines/{routineId}")
     fun updateRoutine(

@@ -115,8 +115,7 @@
                 <ImageView
                     android:id="@+id/img_datefield"
                     android:layout_width="354dp"
-                    android:layout_height="90dp"
-                    android:scaleY="1.5"
+                    android:layout_height="67dp"
                     app:srcCompat="@drawable/rectangle" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -145,33 +144,52 @@
                     android:padding="8dp" />
 
                 <!-- ⭐ 별 아이콘 (하단에 고정) -->
-
-                <!-- 🖍️ 크레용 이미지 -->
-
-                <ImageView
-                    android:id="@+id/img_sketchbook_highlight"
-                    android:layout_width="263dp"
-                    android:layout_height="114dp"
-                    android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="20dp"
-                    app:srcCompat="@drawable/crayon" />
-
                 <ImageButton
                     android:id="@+id/img_sketchbook_staricon"
                     android:layout_width="80dp"
                     android:layout_height="74dp"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="bottom|start"
                     android:layout_marginStart="36dp"
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@null"
                     android:contentDescription="루틴 생성 버튼"
                     android:scaleType="centerInside"
                     app:srcCompat="@drawable/star" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerRoutineList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
+
+                <!-- 🖍️ 크레용 이미지 -->
+                <ImageView
+                    android:id="@+id/img_sketchbook_highlight"
+                    android:layout_width="263dp"
+                    android:layout_height="114dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="10dp"
+                    app:srcCompat="@drawable/crayon" />
+
+                <TextView
+                    android:id="@+id/tv_exercise_names"
+                    android:layout_width="wrap_content"
+                    android:layout_height="73dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="운동 이름 표시 예정"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
                 <FrameLayout
                     android:id="@+id/TogleLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="342dp">
+                    android:layout_height="match_parent">
 
                     <ImageView
                         android:id="@+id/img_noticefield"
@@ -190,7 +208,7 @@
         <LinearLayout
             android:id="@+id/DailyLayout"
             android:layout_width="match_parent"
-            android:layout_height="246dp"
+            android:layout_height="237dp"
             android:gravity="end"
             android:orientation="horizontal"
             android:paddingTop="30dp">
@@ -212,8 +230,8 @@
         <!-- 하단 버튼 레이아웃 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:gravity="top"
+            android:layout_height="106dp"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <ImageButton
