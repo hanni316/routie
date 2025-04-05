@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.ItemWeekDayBinding
@@ -50,6 +51,11 @@ class WeekDayAdapter(
     }
 
     override fun onBindViewHolder(holder: DayViewHolder, position: Int) {
+        val context = holder.itemView.context
+        val customFont = ResourcesCompat.getFont(context, R.font.ownglyp)
+        holder.binding.tvDay.typeface = customFont
+        holder.binding.tvDate.typeface = customFont
+
         val day = days[position]
         holder.bind(day, position == selectedPosition)
         Log.d("WeekDayAdapter", "selectedPosition = $selectedPosition, position = $position, isSelected = ${position == selectedPosition}")

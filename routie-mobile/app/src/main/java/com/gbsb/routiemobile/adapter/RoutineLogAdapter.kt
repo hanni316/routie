@@ -7,7 +7,9 @@ import android.widget.TextView
 import android.graphics.Color
 import android.view.Gravity
 import android.widget.LinearLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.ItemRoutineLogBinding
 import com.gbsb.routiemobile.dto.RoutineLog
 
@@ -24,8 +26,10 @@ class RoutineLogAdapter(private val logs: List<RoutineLog>) :
     }
 
     override fun onBindViewHolder(holder: RoutineLogViewHolder, position: Int) {
+        val context = holder.itemView.context
+        val customFont = ResourcesCompat.getFont(context, R.font.ownglyp)
+
         val log = logs[position]
-        val context = holder.binding.root.context
         val layout = holder.binding.layoutExerciseList
 
         // 기존 뷰 초기화
@@ -45,6 +49,7 @@ class RoutineLogAdapter(private val logs: List<RoutineLog>) :
             val nameView = TextView(context).apply {
                 text = exercise.exerciseName
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                typeface = customFont
                 setTextColor(Color.BLACK)
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             }
@@ -53,6 +58,7 @@ class RoutineLogAdapter(private val logs: List<RoutineLog>) :
             val timeView = TextView(context).apply {
                 text = formatTime(exercise.duration)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                typeface = customFont
                 setTextColor(Color.BLACK)
                 gravity = Gravity.CENTER
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
@@ -62,6 +68,7 @@ class RoutineLogAdapter(private val logs: List<RoutineLog>) :
             val calView = TextView(context).apply {
                 text = "${exercise.caloriesBurned} kcal"
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+                typeface = customFont
                 setTextColor(Color.BLACK)
                 gravity = Gravity.END
                 layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)

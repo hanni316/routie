@@ -9,6 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ToggleButton
+import android.graphics.Color
+import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -232,9 +236,11 @@ class MainFragment : Fragment() {
                             }
                         )
 
-                        // ⭐ 첫 번째 루틴 자동 표시
+                        // 첫 번째 루틴 자동 표시
                         val first = routines[0]
                         loadExercisesForRoutine(first.id, first.name)
+
+                        setupRoutineDropdown(routines)
 
                     } else {
                         Toast.makeText(requireContext(), "예약된 루틴 불러오기 실패", Toast.LENGTH_SHORT).show()
@@ -256,7 +262,7 @@ class MainFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         val exercises = response.body().orEmpty()
-                        updateSketchbookText(routineName, exercises)
+                        updateSketchbookText(exercises)
                     } else {
                         Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -268,10 +274,39 @@ class MainFragment : Fragment() {
             })
     }
 
-    private fun updateSketchbookText(routineName: String, exercises: List<ExerciseResponse>) {
+    private fun updateSketchbookText(exercises: List<ExerciseResponse>) {
         val exerciseText = exercises.joinToString("\t\t\t") { it.exerciseName }
         val displayText = if (exerciseText.isNotEmpty()) exerciseText else "운동이 없습니다."
-        binding.tvExerciseNames.text = "$routineName\n\n $displayText"
+        binding.tvExerciseNames.text = "\n\n$displayText"
+    }
+
+    private fun setupRoutineDropdown(routines: List<Routine>) {
+        val routineNameButton = binding.dropdownRoutineName
+
+        // 기본 표시 (첫 번째 루틴)
+        if (routines.isNotEmpty()) {
+            val first = routines[0]
+            routineNameButton.text = first.name
+            loadExercisesForRoutine(first.id, first.name)
+        }
+
+        routineNameButton.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), routineNameButton)
+            routines.forEach { routine ->
+                popupMenu.menu.add(routine.name)
+            }
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                val selectedRoutine = routines.find { it.name == menuItem.title }
+                selectedRoutine?.let {
+                    routineNameButton.text = it.name
+                    loadExercisesForRoutine(it.id, it.name)
+                }
+                true
+            }
+
+            popupMenu.show()
+        }
     }
 
     override fun onDestroyView() {
