@@ -91,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:padding="8dp"
+                    android:fontFamily="@font/ownglyp"
                     android:text="년 월"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -100,6 +101,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:fontFamily="@font/ownglyp"
                     android:contentDescription="날짜 선택 버튼"
                     android:src="@android:drawable/ic_menu_my_calendar" />
             </LinearLayout>
@@ -160,8 +162,7 @@
                     android:id="@+id/recyclerRoutineList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    />
+                    android:layout_marginTop="16dp" />
 
                 <!-- 🖍️ 크레용 이미지 -->
                 <ImageView
@@ -173,6 +174,20 @@
                     android:layout_marginBottom="10dp"
                     app:srcCompat="@drawable/crayon" />
 
+                <Button
+                    android:id="@+id/dropdownRoutineName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="55dp"
+                    android:background="@drawable/toggle_selector"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down"
+                    android:padding="10dp"
+                    android:fontFamily="@font/ownglyp"
+                    android:text="루틴 선택"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/tv_exercise_names"
                     android:layout_width="wrap_content"
@@ -182,6 +197,7 @@
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:maxLines="3"
+                    android:fontFamily="@font/ownglyp"
                     android:text="운동 이름 표시 예정"
                     android:textColor="#000000"
                     android:textSize="14sp" />
