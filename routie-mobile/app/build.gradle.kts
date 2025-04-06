@@ -88,4 +88,9 @@ dependencies {
 
     //삼성 SDK
     implementation(mapOf("name" to "samsung-health-data-1.5.1", "ext" to "aar"))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    //Wearable api 의존성 추가
+    implementation("com.google.android.gms:play-services-wearable:18.1.0")
 }

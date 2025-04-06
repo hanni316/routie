@@ -10,7 +10,6 @@ import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Typography
 import com.example.routie_wear.R
-import com.example.routie_wear.presentation.theme.Typography
 
 //폰트 불러오기!!
 private val ownglyp = FontFamily(
@@ -26,17 +25,25 @@ val appColors = Colors(
 
 //타이포 정하는 코드임당
 val appTypography = Typography(
+    title1 = TextStyle(
+        fontFamily = ownglyp,
+        fontSize = 20.sp
+    ),
     body1 = TextStyle(
         fontFamily = ownglyp,
         fontSize = 10.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = ownglyp,
+        fontSize = 7.sp
+    ),
 
-    )
 )
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = appColors,
-        typography = Typography,
+        typography = appTypography,
         content = content
     )
 }
