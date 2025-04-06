@@ -80,9 +80,11 @@ class UserInfoFragment : Fragment() {
                 apiService.updatePassword(userId, pwRequest).enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(requireContext(), "비밀번호 변경 완료", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "비밀번호 변경 완료", Toast.LENGTH_SHORT)
+                                .show()
                         } else {
-                            Toast.makeText(requireContext(), "비밀번호 변경 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "비밀번호 변경 실패", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
 
@@ -108,26 +110,33 @@ class UserInfoFragment : Fragment() {
             val userId = sharedPreferences.getString("userId", null)
 
             if (userId.isNullOrEmpty()) return@setOnClickListener
-            apiService.deleteUser(userId).enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(requireContext(), "회원탈퇴 완료", Toast.LENGTH_SHORT).show()
 
-                        prefs.edit().clear().apply()
-                        findNavController().navigate(R.id.action_userInfoFragment_to_loginFragment)
-                    } else {
-                        Toast.makeText(requireContext(), "회원탈퇴 실패", Toast.LENGTH_SHORT).show()
-                    }
+            // 확인 다이얼로그 추가
+            android.app.AlertDialog.Builder(requireContext())
+                .setTitle("회원 탈퇴")
+                .setMessage("정말 탈퇴하시겠습니까?")
+                .setPositiveButton("예") { _, _ ->
+                    // 예를 누르면 탈퇴 요청
+                    apiService.deleteUser(userId).enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(requireContext(), "회원탈퇴 완료", Toast.LENGTH_SHORT)
+                                    .show()
+                                prefs.edit().clear().apply()
+                                findNavController().navigate(R.id.action_userInfoFragment_to_loginFragment)
+                            } else {
+                                Toast.makeText(requireContext(), "회원탈퇴 실패", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
-                }
-            })
+                .setNegativeButton("아니오", null)
+                .show()
+            }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-}

@@ -68,6 +68,13 @@ public class UserController {
         }
     }
 
+    // ID 중복 확인
+    @GetMapping("/users/check-id")
+    public ResponseEntity<Boolean> checkId(@RequestParam String userId) {
+        boolean isAvailable = userService.isUserIdAvailable(userId);
+        return ResponseEntity.ok(isAvailable);
+    }
+
     // 사용자 정보 변경
     @PutMapping("/users/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable String userId, @RequestBody UpdateUserRequestDto updateDto) {
