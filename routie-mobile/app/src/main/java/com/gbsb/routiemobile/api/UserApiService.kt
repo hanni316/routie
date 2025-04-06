@@ -13,6 +13,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface UserApiService {
     // 회원가입 API
@@ -41,4 +42,8 @@ interface UserApiService {
     // 회원 탈퇴
     @DELETE("/api/users/{userId}")
     fun deleteUser(@Path("userId") userId: String): Call<Void>
+
+    @GET("/api/users/check-id")
+    fun checkUserId(@Query("userId") userId: String): Call<Boolean>
+
 }

@@ -43,6 +43,10 @@ public class UserService {
 
         return savedUser;
     }
+    public boolean isUserIdAvailable(String userId) {
+        return !userRepository.findById(userId).isPresent();
+    }
+
 
     // 로그인
     public User loginUser(String userId, String password) {
@@ -96,8 +100,6 @@ public class UserService {
         user.setPassword(newPassword);
         userRepository.save(user);
     }
-
-
 
     // 사용자 삭제 (회원 탈퇴)
     @Transactional
