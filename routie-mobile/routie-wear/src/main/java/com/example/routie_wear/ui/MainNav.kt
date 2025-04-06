@@ -8,7 +8,14 @@ import com.example.routie_wear.viewmodel.RoutineViewModel
 fun MainNav(viewModel: RoutineViewModel) {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "routine") {
+    NavHost(navController, startDestination = "start") {
+
+        composable("start") {
+            StartScreen(viewModel){
+                navController.navigate("routine")  // 루틴 목록으로 이동
+            }
+        }
+
         composable("routine") {
             RoutineListScreen(viewModel) {
                 navController.navigate("workouts")

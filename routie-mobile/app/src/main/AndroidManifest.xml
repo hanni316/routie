@@ -23,7 +23,7 @@
             android:value="1.5.1" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.gbsb.routiemobile.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,12 +1,12 @@
 package com.gbsb.routiemobile.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.api.UserApiService
@@ -14,6 +14,8 @@ import com.gbsb.routiemobile.databinding.FragmentLoginBinding
 import com.gbsb.routiemobile.dto.LoginRequest
 import com.gbsb.routiemobile.dto.LoginResponse
 import com.gbsb.routiemobile.network.RetrofitClient
+import com.gbsb.routiemobile.watch.SendUserIdManager
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,6 +77,13 @@ class LoginFragment : Fragment() {
                         "환영합니다~ ID: ${loginResponse?.userId}",
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    //로그인 시 userId 워치로 송신
+                    lifecycleScope.launch {
+                        loginResponse?.userId?.let { userId ->
+                            SendUserIdManager.sendUserId(requireContext(), userId)
+                        }
+                    }
 
 
                     val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)

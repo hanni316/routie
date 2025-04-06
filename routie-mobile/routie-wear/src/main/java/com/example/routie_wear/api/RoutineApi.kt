@@ -11,7 +11,7 @@ interface RoutineApi {
         @GET("/routines/{id}/workouts")
         suspend fun getWorkoutsByRoutineId(@Path("id") routineId: Long): List<WorkoutDto>
 
-        @POST("/workout-records")
+        @POST("/exercise-logs")
         suspend fun uploadWorkoutRecord(@Body record: WorkoutRecordDto)
 
 }

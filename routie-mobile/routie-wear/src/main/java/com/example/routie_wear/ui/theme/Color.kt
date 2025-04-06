@@ -1,4 +1,4 @@
-package com.example.routie_wear.presentation.theme
+package com.example.routie_wear.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors
