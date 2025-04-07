@@ -106,6 +106,20 @@ public class UserController {
         }
     }
 
+    // 사용자 정보 조회
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<?> getUserInfo(@PathVariable String userId) {
+        try {
+            User user = userService.getUserById(userId);
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("사용자 정보 조회 실패: " + e.getMessage());
+        }
+    }
+
     // 사용자 계정 삭제
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable String userId) {
