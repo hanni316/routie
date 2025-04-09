@@ -101,6 +101,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // 사용자 조회
+    public User getUserById(String userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
     // 사용자 삭제 (회원 탈퇴)
     @Transactional
     public void deleteUser(String userId) {
