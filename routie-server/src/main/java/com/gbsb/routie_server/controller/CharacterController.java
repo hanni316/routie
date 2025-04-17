@@ -44,14 +44,4 @@ public class CharacterController {
         CharacterStyle updated = characterService.equipItem(userId, dto);
         return ResponseEntity.ok(new CharacterStyleResponseDto(updated));
     }
-
-    // 현재 장착된 아이템 조회
-    @GetMapping("/{userId}/style")
-    public ResponseEntity<CharacterStyleResponseDto> getEquippedItems(@PathVariable String userId) {
-        CharacterStyle style = characterService.getStyleByUserId(userId);
-        if (style == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(new CharacterStyleResponseDto(style));
-    }
 }
