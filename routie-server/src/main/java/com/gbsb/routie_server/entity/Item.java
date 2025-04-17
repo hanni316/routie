@@ -17,12 +17,14 @@ public class Item {
     private int itemId;  // 아이템 ID
 
     @Column(nullable = false, unique = true)
+    private String nameEn;  // 아이템 영어 이름
+
+    @Column(nullable = false, unique = true)
     private String name;  // 아이템 이름
 
     @Column(nullable = false)
     private int price;  // 아이템 가격
 
-    // 기존 int categoryId 제거 Category 엔티티와 관계 설정
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)  // FK로 저장
     private Category category;
