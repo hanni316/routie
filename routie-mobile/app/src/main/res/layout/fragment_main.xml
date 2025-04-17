@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F1EB"
+    android:background="@drawable/main"
 
     tools:context=".fragment.MainFragment">
 
@@ -42,7 +42,7 @@
                     <ImageView
                         android:id="@+id/img_title"
                         android:layout_width="95dp"
-                        android:layout_height="32dp"
+                        android:layout_height="50dp"
                         app:srcCompat="@drawable/routie_" />
 
                     <LinearLayout
@@ -94,16 +94,17 @@
                     android:fontFamily="@font/ownglyp"
                     android:text="년 월"
                     android:textSize="15sp"
+                    android:textColor="#000000"
                     android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/btn_selectdate"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="20dp"
+                    android:layout_height="32dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:fontFamily="@font/ownglyp"
                     android:contentDescription="날짜 선택 버튼"
-                    android:src="@android:drawable/ic_menu_my_calendar" />
+                    android:src="@drawable/baseline_keyboard_arrow_down_24" />
             </LinearLayout>
 
             <!-- 날짜 이미지와 텍스트를 겹치기 위한 FrameLayout -->
@@ -117,7 +118,7 @@
                 <ImageView
                     android:id="@+id/img_datefield"
                     android:layout_width="354dp"
-                    android:layout_height="67dp"
+                    android:layout_height="75dp"
                     app:srcCompat="@drawable/rectangle" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -146,6 +147,7 @@
                     android:padding="8dp" />
 
                 <!-- ⭐ 별 아이콘 (하단에 고정) -->
+
                 <ImageButton
                     android:id="@+id/img_sketchbook_staricon"
                     android:layout_width="80dp"
@@ -156,7 +158,7 @@
                     android:background="@null"
                     android:contentDescription="루틴 생성 버튼"
                     android:scaleType="centerInside"
-                    app:srcCompat="@drawable/star" />
+                    app:srcCompat="@drawable/sun" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerRoutineList"
@@ -165,6 +167,7 @@
                     android:layout_marginTop="16dp" />
 
                 <!-- 🖍️ 크레용 이미지 -->
+
                 <ImageView
                     android:id="@+id/img_sketchbook_highlight"
                     android:layout_width="263dp"
@@ -172,7 +175,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/crayon" />
+                    app:srcCompat="@drawable/sky" />
 
                 <Button
                     android:id="@+id/dropdownRoutineName"
@@ -182,8 +185,8 @@
                     android:layout_marginBottom="55dp"
                     android:background="@drawable/toggle_selector"
                     android:drawableEnd="@drawable/ic_arrow_drop_down"
-                    android:padding="10dp"
                     android:fontFamily="@font/ownglyp"
+                    android:padding="10dp"
                     android:text="루틴 선택"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -196,8 +199,8 @@
                     android:layout_marginBottom="30dp"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
-                    android:maxLines="3"
                     android:fontFamily="@font/ownglyp"
+                    android:maxLines="3"
                     android:text="운동 이름 표시 예정"
                     android:textColor="#000000"
                     android:textSize="14sp" />
@@ -214,6 +217,7 @@
                         android:layout_marginLeft="100dp"
                         android:visibility="gone"
                         app:srcCompat="@drawable/bubble2" />
+
                 </FrameLayout>
             </FrameLayout>
 
