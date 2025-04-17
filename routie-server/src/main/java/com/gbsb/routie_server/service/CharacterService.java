@@ -18,7 +18,9 @@ public class CharacterService {
                 .map(existing -> {
                     existing.setHair(dto.getHair());
                     existing.setOutfit(dto.getOutfit());
+                    existing.setBottom(dto.getBottom());
                     existing.setAccessory(dto.getAccessory());
+                    existing.setShoes(dto.getShoes());
                     existing.setBackground(dto.getBackground());
                     return characterRepository.save(existing);
                 })
@@ -27,7 +29,9 @@ public class CharacterService {
                             .userId(userId)
                             .hair(dto.getHair())
                             .outfit(dto.getOutfit())
+                            .bottom(dto.getBottom())
                             .accessory(dto.getAccessory())
+                            .shoes(dto.getShoes())
                             .background(dto.getBackground())
                             .build();
                     return characterRepository.save(newStyle);
@@ -49,7 +53,9 @@ public class CharacterService {
                     .userId(userId)
                     .hair(null)
                     .outfit(null)
+                    .bottom(null)
                     .accessory(null)
+                    .shoes(null)
                     .background(null)
                     .build();
         }
@@ -59,10 +65,10 @@ public class CharacterService {
                 style.setHair(dto.getItemName());
                 break;
             case "상의":
-                style.setBottom(dto.getItemName());
+                style.setOutfit(dto.getItemName());
                 break;
             case "하의":
-                style.setOutfit(dto.getItemName());
+                style.setBottom(dto.getItemName());
                 break;
             case "악세서리":
                 style.setAccessory(dto.getItemName());

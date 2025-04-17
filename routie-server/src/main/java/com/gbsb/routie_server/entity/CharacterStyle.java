@@ -19,8 +19,8 @@ public class CharacterStyle {
 
     private String hair;
     private String outfit;
-    private String Bottom;
+    private String bottom;
     private String accessory;
-    private String Shoes;
+    private String shoes;
     private String background;
 }
