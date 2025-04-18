@@ -64,7 +64,7 @@ fun WorkoutListScreen(
                         .animateContentSize(),
                     label = {
                         Text(
-                            text = "${workout.name}",
+                            text = "${workout.exerciseName}",
                             color = MaterialTheme.colors.onSurface.copy(alpha = alpha)
                         )
                     },

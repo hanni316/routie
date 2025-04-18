@@ -90,7 +90,7 @@ class RoutineViewModel : ViewModel() {
 
         val record = WorkoutRecordDto(
             routineLogId = logId,
-            exerciseId = exercise.id,
+            exerciseId = exercise.routineExerciseId,
             duration = timerSeconds
         )
 
