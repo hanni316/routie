@@ -5,7 +5,7 @@ import com.example.routie_wear.dto.*
 
 
 interface RoutineApi {
-        @GET("/api/routines")
+        @GET("/routines")
         suspend fun getRoutinesByDay(@Query("dayOfWeek") dayOfWeek: String): List<RoutineDto>
 
         @GET("/api/routines/{id}/workouts")

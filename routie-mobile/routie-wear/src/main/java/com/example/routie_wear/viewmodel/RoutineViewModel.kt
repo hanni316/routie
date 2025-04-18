@@ -38,10 +38,11 @@ class RoutineViewModel : ViewModel() {
         viewModelScope.launch {
             isLoading = true
             try {
-                val today = LocalDate.now().dayOfWeek.name.lowercase()
+                // 실제 호출 직후 로그를 찍습니다
                 routineList = api.getRoutinesByDay(today)
+                Log.d("VM", "받아온 루틴 개수: ${routineList.size}")
             } catch (e: Exception) {
-                Log.e("ViewModel", "루틴 불러오기 실패: ${e.message}")
+                Log.e("VM", "루틴 조회 에러", e)
                 routineList = emptyList()
             } finally {
                 isLoading = false

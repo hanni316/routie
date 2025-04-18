@@ -145,13 +145,13 @@ class MakingroutineFragment : Fragment() {
 
         val selectedDays = mutableListOf<String>()
 
-        if (binding.sundayButton.isChecked) selectedDays.add("sun")
-        if (binding.mondayButton.isChecked) selectedDays.add("mon")
-        if (binding.tuesdayButton.isChecked) selectedDays.add("tue")
-        if (binding.wednesdayButton.isChecked) selectedDays.add("wed")
-        if (binding.thursdayButton.isChecked) selectedDays.add("thu")
-        if (binding.fridayButton.isChecked) selectedDays.add("fri")
-        if (binding.saturdayButton.isChecked) selectedDays.add("sat")
+        if (binding.sundayButton.isChecked) selectedDays.add("sunday")
+        if (binding.mondayButton.isChecked) selectedDays.add("monday")
+        if (binding.tuesdayButton.isChecked) selectedDays.add("tuesday")
+        if (binding.wednesdayButton.isChecked) selectedDays.add("wednesday")
+        if (binding.thursdayButton.isChecked) selectedDays.add("thursday")
+        if (binding.fridayButton.isChecked) selectedDays.add("friday")
+        if (binding.saturdayButton.isChecked) selectedDays.add("saturday")
 
         if (selectedExercises.isEmpty()) {
             Toast.makeText(requireContext(), "운동을 최소 1개 이상 추가해야 합니다.", Toast.LENGTH_SHORT).show()
