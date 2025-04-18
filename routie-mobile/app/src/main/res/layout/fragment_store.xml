@@ -4,52 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@drawable/store_background"
     tools:context=".fragment.StoreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/storeText"
-        android:layout_width="57dp"
-        android:layout_height="44dp"
-        android:fontFamily="@font/ownglyp"
-        android:text="상점"
-        android:textColor="@color/font_color"
-        android:textSize="42sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="24dp" />
-
-    <ImageView
-        android:id="@+id/arrowButton"
-        android:layout_width="63dp"
-        android:layout_height="72dp"
-        android:src="@drawable/arrow"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="5dp" />
-
-    <ImageView
-        android:id="@+id/homeButton"
-        android:layout_width="95dp"
-        android:layout_height="127dp"
-        android:src="@drawable/house_icon"
+    <LinearLayout
+        android:id="@+id/categoryBar"
+        android:layout_width="409dp"
+        android:layout_height="392dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="731dp" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
-        android:id="@+id/curtain"
-        android:layout_width="415dp"
-        android:layout_height="425dp"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/curtain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        <ImageButton
+            android:id="@+id/btnTop"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_category_button_selector"
+            android:scaleType="centerInside"
+            android:contentDescription="상의"
+            android:src="@drawable/shirt_store" />
 
+        <ImageButton
+            android:id="@+id/btnBottom"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_category_button_selector"
+            android:contentDescription="하의"
+            android:src="@drawable/bottom_store" />
+
+        <ImageButton
+            android:id="@+id/btnShose"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_category_button_selector"
+            android:contentDescription="신발"
+            android:src="@drawable/shirt_store" />
+
+        <ImageButton
+            android:id="@+id/btnAccessory"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_category_button_selector"
+            android:contentDescription="악세서리"
+            android:src="@drawable/hat_store" />
+
+        <ImageButton
+            android:id="@+id/btnBackgound"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_category_button_selector"
+            android:contentDescription="배경"
+            android:src="@drawable/sun_store" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

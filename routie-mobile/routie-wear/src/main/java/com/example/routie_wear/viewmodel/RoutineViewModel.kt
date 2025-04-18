@@ -7,6 +7,7 @@ import com.example.routie_wear.dto.*
 import com.example.routie_wear.network.RetrofitInstance
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import android.util.Log
 
 class RoutineViewModel : ViewModel() {
 
@@ -14,6 +15,10 @@ class RoutineViewModel : ViewModel() {
 
     var routineList by mutableStateOf<List<RoutineDto>>(emptyList())
     var workoutList by mutableStateOf<List<WorkoutDto>>(emptyList())
+        private set
+
+    var isLoading by mutableStateOf(true)
+        private set
 
     var selectedRoutineId: Long? = null
     var selectedWorkout: WorkoutDto? = null
@@ -31,10 +36,15 @@ class RoutineViewModel : ViewModel() {
     fun loadTodayRoutines() {
         val today = LocalDate.now().dayOfWeek.name.lowercase()
         viewModelScope.launch {
+            isLoading = true
             try {
+                val today = LocalDate.now().dayOfWeek.name.lowercase()
                 routineList = api.getRoutinesByDay(today)
             } catch (e: Exception) {
-                println("루틴 목록 불러오기 실패: ${e.message}")
+                Log.e("ViewModel", "루틴 불러오기 실패: ${e.message}")
+                routineList = emptyList()
+            } finally {
+                isLoading = false
             }
         }
     }
