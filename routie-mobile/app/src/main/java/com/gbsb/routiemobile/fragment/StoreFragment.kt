@@ -35,10 +35,5 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val backIcon = view.findViewById<ImageView>(R.id.arrowButton)
-        backIcon.setOnClickListener {
-            findNavController().navigateUp() // 이전 Fragment(MainFragment)로 이동
-        }
     }
 }

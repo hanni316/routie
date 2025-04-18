@@ -28,7 +28,7 @@ fun RoutineListScreen(
     var selectedId by remember { mutableStateOf<Long?>(null) }
 
     val routines = viewModel.routineList
-    val isLoading = viewModel.isLoading  // <- ViewModel에서 상태 추가 필요!
+    val isLoading = viewModel.isLoading  // <- ViewModel에서 상태 추가 필요!(완료)
 
     // 루틴 처음 불러오기
     LaunchedEffect(Unit) {
@@ -57,6 +57,7 @@ fun RoutineListScreen(
             ) {
                 Text(
                     "오늘 등록된 루틴이 없어요!",
+                    style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary)
             }
         }

@@ -25,7 +25,7 @@ fun StartScreen(
         ) {
             Text(
                 "👋 환영해요!",
-                style = MaterialTheme.typography.title2,
+                style = MaterialTheme.typography.title1,
                 color = MaterialTheme.colors.onPrimary
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -42,6 +42,7 @@ fun StartScreen(
             ) {
                 Text(
                     "루틴 시작하기",
+                    style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary,
                     maxLines = 1,
                     softWrap = false
