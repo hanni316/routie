@@ -34,15 +34,15 @@ val appColors = Colors(
 val appTypography = Typography(
     title1 = TextStyle(
         fontFamily = ownglyp,
-        fontSize = 20.sp,
+        fontSize = 30.sp,
     ),
     body1 = TextStyle(
         fontFamily = ownglyp,
-        fontSize = 10.sp
+        fontSize = 20.sp
     ),
     body2 = TextStyle(
         fontFamily = ownglyp,
-        fontSize = 7.sp
+        fontSize = 15.sp
     ),
 
 )
