@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main"
+    android:background="@drawable/mainpage"
 
     tools:context=".fragment.MainFragment">
 
@@ -20,7 +20,7 @@
         <LinearLayout
             android:id="@+id/TopLayout"
             android:layout_width="match_parent"
-            android:layout_height="68dp"
+            android:layout_height="75dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="20dp"
@@ -46,7 +46,7 @@
                         app:srcCompat="@drawable/routie_" />
 
                     <LinearLayout
-                        android:layout_width="155dp"
+                        android:layout_width="148dp"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"></LinearLayout>
 
@@ -56,7 +56,7 @@
                         android:layout_height="55dp"
                         android:background="@android:color/transparent"
                         android:contentDescription="알림버튼"
-                        app:srcCompat="@drawable/bell" />
+                        app:srcCompat="@drawable/bell1" />
 
                     <ImageButton
                         android:id="@+id/btn_profile"
@@ -64,7 +64,7 @@
                         android:layout_height="55dp"
                         android:background="@android:color/transparent"
                         android:contentDescription="프로필로 이동"
-                        app:srcCompat="@drawable/profile" />
+                        app:srcCompat="@drawable/profile1" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -134,7 +134,7 @@
                 android:id="@+id/SketchbookLayout"
                 android:layout_width="match_parent"
                 android:layout_height="327dp"
-                android:background="@drawable/memo">
+                android:background="@drawable/memo1">
 
                 <!-- ✅ 루틴 로그 RecyclerView -->
                 <androidx.recyclerview.widget.RecyclerView
@@ -153,8 +153,8 @@
                     android:layout_width="80dp"
                     android:layout_height="74dp"
                     android:layout_gravity="bottom|start"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginBottom="50dp"
                     android:background="@null"
                     android:contentDescription="루틴 생성 버튼"
                     android:scaleType="centerInside"
@@ -168,21 +168,21 @@
 
                 <!-- 🖍️ 크레용 이미지 -->
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/img_sketchbook_highlight"
                     android:layout_width="263dp"
                     android:layout_height="114dp"
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/sky" />
+                    app:srcCompat="@drawable/" />-->
 
                 <Button
                     android:id="@+id/dropdownRoutineName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="55dp"
+                    android:layout_marginBottom="70dp"
                     android:background="@drawable/toggle_selector"
                     android:drawableEnd="@drawable/ic_arrow_drop_down"
                     android:fontFamily="@font/ownglyp"
@@ -196,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="73dp"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="45dp"
                     android:background="@android:color/transparent"
                     android:ellipsize="end"
                     android:fontFamily="@font/ownglyp"
@@ -233,59 +233,81 @@
             android:orientation="horizontal"
             android:paddingTop="30dp">
 
-            <ImageView
+            <FrameLayout
+                android:layout_width="200dp"
+                android:layout_height="168dp"
+                android:layout_marginTop="-30dp"
+                android:layout_marginStart="16dp">
+
+                <ImageView
+                    android:id="@+id/img_dailybriefing"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/memo2"
+                    android:scaleType="fitXY" />
+
+                <TextView
+                    android:id="@+id/tv_dailyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:text="\n\n\n첼린지 기능 추가예정"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:fontFamily="@font/ownglyp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"/>
+            </FrameLayout>
+
+            <!--<ImageView
                 android:id="@+id/img_dailybriefing"
                 android:layout_width="200dp"
                 android:layout_height="168dp"
-                app:srcCompat="@drawable/bubble" />
+                android:layout_marginTop="-30dp"
+                app:srcCompat="@drawable/memo2" />-->
 
             <ImageView
                 android:id="@+id/img_character"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                app:srcCompat="@drawable/character" />
+                app:srcCompat="@drawable/character_girl" />
         </LinearLayout>
 
         <!-- 하단 버튼 레이아웃 -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="106dp"
-            android:gravity="bottom"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:background="@drawable/lowbar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <ImageButton
                 android:id="@+id/btn_shop"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="30dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="상점 이동"
-                app:srcCompat="@drawable/store" />
+                app:srcCompat="@drawable/shop" />
 
             <ImageButton
                 android:id="@+id/img_myroom"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="방꾸미기"
-                app:srcCompat="@drawable/sofa" />
-
-            <ImageView
-                android:id="@+id/img_coin"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/coin" />
+                app:srcCompat="@drawable/character_home" />
 
             <ImageView
                 android:id="@+id/img_coinfield"
                 android:layout_width="87dp"
                 android:layout_height="37dp"
-                android:layout_marginTop="10dp"
-                app:srcCompat="@drawable/coin_bubble" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                app:srcCompat="@drawable/gold" />
         </LinearLayout>
     </LinearLayout>
 
