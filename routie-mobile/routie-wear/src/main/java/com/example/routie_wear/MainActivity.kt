@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.wear.compose.material.MaterialTheme
 import com.example.routie_wear.ui.theme.AppTheme
 import com.example.routie_wear.viewmodel.RoutineViewModel
 import com.example.routie_wear.ui.MainNav
