@@ -63,13 +63,13 @@ class ModifyroutineFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dayButtons = mapOf(
-            "일" to view.findViewById(R.id.sundayButton),
-            "월" to view.findViewById(R.id.mondayButton),
-            "화" to view.findViewById(R.id.tuesdayButton),
-            "수" to view.findViewById(R.id.wednesdayButton),
-            "목" to view.findViewById(R.id.thursdayButton),
-            "금" to view.findViewById(R.id.fridayButton),
-            "토" to view.findViewById(R.id.saturdayButton),
+            "sun" to view.findViewById(R.id.sundayButton),
+            "mon" to view.findViewById(R.id.mondayButton),
+            "tue" to view.findViewById(R.id.tuesdayButton),
+            "wed" to view.findViewById(R.id.wednesdayButton),
+            "thu" to view.findViewById(R.id.thursdayButton),
+            "fri" to view.findViewById(R.id.fridayButton),
+            "sat" to view.findViewById(R.id.saturdayButton),
         )
 
         routineNameEditText = view.findViewById(R.id.routineNameEditText)

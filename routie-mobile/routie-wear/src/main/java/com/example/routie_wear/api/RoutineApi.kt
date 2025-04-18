@@ -8,10 +8,10 @@ interface RoutineApi {
         @GET("/routines")
         suspend fun getRoutinesByDay(@Query("dayOfWeek") dayOfWeek: String): List<RoutineDto>
 
-        @GET("/routines/{id}/workouts")
+        @GET("/api/routines/{id}/workouts")
         suspend fun getWorkoutsByRoutineId(@Path("id") routineId: Long): List<WorkoutDto>
 
-        @POST("/exercise-logs")
+        @POST("/api/exercise-logs")
         suspend fun uploadWorkoutRecord(@Body record: WorkoutRecordDto)
 
 }

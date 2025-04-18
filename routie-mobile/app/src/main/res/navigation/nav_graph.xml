@@ -135,5 +135,16 @@
             android:id="@+id/action_ModifyroutineFragment_to_routineFragment"
             app:destination="@id/RoutineFragment" />
 
+    <fragment
+        android:id="@+id/myroomFragment"
+        android:name="com.gbsb.routiemobile.fragment.MyroomFragment"
+        android:label="Myroom">
+        <action
+            android:id="@+id/action_myroomFragment_to_storeFragment"
+            app:destination="@id/StoreFragment" />
+        <action
+            android:id="@+id/action_myroomFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
 
 </navigation>
