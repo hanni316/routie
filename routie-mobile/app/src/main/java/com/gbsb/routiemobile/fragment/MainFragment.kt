@@ -124,6 +124,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.StoreFragment)
         }
 
+        binding.imgMyroom.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
+        }
+
         // 초기 표시
         showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
 
