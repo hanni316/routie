@@ -32,6 +32,7 @@ class MyroomFragment : Fragment() {
             findNavController().navigate(R.id.action_myroomFragment_to_MainFragment)
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
