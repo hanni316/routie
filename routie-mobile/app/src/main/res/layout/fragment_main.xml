@@ -90,11 +90,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:padding="8dp"
                     android:fontFamily="@font/ownglyp"
+                    android:padding="8dp"
                     android:text="년 월"
-                    android:textSize="15sp"
                     android:textColor="#000000"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <ImageButton
@@ -102,8 +102,8 @@
                     android:layout_width="20dp"
                     android:layout_height="32dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:fontFamily="@font/ownglyp"
                     android:contentDescription="날짜 선택 버튼"
+                    android:fontFamily="@font/ownglyp"
                     android:src="@drawable/baseline_keyboard_arrow_down_24" />
             </LinearLayout>
 
@@ -236,27 +236,27 @@
             <FrameLayout
                 android:layout_width="200dp"
                 android:layout_height="168dp"
-                android:layout_marginTop="-30dp"
-                android:layout_marginStart="16dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-30dp">
 
                 <ImageView
                     android:id="@+id/img_dailybriefing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/memo2"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/memo2" />
 
                 <TextView
                     android:id="@+id/tv_dailyText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="12dp"
-                    android:text="\n\n\n첼린지 기능 추가예정"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
-                    android:lineSpacingExtra="4dp"/>
+                    android:lineSpacingExtra="4dp"
+                    android:text="\n\n\n첼린지 기능 추가예정"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
             </FrameLayout>
 
             <!--<ImageView
@@ -266,12 +266,52 @@
                 android:layout_marginTop="-30dp"
                 app:srcCompat="@drawable/memo2" />-->
 
-            <ImageView
-                android:id="@+id/img_character"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                app:srcCompat="@drawable/character_girl" />
+            <FrameLayout
+                android:id="@+id/main_character_container"
+                android:layout_width="130dp"
+                android:layout_height="170dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/body_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/body_basic" />
+
+                <ImageView
+                    android:id="@+id/hair_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/bottom_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/outfit_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/accessory_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/shoes_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+            </FrameLayout>
         </LinearLayout>
 
         <!-- 하단 버튼 레이아웃 -->

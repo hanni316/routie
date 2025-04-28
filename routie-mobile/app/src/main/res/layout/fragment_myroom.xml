@@ -69,40 +69,35 @@
             android:id="@+id/hair_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/long_hair" />
+            android:scaleType="fitCenter" />
 
         <!-- 하의 -->
         <ImageView
             android:id="@+id/bottom_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/jeans" />
+            android:scaleType="fitCenter" />
 
         <!-- 상의 -->
         <ImageView
             android:id="@+id/outfit_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/t_shirt" />
+            android:scaleType="fitCenter" />
 
         <!-- 신발 -->
         <ImageView
             android:id="@+id/shoes_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sneakers" />
+            android:scaleType="fitCenter" />
 
         <!-- 얼굴 장식 -->
         <ImageView
             android:id="@+id/accessory_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/accessory_basic" />
+            android:scaleType="fitCenter" />
 
     </FrameLayout>
 

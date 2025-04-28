@@ -1,5 +1,6 @@
 package com.gbsb.routiemobile.network
 
+import com.gbsb.routiemobile.api.CharacterApiService
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.api.RoutineApiService
 import com.gbsb.routiemobile.api.ExerciseApiService
@@ -51,6 +52,10 @@ object RetrofitClient {
 
     val healthApi: HealthdataApi by lazy {
         retrofit.create(HealthdataApi::class.java)
+    }
+
+    val characterApi: CharacterApiService by lazy {
+        retrofit.create(CharacterApiService::class.java)
     }
 
 

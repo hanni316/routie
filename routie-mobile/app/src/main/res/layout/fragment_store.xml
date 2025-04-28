@@ -12,12 +12,12 @@
         android:id="@+id/categoryBar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="500dp"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="500dp" >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/btnTop"
@@ -25,8 +25,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:scaleType="centerInside"
             android:contentDescription="상의"
+            android:scaleType="centerInside"
             android:src="@drawable/shirt_store" />
 
         <ImageButton
@@ -35,8 +35,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:scaleType="centerInside"
             android:contentDescription="하의"
+            android:scaleType="centerInside"
             android:src="@drawable/bottom_store" />
 
         <ImageButton
@@ -45,8 +45,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:scaleType="centerInside"
             android:contentDescription="신발"
+            android:scaleType="centerInside"
             android:src="@drawable/shirt_store" />
 
         <ImageButton
@@ -55,8 +55,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:scaleType="centerInside"
             android:contentDescription="악세서리"
+            android:scaleType="centerInside"
             android:src="@drawable/hat_store" />
 
         <ImageButton
@@ -65,8 +65,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:scaleType="centerInside"
             android:contentDescription="배경"
+            android:scaleType="centerInside"
             android:src="@drawable/sun_store" />
     </LinearLayout>
 
@@ -76,9 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#FAE3D9"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryBar" />
 
@@ -88,9 +88,9 @@
         android:layout_width="450dp"
         android:layout_height="600dp"
         android:layout_marginTop="2dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- 몸통 -->
         <ImageView
@@ -105,40 +105,35 @@
             android:id="@+id/hair_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/long_hair" />
+            android:scaleType="fitCenter" />
 
         <!-- 하의 -->
         <ImageView
             android:id="@+id/bottom_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/jeans" />
+            android:scaleType="fitCenter" />
 
         <!-- 상의 -->
         <ImageView
             android:id="@+id/outfit_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/t_shirt" />
+            android:scaleType="fitCenter" />
 
         <!-- 신발 -->
         <ImageView
             android:id="@+id/shoes_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sneakers" />
+            android:scaleType="fitCenter" />
 
         <!-- 얼굴 장식 -->
         <ImageView
             android:id="@+id/accessory_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/accessory_basic" />
+            android:scaleType="fitCenter" />
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
