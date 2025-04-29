@@ -93,4 +93,9 @@ dependencies {
 
     //Wearable api 의존성 추가
     implementation("com.google.android.gms:play-services-wearable:18.1.0")
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
 }
