@@ -60,28 +60,29 @@
             android:src="@drawable/hat_store" />
 
         <ImageButton
-            android:id="@+id/btnBackground"
+            android:id="@+id/btnHair"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_category_button_selector"
-            android:contentDescription="배경"
+            android:contentDescription="헤어"
             android:scaleType="centerInside"
             android:src="@drawable/sun_store" />
     </LinearLayout>
 
-    <!-- 카테고리 버튼 아래 붙는 배경 박스 -->
-    <View
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemBox"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#FAE3D9"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryBar" />
-
 
     <FrameLayout
         android:id="@+id/character_container"

@@ -9,6 +9,7 @@ import com.gbsb.routiemobile.api.RoutineLogApi
 import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
+import com.gbsb.routiemobile.api.ShopApiService
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -19,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.45.132:8080/"
+    private const val BASE_URL = "http://172.30.1.74:8080/"
     // 실제 서버 주소 http://192.168.45.132:8080/
     //http://172.30.1.75:8080/
     // 에뮬레이터에서 실행 "http://10.0.2.2:8080/"
@@ -56,6 +57,10 @@ object RetrofitClient {
 
     val characterApi: CharacterApiService by lazy {
         retrofit.create(CharacterApiService::class.java)
+    }
+
+    val shopApiService: ShopApiService by lazy {
+        retrofit.create(ShopApiService::class.java)
     }
 
 
