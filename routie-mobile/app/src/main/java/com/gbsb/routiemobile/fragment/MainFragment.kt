@@ -9,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.ToggleButton
-import android.graphics.Color
+import android.widget.ImageView
 import android.widget.PopupMenu
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +19,7 @@ import com.gbsb.routiemobile.adapter.RoutineAdapter
 import com.gbsb.routiemobile.adapter.RoutineLogAdapter
 import com.gbsb.routiemobile.adapter.WeekDayAdapter
 import com.gbsb.routiemobile.databinding.FragmentMainBinding
+import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.ExerciseResponse
 import com.gbsb.routiemobile.dto.Routine
 import com.gbsb.routiemobile.dto.RoutineLog
@@ -42,6 +41,13 @@ class MainFragment : Fragment() {
 
     private lateinit var weekDayAdapter: WeekDayAdapter
     private lateinit var exerciseNameTextView: TextView
+
+    private lateinit var bodyImage: ImageView
+    private lateinit var hairImage: ImageView
+    private lateinit var outfitImage: ImageView
+    private lateinit var bottomImage: ImageView
+    private lateinit var shoesImage: ImageView
+    private lateinit var accessoryImage: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -126,6 +132,18 @@ class MainFragment : Fragment() {
 
         binding.imgMyroom.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
+        }
+
+        bodyImage = binding.bodyImage
+        hairImage = binding.hairImage
+        outfitImage = binding.outfitImage
+        bottomImage = binding.bottomImage
+        accessoryImage = binding.accessoryImage
+        shoesImage = binding.shoesImage
+
+        // 캐릭터 스타일 불러오기
+        getUserIdFromPrefs()?.let { userId ->
+            loadCharacterStyle(userId)
         }
 
         // 초기 표시
@@ -312,6 +330,75 @@ class MainFragment : Fragment() {
             popupMenu.show()
         }
     }
+
+    private fun loadCharacterStyle(userId: String) {
+        RetrofitClient.characterApi.getStyle(userId)
+            .enqueue(object : Callback<CharacterStyleResponseDto> {
+                override fun onResponse(call: Call<CharacterStyleResponseDto>, response: Response<CharacterStyleResponseDto>) {
+                    if (response.isSuccessful) {
+                        val style = response.body()
+                        style?.let {
+                            updateCharacterImages(it)
+                        }
+                    } else {
+                        Log.e("Character", "캐릭터 스타일 조회 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<CharacterStyleResponseDto>, t: Throwable) {
+                    Log.e("Character", "API 호출 실패: ${t.message}")
+                }
+            })
+    }
+
+    private fun updateCharacterImages(style: CharacterStyleResponseDto) {
+        // 기본 몸통은 항상 표시
+
+        // 헤어
+        if (style.hair != null) {
+            val hairResId = getDrawableResIdByName(style.hair)
+            hairImage.setImageResource(hairResId)
+        } else {
+            hairImage.setImageDrawable(null)
+        }
+
+        // 상의
+        if (style.outfit != null) {
+            val outfitResId = getDrawableResIdByName(style.outfit)
+            outfitImage.setImageResource(outfitResId)
+        } else {
+            outfitImage.setImageDrawable(null)
+        }
+
+        // 하의
+        if (style.bottom != null) {
+            val bottomResId = getDrawableResIdByName(style.bottom)
+            bottomImage.setImageResource(bottomResId)
+        } else {
+            bottomImage.setImageDrawable(null)
+        }
+
+        // 악세서리
+        if (style.accessory != null) {
+            val accessoryResId = getDrawableResIdByName(style.accessory)
+            accessoryImage.setImageResource(accessoryResId)
+        } else {
+            accessoryImage.setImageDrawable(null)
+        }
+
+        // 신발
+        if (style.shoes != null) {
+            val shoesResId = getDrawableResIdByName(style.shoes)
+            shoesImage.setImageResource(shoesResId)
+        } else {
+            shoesImage.setImageDrawable(null)
+        }
+    }
+
+    private fun getDrawableResIdByName(resourceName: String): Int {
+        return resources.getIdentifier(resourceName, "drawable", requireContext().packageName)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
