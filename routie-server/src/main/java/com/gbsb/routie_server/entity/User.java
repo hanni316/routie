@@ -44,4 +44,7 @@ public class User {
     @Builder.Default
     @Column(nullable = false)
     private boolean isAdmin = false; // 유저 : false, 관리자 : true
+
+    @Column
+    private String profileImageUrl;
 }

@@ -145,9 +145,11 @@ public class UserService {
         }
 
         // 저장된 파일 경로를 DB에 저장
-        user.setProfileImageUrl("/" + filePath); // URL 접근을 위해 경로를 '/'부터
+        String relativePath = "/uploads/profile/" + fileName;
+
+        user.setProfileImageUrl(relativePath);
         userRepository.save(user);
 
-        return "/" + filePath;
+        return relativePath;
     }
 }

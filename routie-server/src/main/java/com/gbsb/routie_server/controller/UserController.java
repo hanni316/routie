@@ -5,6 +5,7 @@ import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -129,5 +130,15 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("사용자 삭제 실패: " + e.getMessage());
         }
+    }
+
+    // 프로필 사진 업데이트
+    @PostMapping("/{userId}/profile-image")
+    public ResponseEntity<ProfileImageResponseDto> uploadProfileImage(
+            @PathVariable String userId,
+            @RequestPart("file") MultipartFile file) {
+
+        String imageUrl = userService.updateProfileImage(userId, file);
+        return ResponseEntity.ok(new ProfileImageResponseDto(imageUrl));
     }
 }
