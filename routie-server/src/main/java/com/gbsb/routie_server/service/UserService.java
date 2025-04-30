@@ -8,8 +8,12 @@ import com.gbsb.routie_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -117,5 +121,35 @@ public class UserService {
         } else {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
+    }
+
+    // 프로필 사진 업데이트
+    public String updateProfileImage(String userId, MultipartFile file) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        String uploadDirPath = System.getProperty("user.dir") + "/uploads/profile/";
+        // System.getProperty("user.dir") : 현재 프로젝트 루트 절대경로를 가져옴
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String filePath = uploadDirPath + fileName; // 저장할 경로
+
+        try {
+            // 폴더 없으면 자동 생성
+            File dir = new File(uploadDirPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            file.transferTo(new File(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException("파일 저장 실패", e);
+        }
+
+        // 저장된 파일 경로를 DB에 저장
+        String relativePath = "/uploads/profile/" + fileName;
+
+        user.setProfileImageUrl(relativePath);
+        userRepository.save(user);
+
+        return relativePath;
     }
 }
