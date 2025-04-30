@@ -34,5 +34,6 @@ public class ExerciseLog {
     // 실제 소모된 칼로리 값
     @Builder.Default
     @Column(nullable = false)
-    private double caloriesBurned = 0;
+    private double caloriesBurned = 0.0;
+
 }
