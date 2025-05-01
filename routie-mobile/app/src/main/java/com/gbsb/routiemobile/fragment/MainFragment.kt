@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.R
@@ -22,9 +23,11 @@ import com.gbsb.routiemobile.databinding.FragmentMainBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.ExerciseResponse
 import com.gbsb.routiemobile.dto.Routine
+import com.gbsb.routiemobile.dto.RoutineDayResponse
 import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
 import com.gbsb.routiemobile.network.RetrofitClient
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,12 +75,8 @@ class MainFragment : Fragment() {
         weekDayAdapter = WeekDayAdapter(emptyList()) { newlySelectedDate ->
             selectedDate = newlySelectedDate
             showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
-
-            val userId = getUserIdFromPrefs()
-            userId?.let {
-                fetchRoutineLogs(it, selectedDate.toString())
-                loadScheduledRoutines(it, selectedDate.toString())
-            }
+            fetchRoutineLogsForDate(selectedDate)
+            loadRoutinesByDayOfWeekAndDate(selectedDate)
         }
 
         binding.recyclerWeekDays.apply {
@@ -93,6 +92,9 @@ class MainFragment : Fragment() {
                 selectedDate = LocalDate.of(y, m + 1, d)
                 showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
 
+                fetchRoutineLogsForDate(selectedDate)
+                loadRoutinesByDayOfWeekAndDate(selectedDate)
+
                 val userId = getUserIdFromPrefs()
                 userId?.let {
                     fetchRoutineLogs(it, selectedDate.toString())
@@ -105,12 +107,24 @@ class MainFragment : Fragment() {
         }
 
         exerciseNameTextView = binding.tvExerciseNames
+        fetchRoutineLogsForDate(selectedDate)
+        loadRoutinesByDayOfWeekAndDate(selectedDate)
+
+        bodyImage = binding.bodyImage
+        hairImage = binding.hairImage
+        outfitImage = binding.outfitImage
+        bottomImage = binding.bottomImage
+        accessoryImage = binding.accessoryImage
+        shoesImage = binding.shoesImage
 
         val userId = getUserIdFromPrefs()
         userId?.let {
             fetchRoutineLogs(it, selectedDate.toString())
-            loadScheduledRoutines(it, selectedDate.toString())
         }
+
+        getUserIdFromPrefs()?.let { loadCharacterStyle(it) }
+        showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
 
         binding.btnBell.setOnClickListener {
             binding.imgNoticefield.visibility =
@@ -134,12 +148,7 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
         }
 
-        bodyImage = binding.bodyImage
-        hairImage = binding.hairImage
-        outfitImage = binding.outfitImage
-        bottomImage = binding.bottomImage
-        accessoryImage = binding.accessoryImage
-        shoesImage = binding.shoesImage
+
 
         // 캐릭터 스타일 불러오기
         getUserIdFromPrefs()?.let { userId ->
@@ -202,6 +211,12 @@ class MainFragment : Fragment() {
         weekDayAdapter.updateDays(weekDays, selected)
     }
 
+    private fun fetchRoutineLogsForDate(date: LocalDate) {
+        getUserIdFromPrefs()?.let { userId ->
+            fetchRoutineLogs(userId, date.toString())
+        }
+    }
+
     private fun fetchRoutineLogs(userId: String, date: String) {
         RetrofitClient.routineLogApi.getRoutineLogsByDate(userId, date)
             .enqueue(object : Callback<List<RoutineLog>> {
@@ -237,42 +252,51 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun loadScheduledRoutines(userId: String, date: String) {
-        RetrofitClient.routineApi.getScheduledRoutines(userId, date)
-            .enqueue(object : Callback<List<Routine>> {
-                override fun onResponse(call: Call<List<Routine>>, response: Response<List<Routine>>) {
-                    if (response.isSuccessful) {
-                        val routines = response.body().orEmpty()
+    private fun loadRoutinesByDayOfWeekAndDate(targetDate: LocalDate) {
+        val dayOfWeek = when (targetDate.dayOfWeek) {
+            DayOfWeek.MONDAY -> "monday"
+            DayOfWeek.TUESDAY -> "tuesday"
+            DayOfWeek.WEDNESDAY -> "wednesday"
+            DayOfWeek.THURSDAY -> "thursday"
+            DayOfWeek.FRIDAY -> "friday"
+            DayOfWeek.SATURDAY -> "saturday"
+            DayOfWeek.SUNDAY -> "sunday"
+        }
 
-                        if (routines.isEmpty()) {
-                            binding.recyclerRoutineList.adapter = null
-                            binding.tvExerciseNames.text = "해당 날짜에 등록된 루틴이 없습니다."
-                            return
-                        }
-
-                        binding.recyclerRoutineList.adapter = RoutineAdapter(
-                            routines.toMutableList(),
-                            onDeleteClick = {},
-                            onItemClick = { routine ->
-                                loadExercisesForRoutine(routine.id, routine.name)
-                            }
-                        )
-
-                        // 첫 번째 루틴 자동 표시
-                        val first = routines[0]
-                        loadExercisesForRoutine(first.id, first.name)
-
-                        setupRoutineDropdown(routines)
-
-                    } else {
-                        Toast.makeText(requireContext(), "예약된 루틴 불러오기 실패", Toast.LENGTH_SHORT).show()
-                    }
+        // suspend 함수이므로 lifecycleScope로 감싸야 함
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val allRoutines = RetrofitClient.routineApi.getRoutinesByDay(dayOfWeek)
+                val filtered = allRoutines.filter {
+                    val createdDate = LocalDate.parse(it.scheduledDate)
+                    !targetDate.isBefore(createdDate)
                 }
 
-                override fun onFailure(call: Call<List<Routine>>, t: Throwable) {
-                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                if (filtered.isEmpty()) {
+                    binding.recyclerRoutineList.adapter = null
+                    binding.tvExerciseNames.text = "선택된 날짜에 해당하는 루틴이 없습니다."
+                    binding.dropdownRoutineName.text = "루틴 없음"
+                    setupRoutineDropdown(emptyList())
+
+                    return@launch
                 }
-            })
+
+                val routines = filtered.map {
+                    Routine(it.id, it.name, description = "", exercises = emptyList())
+                }
+                val adapter = RoutineAdapter(routines.toMutableList(), {}, {
+                    loadExercisesForRoutine(it.id, it.name)
+                })
+                binding.recyclerRoutineList.adapter = adapter
+
+                val first = routines[0]
+                loadExercisesForRoutine(first.id, first.name)
+                setupRoutineDropdown(routines)
+
+            } catch (e: Exception) {
+                Log.e("RoutineAPI", "루틴 로드 실패: ${e.message}")
+            }
+        }
     }
 
     private fun loadExercisesForRoutine(routineId: Long, routineName: String) {
@@ -328,6 +352,18 @@ class MainFragment : Fragment() {
             }
 
             popupMenu.show()
+        }
+    }
+
+    private fun getTodayDayOfWeekString(): String {
+        return when (LocalDate.now().dayOfWeek) {
+            DayOfWeek.MONDAY -> "monday"
+            DayOfWeek.TUESDAY -> "tuesday"
+            DayOfWeek.WEDNESDAY -> "wednesday"
+            DayOfWeek.THURSDAY -> "thursday"
+            DayOfWeek.FRIDAY -> "friday"
+            DayOfWeek.SATURDAY -> "saturday"
+            DayOfWeek.SUNDAY -> "sunday"
         }
     }
 

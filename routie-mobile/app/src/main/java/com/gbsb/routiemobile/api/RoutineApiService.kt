@@ -5,6 +5,7 @@ import com.gbsb.routiemobile.dto.RoutineRequest
 import com.gbsb.routiemobile.dto.RoutineResponse
 import com.gbsb.routiemobile.dto.RoutineUpdateRequest
 import com.gbsb.routiemobile.dto.ExerciseResponse
+import com.gbsb.routiemobile.dto.RoutineDayResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -51,4 +52,9 @@ interface RoutineApiService {
     // 운동 루틴 삭제
     @DELETE("/api/routines/{routineId}")
     fun deleteRoutine(@Path("routineId") routineId: String): Call<Void>
+
+    // 요일로 루틴 조회
+    @GET("api/routines")
+    suspend fun getRoutinesByDay(@Query("dayOfWeek") dayOfWeek: String): List<RoutineDayResponse>
+
 }
