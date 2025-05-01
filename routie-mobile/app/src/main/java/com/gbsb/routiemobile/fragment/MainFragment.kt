@@ -80,7 +80,8 @@ class MainFragment : Fragment() {
         }
 
         binding.recyclerWeekDays.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = weekDayAdapter
         }
 
@@ -148,8 +149,6 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
         }
 
-
-
         // 캐릭터 스타일 불러오기
         getUserIdFromPrefs()?.let { userId ->
             loadCharacterStyle(userId)
@@ -163,7 +162,8 @@ class MainFragment : Fragment() {
             fetchRoutineLogs(it, selectedDate.toString())
         }
 
-        val samsungHealthManager = com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
+        val samsungHealthManager =
+            com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
 
         samsungHealthManager.fetchStepsAndCalories(
             onResult = { steps, calories ->
@@ -175,7 +175,10 @@ class MainFragment : Fragment() {
                 com.gbsb.routiemobile.network.RetrofitClient.healthApi
                     .sendHealthData(request)
                     .enqueue(object : retrofit2.Callback<Void> {
-                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                        override fun onResponse(
+                            call: retrofit2.Call<Void>,
+                            response: retrofit2.Response<Void>
+                        ) {
                             if (response.isSuccessful) {
                                 Log.d("MainFragment", "헬스 데이터 전송 성공")
                             } else {
@@ -203,7 +206,10 @@ class MainFragment : Fragment() {
             val date = startOfWeek.plusDays(offset.toLong())
             WeekDay(
                 date = date,
-                dayOfWeek = date.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, Locale.KOREAN),
+                dayOfWeek = date.dayOfWeek.getDisplayName(
+                    java.time.format.TextStyle.SHORT,
+                    Locale.KOREAN
+                ),
                 isSelected = date == selected
             )
         }
@@ -232,8 +238,26 @@ class MainFragment : Fragment() {
                             Log.d("RoutineLog", "[$index] 총 ${log.exerciseLogs.size}개 운동 포함됨")
                         }
 
+                        val totalCalories = logs.sumOf { it.totalCaloriesBurned }
+                        val totalDuration = logs.sumOf { it.totalDuration }  // 초 단위
+
+                        val hours = totalDuration / 3600
+                        val minutes = (totalDuration % 3600) / 60
+                        val seconds = totalDuration % 60
+
+                        val timeText = buildString {
+                            if (hours > 0) append("${hours}시간 ")
+                            if (minutes > 0 || hours > 0) append("${minutes}분 ")
+                            append("${seconds}초")
+                        }
+
+                        binding.tvDailyText.text =
+                            "총 소모 칼로리: ${totalCalories}kcal\n총 운동 시간: $timeText"
+
+
                         val logAdapter = RoutineLogAdapter(logs)
-                        binding.recyclerRoutineLogs.layoutManager = LinearLayoutManager(requireContext())
+                        binding.recyclerRoutineLogs.layoutManager =
+                            LinearLayoutManager(requireContext())
                         binding.recyclerRoutineLogs.adapter = logAdapter
                     } else {
                         Log.e("RoutineLog", "응답 실패: ${response.code()}")
@@ -310,7 +334,8 @@ class MainFragment : Fragment() {
                         val exercises = response.body().orEmpty()
                         updateSketchbookText(exercises)
                     } else {
-                        Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -370,7 +395,10 @@ class MainFragment : Fragment() {
     private fun loadCharacterStyle(userId: String) {
         RetrofitClient.characterApi.getStyle(userId)
             .enqueue(object : Callback<CharacterStyleResponseDto> {
-                override fun onResponse(call: Call<CharacterStyleResponseDto>, response: Response<CharacterStyleResponseDto>) {
+                override fun onResponse(
+                    call: Call<CharacterStyleResponseDto>,
+                    response: Response<CharacterStyleResponseDto>
+                ) {
                     if (response.isSuccessful) {
                         val style = response.body()
                         style?.let {

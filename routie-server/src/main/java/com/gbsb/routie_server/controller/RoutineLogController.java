@@ -42,5 +42,4 @@ public class RoutineLogController {
         List<RoutineLogDto> dtos = logs.stream().map(RoutineLogDto::new).toList();
         return ResponseEntity.ok(dtos);
     }
-
 }

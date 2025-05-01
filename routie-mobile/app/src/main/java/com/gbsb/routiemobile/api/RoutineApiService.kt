@@ -56,5 +56,4 @@ interface RoutineApiService {
     // 요일로 루틴 조회
     @GET("api/routines")
     suspend fun getRoutinesByDay(@Query("dayOfWeek") dayOfWeek: String): List<RoutineDayResponse>
-
 }
