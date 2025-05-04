@@ -12,7 +12,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
+        android:layout_height="837dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -308,7 +308,7 @@
         <!-- 하단 버튼 레이아웃 -->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="75dp"
+            android:layout_height="78dp"
             android:background="@drawable/lowbar"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -332,13 +332,30 @@
                 android:contentDescription="방꾸미기"
                 app:srcCompat="@drawable/character_home" />
 
-            <ImageView
-                android:id="@+id/img_coinfield"
-                android:layout_width="87dp"
-                android:layout_height="37dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="6dp"
-                app:srcCompat="@drawable/gold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="76dp"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/bt_ranking" />
+
+                <ImageView
+                    android:id="@+id/img_coinfield"
+                    android:layout_width="76dp"
+                    android:layout_height="37dp"
+                    android:layout_marginLeft="10dp"
+                    app:srcCompat="@drawable/gold" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
