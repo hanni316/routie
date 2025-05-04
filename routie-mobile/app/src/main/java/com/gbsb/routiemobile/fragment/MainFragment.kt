@@ -12,6 +12,7 @@ import android.widget.Toast
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gbsb.routiemobile.R
@@ -22,9 +23,11 @@ import com.gbsb.routiemobile.databinding.FragmentMainBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.ExerciseResponse
 import com.gbsb.routiemobile.dto.Routine
+import com.gbsb.routiemobile.dto.RoutineDayResponse
 import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
 import com.gbsb.routiemobile.network.RetrofitClient
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,16 +75,13 @@ class MainFragment : Fragment() {
         weekDayAdapter = WeekDayAdapter(emptyList()) { newlySelectedDate ->
             selectedDate = newlySelectedDate
             showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
-
-            val userId = getUserIdFromPrefs()
-            userId?.let {
-                fetchRoutineLogs(it, selectedDate.toString())
-                loadScheduledRoutines(it, selectedDate.toString())
-            }
+            fetchRoutineLogsForDate(selectedDate)
+            loadRoutinesByDayOfWeekAndDate(selectedDate)
         }
 
         binding.recyclerWeekDays.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = weekDayAdapter
         }
 
@@ -92,6 +92,9 @@ class MainFragment : Fragment() {
                 cal.set(y, m, d)
                 selectedDate = LocalDate.of(y, m + 1, d)
                 showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
+                fetchRoutineLogsForDate(selectedDate)
+                loadRoutinesByDayOfWeekAndDate(selectedDate)
 
                 val userId = getUserIdFromPrefs()
                 userId?.let {
@@ -105,12 +108,24 @@ class MainFragment : Fragment() {
         }
 
         exerciseNameTextView = binding.tvExerciseNames
+        fetchRoutineLogsForDate(selectedDate)
+        loadRoutinesByDayOfWeekAndDate(selectedDate)
+
+        bodyImage = binding.bodyImage
+        hairImage = binding.hairImage
+        outfitImage = binding.outfitImage
+        bottomImage = binding.bottomImage
+        accessoryImage = binding.accessoryImage
+        shoesImage = binding.shoesImage
 
         val userId = getUserIdFromPrefs()
         userId?.let {
             fetchRoutineLogs(it, selectedDate.toString())
-            loadScheduledRoutines(it, selectedDate.toString())
         }
+
+        getUserIdFromPrefs()?.let { loadCharacterStyle(it) }
+        showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
+
 
         binding.btnBell.setOnClickListener {
             binding.imgNoticefield.visibility =
@@ -134,13 +149,6 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
         }
 
-        bodyImage = binding.bodyImage
-        hairImage = binding.hairImage
-        outfitImage = binding.outfitImage
-        bottomImage = binding.bottomImage
-        accessoryImage = binding.accessoryImage
-        shoesImage = binding.shoesImage
-
         // 캐릭터 스타일 불러오기
         getUserIdFromPrefs()?.let { userId ->
             loadCharacterStyle(userId)
@@ -154,7 +162,8 @@ class MainFragment : Fragment() {
             fetchRoutineLogs(it, selectedDate.toString())
         }
 
-        val samsungHealthManager = com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
+        val samsungHealthManager =
+            com.gbsb.routiemobile.health.SamsungHealthManager(requireContext())
 
         samsungHealthManager.fetchStepsAndCalories(
             onResult = { steps, calories ->
@@ -166,7 +175,10 @@ class MainFragment : Fragment() {
                 com.gbsb.routiemobile.network.RetrofitClient.healthApi
                     .sendHealthData(request)
                     .enqueue(object : retrofit2.Callback<Void> {
-                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                        override fun onResponse(
+                            call: retrofit2.Call<Void>,
+                            response: retrofit2.Response<Void>
+                        ) {
                             if (response.isSuccessful) {
                                 Log.d("MainFragment", "헬스 데이터 전송 성공")
                             } else {
@@ -194,12 +206,21 @@ class MainFragment : Fragment() {
             val date = startOfWeek.plusDays(offset.toLong())
             WeekDay(
                 date = date,
-                dayOfWeek = date.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, Locale.KOREAN),
+                dayOfWeek = date.dayOfWeek.getDisplayName(
+                    java.time.format.TextStyle.SHORT,
+                    Locale.KOREAN
+                ),
                 isSelected = date == selected
             )
         }
 
         weekDayAdapter.updateDays(weekDays, selected)
+    }
+
+    private fun fetchRoutineLogsForDate(date: LocalDate) {
+        getUserIdFromPrefs()?.let { userId ->
+            fetchRoutineLogs(userId, date.toString())
+        }
     }
 
     private fun fetchRoutineLogs(userId: String, date: String) {
@@ -217,8 +238,26 @@ class MainFragment : Fragment() {
                             Log.d("RoutineLog", "[$index] 총 ${log.exerciseLogs.size}개 운동 포함됨")
                         }
 
+                        val totalCalories = logs.sumOf { it.totalCaloriesBurned }
+                        val totalDuration = logs.sumOf { it.totalDuration }  // 초 단위
+
+                        val hours = totalDuration / 3600
+                        val minutes = (totalDuration % 3600) / 60
+                        val seconds = totalDuration % 60
+
+                        val timeText = buildString {
+                            if (hours > 0) append("${hours}시간 ")
+                            if (minutes > 0 || hours > 0) append("${minutes}분 ")
+                            append("${seconds}초")
+                        }
+
+                        binding.tvDailyText.text =
+                            "총 소모 칼로리: ${totalCalories}kcal\n총 운동 시간: $timeText"
+
+
                         val logAdapter = RoutineLogAdapter(logs)
-                        binding.recyclerRoutineLogs.layoutManager = LinearLayoutManager(requireContext())
+                        binding.recyclerRoutineLogs.layoutManager =
+                            LinearLayoutManager(requireContext())
                         binding.recyclerRoutineLogs.adapter = logAdapter
                     } else {
                         Log.e("RoutineLog", "응답 실패: ${response.code()}")
@@ -237,42 +276,51 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun loadScheduledRoutines(userId: String, date: String) {
-        RetrofitClient.routineApi.getScheduledRoutines(userId, date)
-            .enqueue(object : Callback<List<Routine>> {
-                override fun onResponse(call: Call<List<Routine>>, response: Response<List<Routine>>) {
-                    if (response.isSuccessful) {
-                        val routines = response.body().orEmpty()
+    private fun loadRoutinesByDayOfWeekAndDate(targetDate: LocalDate) {
+        val dayOfWeek = when (targetDate.dayOfWeek) {
+            DayOfWeek.MONDAY -> "monday"
+            DayOfWeek.TUESDAY -> "tuesday"
+            DayOfWeek.WEDNESDAY -> "wednesday"
+            DayOfWeek.THURSDAY -> "thursday"
+            DayOfWeek.FRIDAY -> "friday"
+            DayOfWeek.SATURDAY -> "saturday"
+            DayOfWeek.SUNDAY -> "sunday"
+        }
 
-                        if (routines.isEmpty()) {
-                            binding.recyclerRoutineList.adapter = null
-                            binding.tvExerciseNames.text = "해당 날짜에 등록된 루틴이 없습니다."
-                            return
-                        }
-
-                        binding.recyclerRoutineList.adapter = RoutineAdapter(
-                            routines.toMutableList(),
-                            onDeleteClick = {},
-                            onItemClick = { routine ->
-                                loadExercisesForRoutine(routine.id, routine.name)
-                            }
-                        )
-
-                        // 첫 번째 루틴 자동 표시
-                        val first = routines[0]
-                        loadExercisesForRoutine(first.id, first.name)
-
-                        setupRoutineDropdown(routines)
-
-                    } else {
-                        Toast.makeText(requireContext(), "예약된 루틴 불러오기 실패", Toast.LENGTH_SHORT).show()
-                    }
+        // suspend 함수이므로 lifecycleScope로 감싸야 함
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val allRoutines = RetrofitClient.routineApi.getRoutinesByDay(dayOfWeek)
+                val filtered = allRoutines.filter {
+                    val createdDate = LocalDate.parse(it.scheduledDate)
+                    !targetDate.isBefore(createdDate)
                 }
 
-                override fun onFailure(call: Call<List<Routine>>, t: Throwable) {
-                    Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                if (filtered.isEmpty()) {
+                    binding.recyclerRoutineList.adapter = null
+                    binding.tvExerciseNames.text = "선택된 날짜에 해당하는 루틴이 없습니다."
+                    binding.dropdownRoutineName.text = "루틴 없음"
+                    setupRoutineDropdown(emptyList())
+
+                    return@launch
                 }
-            })
+
+                val routines = filtered.map {
+                    Routine(it.id, it.name, description = "", exercises = emptyList())
+                }
+                val adapter = RoutineAdapter(routines.toMutableList(), {}, {
+                    loadExercisesForRoutine(it.id, it.name)
+                })
+                binding.recyclerRoutineList.adapter = adapter
+
+                val first = routines[0]
+                loadExercisesForRoutine(first.id, first.name)
+                setupRoutineDropdown(routines)
+
+            } catch (e: Exception) {
+                Log.e("RoutineAPI", "루틴 로드 실패: ${e.message}")
+            }
+        }
     }
 
     private fun loadExercisesForRoutine(routineId: Long, routineName: String) {
@@ -286,7 +334,8 @@ class MainFragment : Fragment() {
                         val exercises = response.body().orEmpty()
                         updateSketchbookText(exercises)
                     } else {
-                        Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "운동 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -331,10 +380,25 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun getTodayDayOfWeekString(): String {
+        return when (LocalDate.now().dayOfWeek) {
+            DayOfWeek.MONDAY -> "monday"
+            DayOfWeek.TUESDAY -> "tuesday"
+            DayOfWeek.WEDNESDAY -> "wednesday"
+            DayOfWeek.THURSDAY -> "thursday"
+            DayOfWeek.FRIDAY -> "friday"
+            DayOfWeek.SATURDAY -> "saturday"
+            DayOfWeek.SUNDAY -> "sunday"
+        }
+    }
+
     private fun loadCharacterStyle(userId: String) {
         RetrofitClient.characterApi.getStyle(userId)
             .enqueue(object : Callback<CharacterStyleResponseDto> {
-                override fun onResponse(call: Call<CharacterStyleResponseDto>, response: Response<CharacterStyleResponseDto>) {
+                override fun onResponse(
+                    call: Call<CharacterStyleResponseDto>,
+                    response: Response<CharacterStyleResponseDto>
+                ) {
                     if (response.isSuccessful) {
                         val style = response.body()
                         style?.let {

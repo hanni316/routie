@@ -166,17 +166,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp" />
 
-                <!-- 🖍️ 크레용 이미지 -->
-
-                <!--<ImageView
-                    android:id="@+id/img_sketchbook_highlight"
-                    android:layout_width="263dp"
-                    android:layout_height="114dp"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="10dp"
-                    app:srcCompat="@drawable/" />-->
-
                 <Button
                     android:id="@+id/dropdownRoutineName"
                     android:layout_width="wrap_content"
@@ -249,12 +238,13 @@
                 <TextView
                     android:id="@+id/tv_dailyText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="143dp"
                     android:layout_margin="12dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:lineSpacingExtra="4dp"
-                    android:text="\n\n\n첼린지 기능 추가예정"
+                    android:text="\n\n\n총 칼로리 소모량 운동시간 표시예정"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
             </FrameLayout>
@@ -288,6 +278,12 @@
                     android:scaleType="fitCenter" />
 
                 <ImageView
+                    android:id="@+id/shoes_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
                     android:id="@+id/bottom_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -305,11 +301,6 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter" />
 
-                <ImageView
-                    android:id="@+id/shoes_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter" />
 
             </FrameLayout>
         </LinearLayout>
