@@ -44,12 +44,12 @@
                 android:id="@+id/img_ID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/idbar" />
+                android:src="@drawable/idbar_2" />
 
             <EditText
                 android:id="@+id/editTextID"
                 android:layout_width="269dp"
-                android:layout_height="85dp"
+                android:layout_height="77dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="55dp"
                 android:background="@android:color/transparent"
@@ -66,7 +66,7 @@
                 android:id="@+id/img_PW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pwbar" />
+                android:src="@drawable/pwbar_2" />
 
             <EditText
                 android:id="@+id/editTextPassword"
