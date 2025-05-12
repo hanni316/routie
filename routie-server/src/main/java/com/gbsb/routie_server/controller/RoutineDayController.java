@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/routines")
+@RequestMapping("/api/routines")
 public class RoutineDayController {
 
     private final RoutineDayService routineDayService;

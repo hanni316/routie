@@ -1,12 +1,10 @@
 package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.dto.RoutineDayDto;
-import com.gbsb.routie_server.entity.Routine;
 import com.gbsb.routie_server.repository.RoutineDayRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoutineDayService {
