@@ -351,7 +351,7 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/imageButton6"
+                        android:id="@+id/img_ranking"
                         android:layout_width="76dp"
                         android:layout_height="48dp"
                         android:layout_marginLeft="10dp"

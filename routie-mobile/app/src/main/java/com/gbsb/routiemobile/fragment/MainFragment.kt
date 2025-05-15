@@ -149,6 +149,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
         }
 
+        binding.imgRanking.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_rankingFragment)
+        }
+
         // 캐릭터 스타일 불러오기
         getUserIdFromPrefs()?.let { userId ->
             loadCharacterStyle(userId)
