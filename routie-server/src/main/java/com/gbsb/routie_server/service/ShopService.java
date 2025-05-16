@@ -8,6 +8,7 @@ import com.gbsb.routie_server.repository.UserItemRepository;
 import com.gbsb.routie_server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.gbsb.routie_server.dto.PurchaseRequestDto;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -25,18 +26,17 @@ public class ShopService {
     }
 
     @Transactional
-    public String purchaseItem(String userId, Long itemId, int quantity) {
-        Optional<User> userOpt = userRepository.findById(userId);
-        Optional<Item> itemOpt = itemRepository.findById(itemId);
+    public String purchaseItem(PurchaseRequestDto req) {
+        String userId   = req.getUserId();
+        Long   itemId   = req.getItemId();
+        int    quantity = req.getQuantity();
 
-        if (userOpt.isEmpty() || itemOpt.isEmpty()) {
-            return "사용자 또는 아이템이 존재하지 않습니다.";
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("사용자가 없습니다: " + userId));
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("아이템이 없습니다: " + itemId));
 
-        User user = userOpt.get();
-        Item item = itemOpt.get();
         int totalPrice = item.getPrice() * quantity;
-
         if (user.getGold() < totalPrice) {
             return "골드가 부족합니다.";
         }
@@ -50,11 +50,10 @@ public class ShopService {
                 .user(user)
                 .item(item)
                 .quantity(quantity)
-                .purchaseDate(LocalDateTime.now())
                 .build();
 
         userItemRepository.save(newUserItem);
 
-        return "✅ " + item.getName() + "을(를) " + quantity + "개 구매했습니다!";
+        return "구매했습니다!";
     }
 }

@@ -141,4 +141,10 @@ public class UserController {
         String imageUrl = userService.updateProfileImage(userId, file);
         return ResponseEntity.ok(new ProfileImageResponseDto(imageUrl));
     }
+    // 골드 조회
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<UserProfileResponseDto> getProfile(@PathVariable String userId) {
+        UserProfileResponseDto profile = userService.getUserProfile(userId);
+        return ResponseEntity.ok(profile);
+    }
 }

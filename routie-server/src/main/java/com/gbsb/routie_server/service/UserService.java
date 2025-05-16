@@ -2,6 +2,7 @@ package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.entity.Reward;
 import com.gbsb.routie_server.entity.User;
+import com.gbsb.routie_server.dto.UserProfileResponseDto;
 import com.gbsb.routie_server.repository.RewardRepository;
 import com.gbsb.routie_server.repository.RoutineRepository;
 import com.gbsb.routie_server.repository.UserRepository;
@@ -103,6 +104,17 @@ public class UserService {
 
         user.setPassword(newPassword);
         userRepository.save(user);
+    }
+    @Transactional(readOnly = true)
+    public UserProfileResponseDto getUserProfile(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다: " + userId));
+
+        return new UserProfileResponseDto(
+                user.getUserId(),
+                user.getName(),
+                user.getGold()
+        );
     }
 
     // 사용자 조회

@@ -17,7 +17,7 @@ public class ShopController {
     // 아이템 구매
     @PostMapping("/purchase")
     public ResponseEntity<String> purchaseItem(@RequestBody PurchaseRequestDto request) {
-        String result = shopService.purchaseItem(request.getUserId(), request.getItemId(), request.getQuantity());
+        String result = shopService.purchaseItem(request);
         return ResponseEntity.ok(result);
     }
 }
