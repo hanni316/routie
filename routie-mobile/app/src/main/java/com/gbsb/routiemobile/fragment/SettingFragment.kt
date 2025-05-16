@@ -22,6 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.gbsb.routiemobile.config.ServerConfig
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MultipartBody
@@ -33,14 +34,9 @@ class SettingFragment : Fragment() {
 
     private lateinit var profileImageLauncher: ActivityResultLauncher<String>
 
-    companion object {
-        private const val SERVER_IP = "192.168.45.132" // ip 주소
-    }
-
     private val profileImageCallback = ActivityResultCallback<Uri?> { uri ->
         uri?.let { selectedUri ->
             _binding?.let { safeBinding ->
-                safeBinding.profileSetting.setImageURI(selectedUri)
                 uploadProfileImage(selectedUri)
             }
         }
@@ -81,6 +77,17 @@ class SettingFragment : Fragment() {
                         if (response.isSuccessful) {
                             val user = response.body()
                             binding.tvNickname.text = user?.name ?: "닉네임 없음"
+
+                            val imageUrl = user?.profileImageUrl
+                            if (!imageUrl.isNullOrBlank()) {
+                                saveProfileImageUrl(imageUrl)
+                                val fullUrl = "${ServerConfig.BASE_URL}$imageUrl"
+                                Glide.with(requireContext())
+                                    .load(fullUrl)
+                                    .placeholder(R.drawable.default_profile)
+                                    .circleCrop()
+                                    .into(binding.profileSetting)
+                            }
                         } else {
                             binding.tvNickname.text = "닉네임 불러오기 실패"
                             Log.e("SettingFragment", "응답 실패: ${response.code()}")
@@ -131,7 +138,13 @@ class SettingFragment : Fragment() {
                         val imageUrl = response.body()?.imageUrl
                         Log.d("프로필 업로드", "성공: $imageUrl")
                         saveProfileImageUrl(imageUrl)
-                        // loadProfileImage()는 생략: 재진입 시 자동 호출됨
+
+                        val fullUrl = "${ServerConfig.BASE_URL}$imageUrl"
+                        Glide.with(requireContext())
+                            .load(fullUrl)
+                            .placeholder(R.drawable.default_profile)
+                            .circleCrop()
+                            .into(binding.profileSetting)
                     } else {
                         Log.e("프로필 업로드", "실패: ${response.code()}")
                     }
@@ -154,7 +167,7 @@ class SettingFragment : Fragment() {
         val imageUrl = prefs.getString("profile_image_url", null)
 
         if (!imageUrl.isNullOrBlank()) {
-            val fullUrl = "http://$SERVER_IP:8080$imageUrl"
+            val fullUrl = "${ServerConfig.BASE_URL}$imageUrl"
             Log.d("프로필 이미지 로드", "URL: $fullUrl")
 
             Glide.with(this)
@@ -171,6 +184,7 @@ class SettingFragment : Fragment() {
         with(sharedPreferences.edit()) {
             remove("isLoggedIn")
             remove("userId")
+            remove("profile_image_url")
             apply()
         }
     }

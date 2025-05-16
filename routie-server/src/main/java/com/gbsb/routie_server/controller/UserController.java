@@ -60,7 +60,8 @@ public class UserController {
             LoginResponseDto response = new LoginResponseDto(
                     user.getUserId(),
                     user.getName(),
-                    user.getGold()
+                    user.getGold(),
+                    user.getProfileImageUrl()
             );
 
             return ResponseEntity.ok(response);

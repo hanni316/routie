@@ -4,5 +4,6 @@ data class LoginResponse(
     val userId: String,
     val name: String,
     val gold: Int,
-    val totalCaloriesBurned: Double
+    val totalCaloriesBurned: Double,
+    val profileImageUrl: String?
 )
