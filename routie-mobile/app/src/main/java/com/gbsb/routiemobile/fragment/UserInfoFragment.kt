@@ -37,7 +37,7 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", 0)
         val userId = sharedPreferences.getString("userId", null)
 
         binding.btnModify.setOnClickListener {
@@ -106,7 +106,7 @@ class UserInfoFragment : Fragment() {
 
         // 회원 탈퇴
         binding.imageButton2.setOnClickListener {
-            val prefs = requireContext().getSharedPreferences("app_prefs", 0)
+            val prefs = requireContext().getSharedPreferences("user_prefs", 0)
             val userId = sharedPreferences.getString("userId", null)
 
             if (userId.isNullOrEmpty()) return@setOnClickListener

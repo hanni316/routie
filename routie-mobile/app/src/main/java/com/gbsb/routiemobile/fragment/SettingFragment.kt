@@ -71,7 +71,6 @@ class SettingFragment : Fragment() {
         binding.profileSetting.setOnClickListener {
             profileImageLauncher.launch("image/*")
         }
-
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val userId = prefs.getString("userId", null)
 
@@ -168,7 +167,7 @@ class SettingFragment : Fragment() {
 
     private fun logoutUser() {
         val sharedPreferences =
-            requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+            requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             remove("isLoggedIn")
             remove("userId")

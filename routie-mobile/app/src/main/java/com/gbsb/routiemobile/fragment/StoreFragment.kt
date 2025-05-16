@@ -1,4 +1,3 @@
-// 파일: app/src/main/kotlin/com/gbsb/routiemobile/fragment/StoreFragment.kt
 package com.gbsb.routiemobile.fragment
 
 import android.content.Context
@@ -7,17 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.appcompat.app.AlertDialog
 import com.gbsb.routiemobile.adapter.StoreAdapter
 import com.gbsb.routiemobile.databinding.FragmentStoreBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.Item
 import com.gbsb.routiemobile.network.RetrofitClient
+import com.gbsb.routiemobile.dto.PurchaseRequest
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +30,10 @@ class StoreFragment : Fragment() {
 
     // RecyclerView Adapter
     private lateinit var adapter: StoreAdapter
+
+    private val previewedItems = mutableSetOf<Item>()
+
+    private var currentStyle: CharacterStyleResponseDto? = null
 
     // 캐릭터 스타일 ImageView
     private lateinit var bodyImage: ImageView
@@ -50,6 +54,8 @@ class StoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("StoreFragment", "onViewCreated – SharedPrefs userId: ${getUserIdFromPrefs()}")
+
         bodyImage = binding.bodyImage
         hairImage = binding.hairImage
         outfitImage = binding.outfitImage
@@ -57,20 +63,45 @@ class StoreFragment : Fragment() {
         shoesImage = binding.shoesImage
         accessoryImage = binding.accessoryImage
 
-        adapter = StoreAdapter { item ->
+        adapter = StoreAdapter (
+            onPreview = { item ->
+                previewedItems.add(item)
             val resId = getDrawableResIdByName(item.nameEn)
             when (item.categoryName) {
-                "상의" -> outfitImage.setImageResource(resId)    // 상의
-                "하의" -> bottomImage.setImageResource(resId)    // 하의
-                "신발" -> shoesImage.setImageResource(resId)     // 신발
-                "악세서리" -> accessoryImage.setImageResource(resId) // 악세서리
-                "헤어" -> hairImage.setImageResource(resId)      // 헤어
+                "상의" -> outfitImage.setImageResource(resId)
+                "하의" -> bottomImage.setImageResource(resId)
+                "신발" -> shoesImage.setImageResource(resId)
+                "악세서리" -> accessoryImage.setImageResource(resId)
+                "헤어" -> hairImage.setImageResource(resId)
             }
-        }
+        },
+            onBuy = { item ->
+                AlertDialog.Builder(requireContext())
+                    .setTitle("구매 확인")
+                    .setMessage("${item.name}을(를) ${item.price}골드에 구매하시겠습니까?")
+                    .setPositiveButton("구매") { _, _ ->
+                        lifecycleScope.launch {
+                            try {
+                                val userId = getUserIdFromPrefs() ?: return@launch
+                                val response = RetrofitClient.shopApiService.purchaseItem(
+                                    PurchaseRequest(userId, item.itemId, 1)
+                                )
+                                Toast.makeText(requireContext(), response, Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(requireContext(),
+                                    "구매 실패: ${e.message}", Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                    .setNegativeButton("취소", null)
+                    .show()
+            }
+        )
 
         // RecyclerView 그리드 세팅
         binding.itemBox.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = GridLayoutManager(requireContext(), 3)
             setHasFixedSize(true)
             adapter = this@StoreFragment.adapter
         }
@@ -91,6 +122,68 @@ class StoreFragment : Fragment() {
 
         // 초기 선택: 상의 카테고리
         binding.btnTop.performClick()
+
+        binding.btnBuyAll.setOnClickListener {
+            // 구매 대상 리스트 구성: preview된 아이템이 있으면
+            val toBuy: List<Item> = if (previewedItems.isNotEmpty()) {
+                previewedItems.toList()
+            } else {
+                // previewedItems가 비어 있으면 서버에서 불러온 currentStyle로 매핑
+                val style = currentStyle ?: run {
+                    Toast.makeText(requireContext(),
+                        "먼저 옷을 미리 입혀 주세요.", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                // 현재 로드된 adapter 리스트에서 nameEn 매칭
+                adapter.currentList.filter { item ->
+                    when (item.categoryName) {
+                        "상의"     -> item.nameEn == style.outfit
+                        "하의"     -> item.nameEn == style.bottom
+                        "신발"     -> item.nameEn == style.shoes
+                        "악세서리" -> item.nameEn == style.accessory
+                        "헤어"     -> item.nameEn == style.hair
+                        else       -> false
+                    }
+                }
+            }
+
+            // 구매할 옷이 없으면 메시지
+            if (toBuy.isEmpty()) {
+                Toast.makeText(requireContext(),
+                    "구매할 옷이 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // 확인 다이얼로그
+            AlertDialog.Builder(requireContext())
+                .setTitle("일괄 구매 확인")
+                .setMessage(
+                    "총 ${toBuy.size}개의 옷을\n" +
+                            "총 ${toBuy.sumOf { it.price }}골드에 구매하시겠습니까?"
+                )
+                .setPositiveButton("구매") { _, _ ->
+                    lifecycleScope.launch {
+                        val userId = getUserIdFromPrefs() ?: return@launch
+                        toBuy.forEach { item ->
+                            try {
+                                RetrofitClient.shopApiService.purchaseItem(
+                                    PurchaseRequest(userId, item.itemId, 1)
+                                )
+                            } catch (e: Exception) {
+                                Log.e("StoreFragment",
+                                    "Batch purchase failed: ${item.name}", e)
+                            }
+                        }
+                        Toast.makeText(requireContext(),
+                            "옷 ${toBuy.size}개 구매 완료!",
+                            Toast.LENGTH_SHORT).show()
+                        previewedItems.clear()
+                    }
+                }
+                .setNegativeButton("취소", null)
+                .show()
+        }
+
 
         // 캐릭터 스타일 로드
         getUserIdFromPrefs()?.let { loadCharacterStyle(it) }

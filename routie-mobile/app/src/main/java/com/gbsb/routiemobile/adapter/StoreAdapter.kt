@@ -1,4 +1,3 @@
-// 파일: app/src/main/kotlin/com/gbsb/routiemobile/adapter/StoreAdapter.kt
 package com.gbsb.routiemobile.adapter
 
 import android.view.LayoutInflater
@@ -9,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.ItemStoreBinding
 import com.gbsb.routiemobile.dto.Item
+import android.os.SystemClock
+import android.view.View
 
 class StoreAdapter(
-    private val onItemClick: (Item) -> Unit
+    private val showPrice: Boolean = true,
+    private val onPreview: (Item) -> Unit,
+    private val onBuy: (Item) -> Unit
 ) : ListAdapter<Item, StoreAdapter.ViewHolder>(DiffCallback) {
 
     companion object {
@@ -24,15 +27,22 @@ class StoreAdapter(
     inner class ViewHolder(private val binding: ItemStoreBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+            private var lastClickTime = 0L
+
         fun bind(item: Item) {
             // 이름 및 가격 표시
             binding.tvName.text = item.name
-            binding.tvPrice.text = "${item.price}코인"
+            if (showPrice) {
+                binding.tvPrice.visibility = View.VISIBLE
+                binding.tvPrice.text = "${item.price}코인"
+            } else {
+                binding.tvPrice.visibility = View.GONE
+            }
 
-            // nameEn을 drawable 리소스명으로 사용하여 이미지 설정
+            // 이미지 로딩
             val context = binding.imgItem.context
             val resId = context.resources.getIdentifier(
-                item.nameEn, // ex: "top_1"
+                item.nameEn,
                 "drawable",
                 context.packageName
             )
@@ -44,7 +54,13 @@ class StoreAdapter(
 
             // 아이템 클릭 시 onItemClick 호출
             binding.root.setOnClickListener {
-                onItemClick(item)
+                val now = SystemClock.elapsedRealtime()
+                if (now - lastClickTime < 300) {
+                    onBuy(item)
+                } else {
+                    onPreview(item)
+                }
+                lastClickTime = now
             }
         }
     }

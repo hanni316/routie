@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun checkLoginState() { //PreferenxeManager -> getSharedPreferences로 변경
-        val sharedPreferences = getSharedPreferences("app_prefs", 0)
+        val sharedPreferences = getSharedPreferences("user_prefs", 0)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         if (!isLoggedIn) {

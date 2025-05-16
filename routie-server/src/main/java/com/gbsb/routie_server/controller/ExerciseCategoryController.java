@@ -1,6 +1,6 @@
 package com.gbsb.routie_server.controller;
 
-import com.gbsb.routie_server.entity.ExerciseCategory;
+import com.gbsb.routie_server.dto.ExerciseCategoryDto;
 import com.gbsb.routie_server.service.ExerciseCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +13,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExerciseCategoryController {
 
-    private final ExerciseCategoryService exerciseCategoryService;
+    private final ExerciseCategoryService categoryService;
 
-    // 모든 운동 카테고리 조회
     @GetMapping
-    public ResponseEntity<List<ExerciseCategory>> getAllCategories() {
-        List<ExerciseCategory> categories = exerciseCategoryService.getAllCategories();
-        return ResponseEntity.ok(categories);
+    public ResponseEntity<List<ExerciseCategoryDto>> getAllCategories() {
+        List<ExerciseCategoryDto> list = categoryService.getAllCategories();
+        return ResponseEntity.ok(list);
+    }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ExerciseCategoryDto> getCategoryByName(
+            @PathVariable String name) {
+        ExerciseCategoryDto dto = categoryService.getCategoryByName(name);
+        return ResponseEntity.ok(dto);
     }
 }

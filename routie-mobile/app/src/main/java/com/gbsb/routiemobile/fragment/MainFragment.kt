@@ -23,7 +23,8 @@ import com.gbsb.routiemobile.databinding.FragmentMainBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.ExerciseResponse
 import com.gbsb.routiemobile.dto.Routine
-import com.gbsb.routiemobile.dto.RoutineDayResponse
+import com.gbsb.routiemobile.api.UserApiService
+import com.gbsb.routiemobile.dto.UserProfileResponse
 import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
 import com.gbsb.routiemobile.network.RetrofitClient
@@ -61,8 +62,37 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+
+        val prefs = requireContext()
+            .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val userIdd = prefs.getString("userId", null)
+
+        if (!userIdd.isNullOrEmpty()) {
+            RetrofitClient.userApi.getUserProfile(userIdd)
+                .enqueue(object : Callback<UserProfileResponse> {
+                    override fun onResponse(
+                        call: Call<UserProfileResponse>,
+                        response: Response<UserProfileResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            // gold 만 꺼내서 표시
+                            val gold = response.body()!!.gold
+                            binding.tvGoldAmount.text = "${gold}G"
+                            prefs.edit().putInt("goldAmount", gold).apply()
+                        } else {
+                            val backup = prefs.getInt("goldAmount", 0)
+                            binding.tvGoldAmount.text = "${backup}G"
+                        }
+                    }
+                    override fun onFailure(call: Call<UserProfileResponse>, t: Throwable) {
+                        val backup = prefs.getInt("goldAmount", 0)
+                        binding.tvGoldAmount.text = "${backup}G"
+                    }
+                })
+        } else {
+            binding.tvGoldAmount.text = "0G"
+        }
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -276,8 +306,9 @@ class MainFragment : Fragment() {
 
     private fun getUserIdFromPrefs(): String? {
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        return prefs.getString("userId", null)
-
+        val userId = prefs.getString("userId", null)
+        Log.d("RoutineLog", "SharedPreferences에서 불러온 userId: $userId")
+        return userId
     }
 
     private fun loadRoutinesByDayOfWeekAndDate(targetDate: LocalDate) {

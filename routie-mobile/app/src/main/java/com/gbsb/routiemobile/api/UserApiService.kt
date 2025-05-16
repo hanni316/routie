@@ -7,6 +7,7 @@ import com.gbsb.routiemobile.dto.ProfileImageResponseDto
 import com.gbsb.routiemobile.dto.SignupRequest
 import com.gbsb.routiemobile.dto.User
 import com.gbsb.routiemobile.dto.UserUpdateRequest
+import com.gbsb.routiemobile.dto.UserProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -56,4 +57,8 @@ interface UserApiService {
         @Path("userId") userId: String,
         @Part file: MultipartBody.Part
     ): Call<ProfileImageResponseDto>
+
+    @GET("api/{id}/profile")
+    fun getUserProfile(@Path("id") userId: String): Call<UserProfileResponse>
+
 }

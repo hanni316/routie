@@ -41,7 +41,8 @@ public class RoutineExerciseService {
         return routineExerciseRepository.findByRoutine_Id(routineId).stream()
                 .map(re -> new ExerciseResponseDto(
                         re.getId(),
-                        re.getExercise().getName()
+                        re.getExercise().getName(),
+                        re.getExercise().getEnName()
                 ))
                 .collect(Collectors.toList());
     }

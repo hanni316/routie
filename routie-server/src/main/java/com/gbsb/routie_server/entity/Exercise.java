@@ -19,6 +19,9 @@ public class Exercise {
     @Column(nullable = false, unique = true)
     private String name;  // 운동 이름
 
+    @Column(name = "en_name", nullable = false, unique = true)
+    private String enName;  // 영어 이름
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
