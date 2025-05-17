@@ -94,6 +94,7 @@ class LoginFragment : Fragment() {
                         putBoolean("isLoggedIn", true)
                         putString("userId", loginResponse?.userId)
                         putInt("goldAmount", loginResponse?.gold ?: 0)
+                        putString("profile_image_url", loginResponse?.profileImageUrl)
                         apply()
                     }
                     Log.d("LoginFragment", "SharedPrefs 저장된 goldAmount=${prefs.getInt("goldAmount", -1)}")
