@@ -17,6 +17,7 @@ import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.adapter.StoreAdapter
 import com.gbsb.routiemobile.databinding.FragmentMyroomBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
+import com.gbsb.routiemobile.dto.CharacterStyleRequestDto
 import com.gbsb.routiemobile.dto.UserItem
 import com.gbsb.routiemobile.dto.Item
 import com.gbsb.routiemobile.network.RetrofitClient
@@ -43,6 +44,12 @@ class MyroomFragment : Fragment() {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var storeAdapter: StoreAdapter
     private var allPurchased = emptyList<Item>()
+
+    private var selectedHair:     String? = null
+    private var selectedOutfit:   String? = null
+    private var selectedBottom:   String? = null
+    private var selectedAccessory:String? = null
+    private var selectedShoes:    String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -142,6 +149,37 @@ class MyroomFragment : Fragment() {
                 }
             }
         }
+        binding.btnSaveStyle.setOnClickListener {
+            val userId = getUserIdFromPrefs() ?: return@setOnClickListener
+
+            val dto = CharacterStyleRequestDto(
+                hair      = selectedHair,
+                outfit    = selectedOutfit,
+                bottom    = selectedBottom,
+                accessory = selectedAccessory,
+                shoes     = selectedShoes
+            )
+            RetrofitClient.characterApi
+                .saveStyle(userId, dto)
+                .enqueue(object : Callback<Void> {
+                    override fun onResponse(
+                        call: Call<Void>,
+                        response: Response<Void>
+                    ) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(requireContext(), "스타일이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(requireContext(), "저장에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {  // ← Call<Void>
+                        Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
+                        Log.e("Myroom", "saveStyle failed", t)
+                    }
+                })
+        }
+
     }
 
         private fun setupStoreSection() {
@@ -242,11 +280,27 @@ class MyroomFragment : Fragment() {
             item.nameEn, "drawable", requireContext().packageName
         )
         when (item.categoryName) {
-            "상의"     -> outfitImage.setImageResource(resId)
-            "하의"     -> bottomImage.setImageResource(resId)
-            "신발"     -> shoesImage.setImageResource(resId)
-            "악세서리" -> accessoryImage.setImageResource(resId)
-            "헤어"     -> hairImage.setImageResource(resId)
+            "상의" -> {
+                outfitImage.setImageResource(resId)
+                // ▶▶ 선택한 옷 상태 변수에 저장
+                selectedOutfit = item.nameEn
+            }
+            "하의" -> {
+                bottomImage.setImageResource(resId)
+                selectedBottom = item.nameEn
+            }
+            "신발" -> {
+                shoesImage.setImageResource(resId)
+                selectedShoes = item.nameEn
+            }
+            "악세서리" -> {
+                accessoryImage.setImageResource(resId)
+                selectedAccessory = item.nameEn
+            }
+            "헤어" -> {
+                hairImage.setImageResource(resId)
+                selectedHair = item.nameEn
+            }
         }
     }
 

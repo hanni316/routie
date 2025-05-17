@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/routines")
+@RequestMapping("/api/routine-days")
 public class RoutineDayController {
 
     private final RoutineDayService routineDayService;
@@ -18,7 +18,10 @@ public class RoutineDayController {
     }
 
     @GetMapping
-    public List<RoutineDayDto> getRoutineDays(@RequestParam String dayOfWeek) {
-        return routineDayService.findRoutinesByDay(dayOfWeek);
+    public List<RoutineDayDto> getRoutineDays(
+            @RequestParam String userId,
+            @RequestParam String dayOfWeek
+    ) {
+        return routineDayService.findRoutinesByUserAndDay(userId, dayOfWeek);
     }
 }

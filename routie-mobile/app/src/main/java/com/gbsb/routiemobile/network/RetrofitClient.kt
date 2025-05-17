@@ -19,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
@@ -28,6 +29,7 @@ object RetrofitClient {
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -65,6 +67,7 @@ object RetrofitClient {
     val rankingApi: RankingApi by lazy {
         retrofit.create(RankingApi::class.java)
     }
+
 
     // 🛠 Mock API: 서버 없이 개발할 수 있도록 가짜 데이터 제공
     private val mockInstance: RewardApiService = object : RewardApiService {

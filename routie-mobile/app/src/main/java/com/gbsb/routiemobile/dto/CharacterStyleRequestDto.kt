@@ -1,6 +1,6 @@
 package com.gbsb.routiemobile.dto
 
-data class CharacterStyleResponseDto(
+data class CharacterStyleRequestDto(
     val hair: String?,
     val outfit: String?,
     val bottom: String?,
