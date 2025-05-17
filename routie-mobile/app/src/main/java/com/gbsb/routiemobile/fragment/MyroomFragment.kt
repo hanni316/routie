@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -127,6 +128,13 @@ class MyroomFragment : Fragment() {
 
             // 스토어 섹션 세팅
             setupStoreSection()
+
+            //가챠 버튼 클릭 이벤트->가챠화면
+            binding.gachaButton.setOnClickListener {
+                    if (parentFragmentManager.findFragmentByTag("GachaDialog") == null) {
+                        GachaDialogFragment().show(parentFragmentManager, "GachaDialog")
+                    }
+            }
 
 
             // 옷장 버튼 클릭 토글

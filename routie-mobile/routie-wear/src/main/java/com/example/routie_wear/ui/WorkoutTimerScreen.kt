@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.*
 import com.example.routie_wear.util.VibrationUtil
 import com.example.routie_wear.viewmodel.RoutineViewModel
@@ -19,7 +18,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun WorkoutTimerScreen(
     viewModel: RoutineViewModel,
-    onFinish: () -> Unit
+    onFinish: () -> Unit={}
 ) {
     val isRunning = viewModel.isRunning
     val time = viewModel.timerSeconds
@@ -65,7 +64,7 @@ fun WorkoutTimerScreen(
     ) {
         if (showCompletionMessage) {
             Text(
-                text = "☺️ 운동 끝! 최고야! 👍",
+                text = "☺️운동 끝! 최고야! 👍",
                 style = MaterialTheme.typography.title2,
                 color = MaterialTheme.colors.primary,
                 modifier = Modifier

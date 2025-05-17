@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.routie_wear"
-        minSdk = 30  // ✅ Wear OS는 minSdk 30이 기본
+        minSdk = 30  // Wear OS는 minSdk 30이 기본
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

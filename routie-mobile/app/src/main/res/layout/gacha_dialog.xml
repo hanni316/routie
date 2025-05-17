@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp">
 
+<!--    결과출력-->
     <TextView
         android:id="@+id/text_gacha_result"
         android:layout_width="wrap_content"
@@ -13,21 +15,50 @@
         android:layout_marginTop="652dp"
         android:paddingBottom="20dp"
         android:text="두근 두근! 가챠를 돌려보세요."
-        android:textSize="18sp"
+        android:fontFamily="@font/ownglyp"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+<!--돌리기 버튼!-->
     <Button
         android:id="@+id/btn_do_gacha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/gacha_button"
+        android:backgroundTint="@null"
         android:text="돌리기!"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/ownglyp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/text_gacha_result"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         android:layout_marginTop="20dp"/>
+<!--    결과이미지-->
+    <!--가챠기계사진-->
+    <ImageView
+        android:id="@+id/result_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/angel"
+        app:layout_constraintBottom_toTopOf="@+id/text_gacha_result"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/gachaMachine"
+        app:layout_constraintVertical_bias="0.928" />
+
+    <ImageView
+        android:id="@+id/gachaMachine"
+        android:layout_width="395dp"
+        android:layout_height="429dp"
+        android:src="@drawable/gacha_machine"
+        app:layout_constraintBottom_toTopOf="@+id/text_gacha_result"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

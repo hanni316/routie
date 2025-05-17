@@ -15,7 +15,7 @@ class RoutineViewModel : ViewModel() {
 
     var routineList by mutableStateOf<List<RoutineDto>>(emptyList())
     var workoutList by mutableStateOf<List<WorkoutDto>>(emptyList())
-        private set
+        internal set
 
     var isLoading by mutableStateOf(true)
         private set
@@ -32,7 +32,7 @@ class RoutineViewModel : ViewModel() {
     private val api = RetrofitInstance.api
     private val routineStartApi = RetrofitInstance.routineStartApi
 
-    // ✅ 오늘 루틴 목록 불러오기
+    // 오늘 루틴 목록 불러오기
     fun loadTodayRoutines() {
         val today = LocalDate.now().dayOfWeek.name.lowercase()
         viewModelScope.launch {
@@ -50,7 +50,7 @@ class RoutineViewModel : ViewModel() {
         }
     }
 
-    // ✅ 루틴 선택 후 운동 목록 불러오기
+    // 루틴 선택 후 운동 목록 불러오기
     fun loadWorkouts(routineId: Long) {
         selectedRoutineId = routineId
         viewModelScope.launch {
@@ -62,7 +62,7 @@ class RoutineViewModel : ViewModel() {
         }
     }
 
-    // ✅ 루틴 시작 시 서버에 RoutineLog 생성 요청
+    // 루틴 시작 시 서버에 RoutineLog 생성 요청
     fun startRoutineLog(userId: String, onStarted: () -> Unit) {
         val routineId = selectedRoutineId ?: return
         val uid = userId ?: run {
@@ -83,7 +83,7 @@ class RoutineViewModel : ViewModel() {
         }
     }
 
-    // ✅ 운동 기록 서버에 업로드
+    // 운동 기록 서버에 업로드
     fun uploadWorkout() {
         val exercise = selectedWorkout ?: return
         val logId = routineLogId ?: return

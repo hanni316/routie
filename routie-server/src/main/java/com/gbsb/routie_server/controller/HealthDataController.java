@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+//사용되지 않는 코드 입니다. 일단 임시로 남겨둡니다.
 @RestController
 @RequestMapping("/api/health")
 @RequiredArgsConstructor
