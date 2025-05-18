@@ -8,5 +8,6 @@ data class User(
     val gender: String,
     val age: Int,
     val height: Int,
-    val weight: Int
+    val weight: Int,
+    val profileImageUrl: String?
 )

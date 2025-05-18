@@ -54,6 +54,9 @@ interface RoutineApiService {
     fun deleteRoutine(@Path("routineId") routineId: String): Call<Void>
 
     // 요일로 루틴 조회
-    @GET("api/routines")
-    suspend fun getRoutinesByDay(@Query("dayOfWeek") dayOfWeek: String): List<RoutineDayResponse>
+    @GET("api/routine-days")
+    suspend fun getRoutinesByDay(
+    @Query("userId")   userId:   String,
+    @Query("dayOfWeek") dayOfWeek: String
+    ): List<RoutineDayResponse>
 }

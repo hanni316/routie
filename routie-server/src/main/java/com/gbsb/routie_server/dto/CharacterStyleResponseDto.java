@@ -14,7 +14,6 @@ public class CharacterStyleResponseDto {
     private String bottom;
     private String accessory;
     private String shoes;
-    private String background;
 
     public CharacterStyleResponseDto(CharacterStyle entity) {
         this.id = entity.getId();
@@ -24,6 +23,5 @@ public class CharacterStyleResponseDto {
         this.bottom = entity.getBottom();
         this.accessory = entity.getAccessory();
         this.shoes = entity.getShoes();
-        this.background = entity.getBackground();
     }
 }
