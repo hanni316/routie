@@ -11,6 +11,7 @@ import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
 import com.gbsb.routiemobile.api.ShopApiService
+import com.gbsb.routiemobile.api.UserItemApi
 import com.gbsb.routiemobile.config.ServerConfig
 import okhttp3.Request
 import okio.Timeout
@@ -103,6 +104,14 @@ object RetrofitClient {
                 override fun timeout(): Timeout = Timeout.NONE
             }
         }
+    }
+    //가챠 결과 전성
+    val userItemApi: UserItemApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UserItemApi::class.java)
     }
 
     // 프론트 개발자가 서버/Mock 전환 가능
