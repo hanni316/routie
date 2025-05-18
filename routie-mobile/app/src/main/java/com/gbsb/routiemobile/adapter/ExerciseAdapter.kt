@@ -25,7 +25,7 @@ class ExerciseAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
-        // ① item_exercise.xml inflate
+
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_exercise, parent, false)
         return ExerciseViewHolder(view)
@@ -47,10 +47,8 @@ class ExerciseAdapter(
         ).takeIf { it != 0 } ?: R.drawable.burpee
         holder.imgIcon.setImageResource(resId)
 
-        // ④ 라디오 체크 상태
         holder.radioSelect.isChecked = (position == selectedPos)
 
-        // ⑤ 클릭 리스너: 최신 위치 조회 & 콜백
         holder.itemView.setOnClickListener {
             val adapterPos = holder.adapterPosition
             if (adapterPos == RecyclerView.NO_POSITION) return@setOnClickListener

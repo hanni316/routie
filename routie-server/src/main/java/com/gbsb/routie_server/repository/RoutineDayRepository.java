@@ -11,13 +11,17 @@ import java.util.List;
 public interface RoutineDayRepository extends JpaRepository<Routine, Long> {
 
     @Query("""
-                SELECT new com.gbsb.routie_server.dto.RoutineDayDto(
-                    r.id,
-                    r.name,
-                    r.scheduledDate
-                )
-                FROM Routine r
-                WHERE :dayOfWeek IN elements(r.days)
-            """)
-    List<RoutineDayDto> findByDayOfWeek(@Param("dayOfWeek") String dayOfWeek);
+        SELECT new com.gbsb.routie_server.dto.RoutineDayDto(
+            r.id,
+            r.name,
+            r.scheduledDate
+        )
+        FROM Routine r
+        WHERE r.user.userId   = :userId
+          AND :dayOfWeek IN elements(r.days)
+    """)
+    List<RoutineDayDto> findByUserIdAndDayOfWeek(
+            @Param("userId")   String userId,
+            @Param("dayOfWeek") String dayOfWeek
+    );
 }

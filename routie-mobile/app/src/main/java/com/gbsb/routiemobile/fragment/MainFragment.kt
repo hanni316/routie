@@ -325,13 +325,18 @@ class MainFragment : Fragment() {
         // suspend 함수이므로 lifecycleScope로 감싸야 함
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val allRoutines = RetrofitClient.routineApi.getRoutinesByDay(dayOfWeek)
-                val filtered = allRoutines.filter {
-                    val createdDate = LocalDate.parse(it.scheduledDate)
-                    !targetDate.isBefore(createdDate)
-                }
+                val prefs = requireContext()
+                    .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                val userId = prefs.getString("userId", null)
+                    ?: throw IllegalStateException("로그인 유저 정보가 없습니다.")
 
-                if (filtered.isEmpty()) {
+                val allRoutines = RetrofitClient.routineApi
+                    .getRoutinesByDay(
+                        userId,
+                        dayOfWeek.toString().toUpperCase()
+                    )
+
+                if (allRoutines.isEmpty()) {
                     binding.recyclerRoutineList.adapter = null
                     binding.tvExerciseNames.text = "선택된 날짜에 해당하는 루틴이 없습니다."
                     binding.dropdownRoutineName.text = "루틴 없음"
@@ -340,7 +345,7 @@ class MainFragment : Fragment() {
                     return@launch
                 }
 
-                val routines = filtered.map {
+                val routines = allRoutines.map {
                     Routine(it.id, it.name, description = "", exercises = emptyList())
                 }
                 val adapter = RoutineAdapter(routines.toMutableList(), {}, {

@@ -47,4 +47,12 @@ public class User {
 
     @Column
     private String profileImageUrl;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int ticketCount = 0;
+
+    public void addTickets(int count) {
+        this.ticketCount += count;
+    }
 }

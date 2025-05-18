@@ -150,8 +150,8 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:layout_width="391dp"
-        android:layout_height="552dp"
+        android:layout_width="390dp"
+        android:layout_height="550dp"
         android:background="@drawable/routine_edittext"
         android:contentDescription="선택한 루틴 목록"
         android:padding="16dp"
@@ -204,7 +204,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/routineRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="547dp"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
             android:contentDescription="운동 항목"
             android:nestedScrollingEnabled="false"
