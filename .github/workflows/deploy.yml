@@ -29,10 +29,10 @@ jobs:
         run: |
           ssh ec2-user@${{ secrets.EC2_HOST }} '
             cd ~/routie &&
-            git pull origin main &&
-            cd routie-server &&
-            ./gradlew build -x test &&
-            cd build/libs &&
-            pkill -f "java -jar" || true &&
-            nohup java -jar routie-server-0.0.1-SNAPSHOT.jar --spring.config.location=file:./application.properties > log.txt 2>&1 &
+          git pull origin main &&
+          cd routie-server &&
+          ./gradlew build -x test &&
+          cd build/libs &&
+          pkill -f "java -jar" || true &&
+          nohup java -jar routie-server-0.0.1-SNAPSHOT.jar --spring.config.location=file:./application.properties > log.txt 2>&1 &
           '
