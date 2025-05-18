@@ -116,24 +116,13 @@
         <!-- 옷장 버튼 -->
         <ImageButton
             android:id="@+id/btn_wardrobe"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="옷장"
-            android:src="@drawable/wardrobe"
+            android:src="@drawable/shop"
             app:layout_constraintEnd_toEndOf="@id/character_container"
-            app:layout_constraintTop_toTopOf="@id/character_container" />
-
-        <ImageButton
-            android:id="@+id/btn_save_style"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="17dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="스타일 저장"
-            android:src="@drawable/save_st"
-            app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@id/character_container" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -178,7 +167,7 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_category_button_selector"
-                android:src="@drawable/shoes_store"
+                android:src="@drawable/shirt_store"
                 android:scaleType="centerInside"
                 android:contentDescription="신발"/>
             <ImageButton

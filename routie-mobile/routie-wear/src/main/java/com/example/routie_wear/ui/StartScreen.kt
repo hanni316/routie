@@ -6,6 +6,7 @@ import androidx.wear.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
 import com.example.routie_wear.viewmodel.RoutineViewModel
@@ -13,9 +14,9 @@ import com.example.routie_wear.viewmodel.RoutineViewModel
 @Composable
 fun StartScreen(
     viewModel: RoutineViewModel,
-    onStartClick: () -> Unit
+    onStartClick: () -> Unit = {}
 ) {
-    Scaffold() {
+    Scaffold {
         Column(
             modifier = Modifier
                 .fillMaxSize()
