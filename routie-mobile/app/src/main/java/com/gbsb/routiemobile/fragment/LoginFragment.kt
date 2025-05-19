@@ -1,7 +1,9 @@
 package com.gbsb.routiemobile.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -40,7 +42,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //  로그인 상태 확인 후 자동 로그인
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", 0)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         if (isLoggedIn) {
@@ -70,8 +72,8 @@ class LoginFragment : Fragment() {
     private fun loginUser(request: LoginRequest) {
         apiService.loginUser(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful) { //PreferenceManager -> getSharedPreferences로 변경
-                    val loginResponse = response.body()  //PreperenceManager 지원중단됨
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
                     Toast.makeText(
                         requireContext(),
                         "환영합니다~ ID: ${loginResponse?.userId}",
@@ -86,12 +88,16 @@ class LoginFragment : Fragment() {
                     }
 
 
-                    val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
-                    with(sharedPreferences.edit()) {
+                    val prefs = requireContext()
+                        .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    with(prefs.edit()) {
                         putBoolean("isLoggedIn", true)
                         putString("userId", loginResponse?.userId)
+                        putInt("goldAmount", loginResponse?.gold ?: 0)
+                        putString("profile_image_url", loginResponse?.profileImageUrl)
                         apply()
                     }
+                    Log.d("LoginFragment", "SharedPrefs 저장된 goldAmount=${prefs.getInt("goldAmount", -1)}")
 
                     // 로그인 성공 후 MainFragment로 이동
                     findNavController().navigate(R.id.MainFragment)

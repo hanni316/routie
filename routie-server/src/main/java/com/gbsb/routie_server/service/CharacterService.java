@@ -1,6 +1,7 @@
 package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.dto.CharacterStyleRequestDto;
+import com.gbsb.routie_server.dto.CharacterStyleResponseDto;
 import com.gbsb.routie_server.dto.EquipItemDto;
 import com.gbsb.routie_server.entity.CharacterStyle;
 import com.gbsb.routie_server.repository.CharacterRepository;
@@ -13,6 +14,12 @@ public class CharacterService {
 
     private final CharacterRepository characterRepository;
 
+    // 수정(저장)용: RequestDto → Entity 저장 → ResponseDto 반환
+    public CharacterStyleResponseDto updateUserStyle(String userId, CharacterStyleRequestDto dto) {
+        CharacterStyle saved = saveOrUpdateStyle(userId, dto);  // 기존 로직 재사용
+        return new CharacterStyleResponseDto(saved);
+    }
+
     public CharacterStyle saveOrUpdateStyle(String userId, CharacterStyleRequestDto dto) {
         return characterRepository.findByUserId(userId)
                 .map(existing -> {
@@ -21,7 +28,6 @@ public class CharacterService {
                     existing.setBottom(dto.getBottom());
                     existing.setAccessory(dto.getAccessory());
                     existing.setShoes(dto.getShoes());
-                    existing.setBackground(dto.getBackground());
                     return characterRepository.save(existing);
                 })
                 .orElseGet(() -> {
@@ -32,7 +38,6 @@ public class CharacterService {
                             .bottom(dto.getBottom())
                             .accessory(dto.getAccessory())
                             .shoes(dto.getShoes())
-                            .background(dto.getBackground())
                             .build();
                     return characterRepository.save(newStyle);
                 });
@@ -56,7 +61,6 @@ public class CharacterService {
                     .bottom(null)
                     .accessory(null)
                     .shoes(null)
-                    .background(null)
                     .build();
         }
 
@@ -75,9 +79,6 @@ public class CharacterService {
                 break;
             case "신발":
                 style.setShoes(dto.getItemName());
-                break;
-            case "배경":
-                style.setBackground(dto.getItemName());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid type: " + dto.getCategoryName());

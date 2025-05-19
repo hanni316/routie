@@ -36,7 +36,6 @@ class RoutineFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_routine, container, false)
 
-        // "루틴 만들기 +" 버튼 설정
         val createRoutineButton: MaterialButton = view.findViewById(R.id.createRoutineButton)
         createRoutineButton.setOnClickListener {
             parentFragmentManager.commit {
@@ -67,7 +66,7 @@ class RoutineFragment : Fragment() {
     }
 
     private fun loadUserRoutines() {
-        val sharedPref = requireContext().getSharedPreferences("app_prefs", 0)
+        val sharedPref = requireContext().getSharedPreferences("user_prefs", 0)
         val userId = sharedPref.getString("userId", null)
         if (userId.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "로그인 정보가 없습니다.", Toast.LENGTH_SHORT).show()
@@ -98,7 +97,6 @@ class RoutineFragment : Fragment() {
 
     // 아이템 클릭 시 루틴 수정 화면으로 이동
     private fun goToModifyRoutine(routine: Routine) {
-        // 예) Safe Args 없이 Bundle로 넘기는 경우
         val bundle = bundleOf("routineId" to routine.id)
         findNavController().navigate(R.id.action_routineFragment_to_modifyRoutineFragment, bundle)
 

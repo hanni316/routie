@@ -11,5 +11,4 @@ public class CharacterStyleRequestDto {
     private String bottom;
     private String accessory;
     private String shoes;
-    private String background;
 }

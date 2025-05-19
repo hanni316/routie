@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ExerciseRequestDto {
     private Long exerciseId;
     private int duration;
+    private String enName;
 }

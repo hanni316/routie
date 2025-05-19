@@ -60,7 +60,8 @@ public class UserController {
             LoginResponseDto response = new LoginResponseDto(
                     user.getUserId(),
                     user.getName(),
-                    user.getGold()
+                    user.getGold(),
+                    user.getProfileImageUrl()
             );
 
             return ResponseEntity.ok(response);
@@ -140,5 +141,11 @@ public class UserController {
 
         String imageUrl = userService.updateProfileImage(userId, file);
         return ResponseEntity.ok(new ProfileImageResponseDto(imageUrl));
+    }
+    // 골드 조회
+    @GetMapping("/{userId}/profile")
+    public ResponseEntity<UserProfileResponseDto> getProfile(@PathVariable String userId) {
+        UserProfileResponseDto profile = userService.getUserProfile(userId);
+        return ResponseEntity.ok(profile);
     }
 }

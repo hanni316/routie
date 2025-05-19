@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="12dp">
+
+    <!-- 선택 표시 -->
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/radioSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonTint="#888888"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- 운동 아이콘 -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:tint="#888888"
+        android:layout_marginEnd="16dp"/>
+
+    <!-- 운동 이름 -->
+    <TextView
+        android:id="@+id/tvExerciseName"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:fontFamily="@font/ownglyp"
+        android:textSize="16sp"/>
+</LinearLayout>

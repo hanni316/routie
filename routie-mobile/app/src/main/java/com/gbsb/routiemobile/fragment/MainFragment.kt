@@ -23,7 +23,8 @@ import com.gbsb.routiemobile.databinding.FragmentMainBinding
 import com.gbsb.routiemobile.dto.CharacterStyleResponseDto
 import com.gbsb.routiemobile.dto.ExerciseResponse
 import com.gbsb.routiemobile.dto.Routine
-import com.gbsb.routiemobile.dto.RoutineDayResponse
+import com.gbsb.routiemobile.api.UserApiService
+import com.gbsb.routiemobile.dto.UserProfileResponse
 import com.gbsb.routiemobile.dto.RoutineLog
 import com.gbsb.routiemobile.dto.WeekDay
 import com.gbsb.routiemobile.network.RetrofitClient
@@ -61,8 +62,37 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+
+        val prefs = requireContext()
+            .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val userIdd = prefs.getString("userId", null)
+
+        if (!userIdd.isNullOrEmpty()) {
+            RetrofitClient.userApi.getUserProfile(userIdd)
+                .enqueue(object : Callback<UserProfileResponse> {
+                    override fun onResponse(
+                        call: Call<UserProfileResponse>,
+                        response: Response<UserProfileResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            // gold 만 꺼내서 표시
+                            val gold = response.body()!!.gold
+                            binding.tvGoldAmount.text = "${gold}G"
+                            prefs.edit().putInt("goldAmount", gold).apply()
+                        } else {
+                            val backup = prefs.getInt("goldAmount", 0)
+                            binding.tvGoldAmount.text = "${backup}G"
+                        }
+                    }
+                    override fun onFailure(call: Call<UserProfileResponse>, t: Throwable) {
+                        val backup = prefs.getInt("goldAmount", 0)
+                        binding.tvGoldAmount.text = "${backup}G"
+                    }
+                })
+        } else {
+            binding.tvGoldAmount.text = "0G"
+        }
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -147,6 +177,10 @@ class MainFragment : Fragment() {
 
         binding.imgMyroom.setOnClickListener {
             findNavController().navigate(R.id.action_MainFragment_to_myroomFragment)
+        }
+
+        binding.imgRanking.setOnClickListener {
+            findNavController().navigate(R.id.action_MainFragment_to_rankingFragment)
         }
 
         // 캐릭터 스타일 불러오기
@@ -272,8 +306,9 @@ class MainFragment : Fragment() {
 
     private fun getUserIdFromPrefs(): String? {
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        return prefs.getString("userId", null)
-
+        val userId = prefs.getString("userId", null)
+        Log.d("RoutineLog", "SharedPreferences에서 불러온 userId: $userId")
+        return userId
     }
 
     private fun loadRoutinesByDayOfWeekAndDate(targetDate: LocalDate) {
@@ -290,13 +325,18 @@ class MainFragment : Fragment() {
         // suspend 함수이므로 lifecycleScope로 감싸야 함
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val allRoutines = RetrofitClient.routineApi.getRoutinesByDay(dayOfWeek)
-                val filtered = allRoutines.filter {
-                    val createdDate = LocalDate.parse(it.scheduledDate)
-                    !targetDate.isBefore(createdDate)
-                }
+                val prefs = requireContext()
+                    .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                val userId = prefs.getString("userId", null)
+                    ?: throw IllegalStateException("로그인 유저 정보가 없습니다.")
 
-                if (filtered.isEmpty()) {
+                val allRoutines = RetrofitClient.routineApi
+                    .getRoutinesByDay(
+                        userId,
+                        dayOfWeek.toString().toUpperCase()
+                    )
+
+                if (allRoutines.isEmpty()) {
                     binding.recyclerRoutineList.adapter = null
                     binding.tvExerciseNames.text = "선택된 날짜에 해당하는 루틴이 없습니다."
                     binding.dropdownRoutineName.text = "루틴 없음"
@@ -305,7 +345,7 @@ class MainFragment : Fragment() {
                     return@launch
                 }
 
-                val routines = filtered.map {
+                val routines = allRoutines.map {
                     Routine(it.id, it.name, description = "", exercises = emptyList())
                 }
                 val adapter = RoutineAdapter(routines.toMutableList(), {}, {

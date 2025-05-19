@@ -9,4 +9,5 @@ public class LoginResponseDto {
     private String userId;
     private String name;
     private int gold;
+    private String profileImageUrl;
 }

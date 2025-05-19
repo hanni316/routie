@@ -351,7 +351,7 @@
                     android:orientation="vertical">
 
                     <ImageButton
-                        android:id="@+id/imageButton6"
+                        android:id="@+id/img_ranking"
                         android:layout_width="76dp"
                         android:layout_height="48dp"
                         android:layout_marginLeft="10dp"
@@ -360,13 +360,29 @@
                         android:contentDescription="랭킹페이지 이동"
                         android:scaleType="fitCenter"
                         android:src="@drawable/bt_ranking" />
-
-                    <ImageView
-                        android:id="@+id/img_coinfield"
+                    <FrameLayout
+                        android:id="@+id/coin_container"
                         android:layout_width="76dp"
                         android:layout_height="37dp"
-                        android:layout_marginLeft="10dp"
-                        app:srcCompat="@drawable/gold" />
+                        android:layout_marginLeft="10dp">
+                    <ImageView
+                        android:id="@+id/img_coinfield"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/gold"
+                        android:contentDescription="골드 아이콘" />
+                    <TextView
+                        android:id="@+id/tvGoldAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="1000G"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:typeface="sans"
+                        android:fontFamily="@font/ownglyp"
+                        android:textStyle="bold"/>
+                    </FrameLayout>
 
                 </LinearLayout>
             </LinearLayout>

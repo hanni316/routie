@@ -35,6 +35,15 @@ public class CharacterController {
         return ResponseEntity.ok(new CharacterStyleResponseDto(style));
     }
 
+    @PutMapping("/{userId}")
+    public void updateStyle(
+            @PathVariable String userId,
+            @RequestBody CharacterStyleRequestDto dto
+    ) {
+        characterService.updateUserStyle(userId, dto);
+    }
+
+
     // 아이템 장착
     @PostMapping("/{userId}/equip")
     public ResponseEntity<CharacterStyleResponseDto> equipItem(

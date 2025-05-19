@@ -9,4 +9,5 @@ import lombok.Getter;
 public class ExerciseResponseDto {
     private Long routineExerciseId;
     private String exerciseName;
+    private String enName;
 }

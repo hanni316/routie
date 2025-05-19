@@ -5,6 +5,5 @@ data class CharacterStyleResponseDto(
     val outfit: String?,
     val bottom: String?,
     val accessory: String?,
-    val shoes: String?,
-    val background: String?
+    val shoes: String?
 )

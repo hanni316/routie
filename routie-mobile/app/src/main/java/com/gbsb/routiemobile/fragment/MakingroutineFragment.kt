@@ -16,13 +16,15 @@ import com.gbsb.routiemobile.dto.Exercise
 import com.gbsb.routiemobile.dto.ExerciseRequest
 import com.gbsb.routiemobile.dto.Routine
 import com.gbsb.routiemobile.dto.RoutineRequest
+import com.gbsb.routiemobile.dto.ExerciseCategory
 import com.gbsb.routiemobile.adapter.ExerciseAdapter
 import com.gbsb.routiemobile.network.RetrofitClient
-import android.graphics.Color
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.android.material.tabs.TabLayout
+import androidx.recyclerview.widget.RecyclerView
+
 
 class MakingroutineFragment : Fragment() {
     private var _binding: FragmentMakingroutineBinding? = null
@@ -42,7 +44,7 @@ class MakingroutineFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ ToggleButton 선택 시 스타일 변경
+        // ToggleButton 선택 시 스타일 변경
         val toggleButtons = listOf(
             binding.sundayButton,
             binding.mondayButton,
@@ -54,7 +56,7 @@ class MakingroutineFragment : Fragment() {
         )
 
         // RecyclerView 설정
-        exerciseAdapter = ExerciseAdapter(selectedExercises)
+        exerciseAdapter = ExerciseAdapter(selectedExercises){ /* 아무 동작 없음 */ }
         binding.routineRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = exerciseAdapter
@@ -79,64 +81,92 @@ class MakingroutineFragment : Fragment() {
     private var cachedExerciseList: List<Exercise>? = null
 
     private fun showExerciseSelectionDialog() {
-        if (cachedExerciseList != null) {
-            showExerciseDialog(cachedExerciseList!!)
-        } else {
-            RetrofitClient.exerciseApi.getAllExercises().enqueue(object : Callback<List<Exercise>> {
-                override fun onResponse(call: Call<List<Exercise>>, response: Response<List<Exercise>>) {
-                    if (response.isSuccessful) {
-                        cachedExerciseList = response.body() ?: emptyList()
-                        showExerciseDialog(cachedExerciseList!!)
-                    } else {
-                        Toast.makeText(requireContext(), "운동 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+        val dialogView = layoutInflater.inflate(
+            R.layout.fragment_exercise,
+            null, false
+        )
+        val tabCategories = dialogView.findViewById<TabLayout>(R.id.tabCategories)
+        val rvExercises  = dialogView.findViewById<RecyclerView>(R.id.rvExercises)
+
+        val dialogAdapter = ExerciseAdapter(mutableListOf()) { /* position만 넘기고 처리 X */ }
+
+        rvExercises.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = dialogAdapter
+        }
+        RetrofitClient.exerciseApi.getAllCategories().enqueue(object: Callback<List<ExerciseCategory>> {
+            override fun onResponse(
+                call: Call<List<ExerciseCategory>>,
+                response: Response<List<ExerciseCategory>>
+            ) {
+                val categories = response.body() ?: emptyList()
+
+                tabCategories.addTab(tabCategories.newTab().setText("전체"))
+                categories.forEach { tabCategories.addTab(tabCategories.newTab().setText(it.name)) }
+
+                tabCategories.getTabAt(0)?.select()
+                loadExercisesForDialog(null, dialogAdapter)
+
+                tabCategories.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab) {
+
+                        val catId = if (tab.position == 0) {
+                            null
+                        } else {
+                            categories[tab.position - 1].id
+                        }
+                        loadExercisesForDialog(catId, dialogAdapter)
                     }
-                }
-                override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
-                    Toast.makeText(requireContext(), "네트워크 오류 발생", Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
-    }
-
-    private fun showExerciseDialog(exerciseList: List<Exercise>) {
-        if (exerciseList.isEmpty()) {
-            Toast.makeText(requireContext(), "운동 목록이 비어 있습니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val exerciseNames = exerciseList.map { it.name }.toTypedArray()
-        var selectedIndex = -1
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("운동 선택")
-
-        builder.setSingleChoiceItems(exerciseNames, -1) { _, which ->
-            selectedIndex = which
-        }
-
-        builder.setPositiveButton("추가") { dialog, _ ->
-            if (selectedIndex != -1) {
-                val selectedExercise = exerciseList[selectedIndex]
-
-                // 이미 추가된 운동인지 체크
-                if (!selectedExercises.any { it.id == selectedExercise.id }) {
-                    selectedExercises.add(selectedExercise)
-                    exerciseAdapter.notifyItemInserted(selectedExercises.size - 1)
-                    Toast.makeText(requireContext(), "${selectedExercise.name} 추가됨!", Toast.LENGTH_SHORT).show()
-                } else {
+                    override fun onTabUnselected(tab: TabLayout.Tab) {}
+                    override fun onTabReselected(tab: TabLayout.Tab) {}
+                })
+            }
+            override fun onFailure(call: Call<List<ExerciseCategory>>, t: Throwable) {
+                Toast.makeText(requireContext(), "카테고리 로딩 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
+        
+        AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setNegativeButton("취소", null)
+            .setPositiveButton("추가") { _, _ ->
+                val chosen = dialogAdapter.getSelectedExercise()
+                if (chosen == null) {
+                    Toast.makeText(requireContext(), "운동을 하나 선택하세요.", Toast.LENGTH_SHORT).show()
+                } else if (selectedExercises.any { it.id == chosen.id }) {
                     Toast.makeText(requireContext(), "이미 추가된 운동입니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 1) 데이터에 추가
+                    selectedExercises.add(chosen)
+                    // 2) 화면에 반영
+                    exerciseAdapter.notifyItemInserted(selectedExercises.size - 1)
                 }
             }
+            .show()
+    }
 
-            dialog.dismiss()
+    private fun loadExercisesForDialog(
+        categoryId: Long?,
+        dialogAdapter: ExerciseAdapter
+    ) {
+        val call = if (categoryId == null) {
+            RetrofitClient.exerciseApi.getAllExercises()
+        } else {
+            RetrofitClient.exerciseApi.getExercisesByCategory(categoryId)
         }
-
-        builder.setNegativeButton("취소") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
+        call.enqueue(object: Callback<List<Exercise>> {
+            override fun onResponse(
+                call: Call<List<Exercise>>,
+                response: Response<List<Exercise>>
+            ) {
+                val list = response.body() ?: emptyList()
+                // 실제로 리스트를 교체
+                dialogAdapter.submitList(list)
+            }
+            override fun onFailure(call: Call<List<Exercise>>, t: Throwable) {
+                Toast.makeText(requireContext(), "운동 로딩 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun createRoutineWithExercises() {
@@ -176,8 +206,8 @@ class MakingroutineFragment : Fragment() {
             exercises = exerciseRequestList
         )
 
-        // ✅ SharedPreferences에서 userId 가져오기
-        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", 0)
+        // SharedPreferences에서 userId 가져오기
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", 0)
         val userId = sharedPreferences.getString("userId", null)
 
         if (userId.isNullOrEmpty()) {
