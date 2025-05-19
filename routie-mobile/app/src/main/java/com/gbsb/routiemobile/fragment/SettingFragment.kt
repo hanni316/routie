@@ -15,17 +15,16 @@ import androidx.navigation.fragment.findNavController
 import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.databinding.FragmentSettingBinding
 import com.gbsb.routiemobile.dto.User
+import com.gbsb.routiemobile.dto.ProfileImageResponseDto
 import com.gbsb.routiemobile.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
-import com.gbsb.routiemobile.dto.ProfileImageResponseDto
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MultipartBody
-
 
 class SettingFragment : Fragment() {
 
@@ -33,6 +32,10 @@ class SettingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var profileImageLauncher: ActivityResultLauncher<String>
+
+    companion object {
+        private const val SERVER_IP = "192.168.45.132" // ip 주소
+    }
 
     private val profileImageCallback = ActivityResultCallback<Uri?> { uri ->
         uri?.let { selectedUri ->
@@ -61,6 +64,8 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadProfileImage()
+
         val navController = findNavController()
 
         binding.profileSetting.setOnClickListener {
@@ -71,7 +76,6 @@ class SettingFragment : Fragment() {
         val userId = prefs.getString("userId", null)
 
         if (userId != null) {
-            // 서버에서 유저 정보 요청
             RetrofitClient.userApi.getUser(userId)
                 .enqueue(object : Callback<User> {
                     override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -105,7 +109,6 @@ class SettingFragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.logoutBtn).setOnClickListener {
             logoutUser()
-            // 로그아웃 처리 후 LoginFragment로 이동
             navController.navigate(R.id.action_settingFragment_to_loginFragment)
         }
     }
@@ -129,7 +132,7 @@ class SettingFragment : Fragment() {
                         val imageUrl = response.body()?.imageUrl
                         Log.d("프로필 업로드", "성공: $imageUrl")
                         saveProfileImageUrl(imageUrl)
-                        loadProfileImage()
+                        // loadProfileImage()는 생략: 재진입 시 자동 호출됨
                     } else {
                         Log.e("프로필 업로드", "실패: ${response.code()}")
                     }
@@ -152,9 +155,13 @@ class SettingFragment : Fragment() {
         val imageUrl = prefs.getString("profile_image_url", null)
 
         if (!imageUrl.isNullOrBlank()) {
+            val fullUrl = "http://$SERVER_IP:8080$imageUrl"
+            Log.d("프로필 이미지 로드", "URL: $fullUrl")
+
             Glide.with(this)
-                .load("http://localhost:8080$imageUrl") // 추후 AWS 주소로 바꾸면 됨
+                .load(fullUrl)
                 .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile) // 로딩 실패 시 대체 이미지
                 .into(binding.profileSetting)
         }
     }
@@ -163,8 +170,8 @@ class SettingFragment : Fragment() {
         val sharedPreferences =
             requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
-            remove("isLoggedIn") // 자동 로그인 정보 삭제
-            remove("userId") // 저장된 사용자 ID 삭제
+            remove("isLoggedIn")
+            remove("userId")
             apply()
         }
     }
