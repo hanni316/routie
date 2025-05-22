@@ -32,7 +32,7 @@ class GachaDialogFragment : DialogFragment() {
         val imgResult = view.findViewById<ImageView>(R.id.result_image)
 
         btnDraw.setOnClickListener {
-            val result = tryGacha(0.02) // 2% 확률..^^ 극악 일수록 좋잖아요...
+            val result = tryGacha(0.01) // 2% 확률..^^ 극악 일수록 좋잖아요...
             if (result != null) {
                 tvResult.text = "🎉${result.name} 당첨!"
                 imgResult.setImageResource(result.imageResId)
