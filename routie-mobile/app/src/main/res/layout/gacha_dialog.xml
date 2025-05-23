@@ -43,6 +43,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/angel"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/text_gacha_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
