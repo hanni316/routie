@@ -28,7 +28,7 @@ fun MainNav(viewModel: RoutineViewModel) {
         }
         composable("timer") {
             WorkoutTimerScreen(viewModel) {
-                navController.navigate("routine") // 운동 끝 → 루틴 화면으로 되돌아감
+                navController.navigate("workouts") // 운동 끝 → 루틴 화면으로 되돌아감
             }
         }
     }
