@@ -26,4 +26,13 @@ public class UserItemController {
         userItemService.saveGachaItem(dto);
         return ResponseEntity.ok("당첨 아이템 저장 완료");
     }
+
+    //아이템 구매 개수
+    @GetMapping("/{userId}/total")
+    public ResponseEntity<Integer> getTotalQuantity(@PathVariable String userId) {
+        int total = userItemService.getTotalQuantity(userId);
+        return ResponseEntity.ok(total);
+    }
+
+
 }

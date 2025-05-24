@@ -18,14 +18,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class UserItemService {
 
-    private UserItemRepository repo;
-    private ItemRepository itemRepo;
-    private UserRepository userRepo;
+    private final UserItemRepository repo;
+    private final ItemRepository itemRepo;
+    private final UserRepository userRepo;
 
-    public UserItemService(UserItemRepository repo) { this.repo = repo; }
+    //public UserItemService(UserItemRepository repo) { this.repo = repo; }
+
+    public int getTotalQuantity(String userId) {
+        return repo.getTotalQuantityByUserId(userId);
+    }
 
     public List<UserItemDto> getPurchasedItems(String userId) {
         List<UserItem> items = repo.findByUser_UserId(userId);
@@ -59,5 +63,6 @@ public class UserItemService {
 
         repo.save(userItem);
     }
+
 
 }
