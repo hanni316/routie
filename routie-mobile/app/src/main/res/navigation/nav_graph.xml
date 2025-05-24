@@ -17,7 +17,7 @@
         android:id="@+id/MainFragment"
         android:name="com.gbsb.routiemobile.fragment.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_MainFragment_to_routineFragment"
             app:destination="@id/RoutineFragment" />
@@ -32,12 +32,35 @@
             app:destination="@id/rankingFragment" />
     </fragment>
 
+    <!-- 업적 프로필 프래그먼트 -->
+    <fragment
+        android:id="@+id/ProfileFragment"
+        android:name="com.gbsb.routiemobile.fragment.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <argument
+            android:name="profileImageUrl"
+            app:argType="string" />
+        <argument
+            android:name="nickname"
+            app:argType="string" />
+    </fragment>
+
     <!-- 랭킹 프래그먼트 -->
     <fragment
         android:id="@+id/rankingFragment"
         android:name="com.gbsb.routiemobile.fragment.RankingFragment"
         android:label="Ranking"
-        tools:layout="@layout/fragment_ranking" />
+        tools:layout="@layout/fragment_ranking">
+
+        <action
+            android:id="@+id/action_rankingFragment_to_ProfileFragment"
+            app:destination="@id/ProfileFragment" />
+    </fragment>
 
     <!-- 회원가입 프래그먼트 -->
     <fragment
@@ -75,22 +98,22 @@
             android:id="@+id/action_settingFragment_to_loginFragment"
             app:destination="@id/LoginFragment"
             app:popUpTo="@id/MainFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
 
-<!--  계정 프래그먼트  -->
+    <!--  계정 프래그먼트  -->
     <fragment
         android:id="@+id/AccountFragment"
         android:name="com.gbsb.routiemobile.fragment.AccountFragment"
-        tools:layout="@layout/fragment_account"/>
+        tools:layout="@layout/fragment_account" />
 
-<!--알림 설정 프래그먼트-->
+    <!--알림 설정 프래그먼트-->
     <fragment
         android:id="@+id/AlarmFragment"
         android:name="com.gbsb.routiemobile.fragment.AlarmFragment"
-        tools:layout="@layout/fragment_alarm"/>
+        tools:layout="@layout/fragment_alarm" />
 
-<!--사용자정보수정 프래그먼트-->
+    <!--사용자정보수정 프래그먼트-->
     <fragment
         android:id="@+id/UserInfoFragment"
         android:name="com.gbsb.routiemobile.fragment.UserInfoFragment"
@@ -107,7 +130,7 @@
         android:id="@+id/StoreFragment"
         android:name="com.gbsb.routiemobile.fragment.StoreFragment"
         android:label="fragment_store"
-        tools:layout="@layout/fragment_store" >
+        tools:layout="@layout/fragment_store">
         <action
             android:id="@+id/action_StoreFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
@@ -118,7 +141,7 @@
         android:id="@+id/RoutineFragment"
         android:name="com.gbsb.routiemobile.fragment.RoutineFragment"
         android:label="fragment_routine"
-        tools:layout="@layout/fragment_routine" >
+        tools:layout="@layout/fragment_routine">
         <action
             android:id="@+id/action_routineFragment_to_makingroutineFragment"
             app:destination="@id/MakingroutineFragment" />
@@ -132,7 +155,7 @@
         android:id="@+id/MakingroutineFragment"
         android:name="com.gbsb.routiemobile.fragment.MakingroutineFragment"
         android:label="fragment_makingroutine"
-        tools:layout="@layout/fragment_makingroutine" >
+        tools:layout="@layout/fragment_makingroutine">
         <action
             android:id="@+id/action_MakingroutineFragment_to_routineFragment"
             app:destination="@id/RoutineFragment" />
@@ -144,9 +167,9 @@
         android:name="com.gbsb.routiemobile.fragment.ModifyroutineFragment"
         android:label="fragment_modifyroutine"
         tools:layout="@layout/fragment_modifyroutine" />
-        <action
-            android:id="@+id/action_ModifyroutineFragment_to_routineFragment"
-            app:destination="@id/RoutineFragment" />
+    <action
+        android:id="@+id/action_ModifyroutineFragment_to_routineFragment"
+        app:destination="@id/RoutineFragment" />
 
     <fragment
         android:id="@+id/myroomFragment"

@@ -1,5 +1,6 @@
 package com.gbsb.routiemobile.network
 
+import com.gbsb.routiemobile.api.AchievementApi
 import com.gbsb.routiemobile.api.CharacterApiService
 import com.gbsb.routiemobile.api.RewardApiService
 import com.gbsb.routiemobile.api.RoutineApiService
@@ -13,6 +14,7 @@ import com.gbsb.routiemobile.api.UserApiService
 import com.gbsb.routiemobile.api.ShopApiService
 import com.gbsb.routiemobile.api.UserItemApi
 import com.gbsb.routiemobile.config.ServerConfig
+import com.gbsb.routiemobile.dto.Achievement
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.Call
@@ -69,6 +71,9 @@ object RetrofitClient {
         retrofit.create(RankingApi::class.java)
     }
 
+    val achievementApi: AchievementApi by lazy {
+        retrofit.create(AchievementApi::class.java)
+    }
 
     // 🛠 Mock API: 서버 없이 개발할 수 있도록 가짜 데이터 제공
     private val mockInstance: RewardApiService = object : RewardApiService {

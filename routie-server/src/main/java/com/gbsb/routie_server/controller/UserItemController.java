@@ -33,6 +33,4 @@ public class UserItemController {
         int total = userItemService.getTotalQuantity(userId);
         return ResponseEntity.ok(total);
     }
-
-
 }
