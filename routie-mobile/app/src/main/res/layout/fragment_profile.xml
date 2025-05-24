@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E6DFD5"
-    tools:context=".profileFragment">
-
+    tools:context=".fragment.ProfileFragment">
 
     <LinearLayout
         android:id="@+id/profile_layout"
@@ -536,7 +535,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
-                    android:text="@string/question_mark_text"
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
@@ -575,7 +573,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
-                    android:text="@string/question_mark_text"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -606,7 +603,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
-                    android:text="@string/question_mark_text"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -637,7 +633,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
-                    android:text="@string/question_mark_text"
                     android:textSize="20sp" />
             </LinearLayout>
 
