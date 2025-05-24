@@ -43,6 +43,7 @@ public class RankingService {
             if (rank <= 10) {
                 top10.add(RankingResponseDto.builder()
                         .rank(rank)
+                        .userId(p.getUserId())
                         .nickname(p.getNickname())
                         .profileImageUrl(p.getProfileImageUrl())
                         .value(p.getTotal())

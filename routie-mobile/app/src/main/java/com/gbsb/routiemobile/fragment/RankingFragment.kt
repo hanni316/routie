@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.gbsb.routiemobile.R
 import com.gbsb.routiemobile.config.ServerConfig
@@ -62,9 +63,11 @@ class RankingFragment : Fragment() {
             val item = rankingList[i]
             val nameViewId = resources.getIdentifier("rk_${i + 1}_name", "id", requireContext().packageName)
             val profileViewId = resources.getIdentifier("rk_${i + 1}_profile", "id", requireContext().packageName)
+            val frameLayoutId = resources.getIdentifier("rk_${i + 1}", "id", requireContext().packageName)
 
             val nameTextView = view?.findViewById<TextView>(nameViewId)
             val profileImageView = view?.findViewById<ImageView>(profileViewId)
+            val frameLayout = view?.findViewById<View>(frameLayoutId)
 
             nameTextView?.text = item.nickname
 
@@ -73,6 +76,16 @@ class RankingFragment : Fragment() {
                 .placeholder(R.drawable.default_profile)
                 .circleCrop()
                 .into(profileImageView!!)
+
+            frameLayout?.setOnClickListener {
+                Log.e("CHECK", "ProfileFragment로 이동 시도 - userId: ${item.userId}")
+                val action = RankingFragmentDirections.actionRankingFragmentToProfileFragment(
+                    item.userId,
+                    item.profileImageUrl ?: "",
+                    item.nickname
+                    )
+                findNavController().navigate(action)
+            }
         }
     }
 }
