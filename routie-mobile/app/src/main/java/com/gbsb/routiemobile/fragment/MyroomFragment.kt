@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +25,7 @@ import com.gbsb.routiemobile.dto.Item
 import com.gbsb.routiemobile.network.RetrofitClient
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +53,8 @@ class MyroomFragment : Fragment() {
     private var selectedBottom:   String? = null
     private var selectedAccessory:String? = null
     private var selectedShoes:    String? = null
+
+    private lateinit var ticketCountTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +90,15 @@ class MyroomFragment : Fragment() {
                         Log.e("Myroom", "스타일 호출 실패", t)
                     }
                 })
+
+            ticketCountTextView = view.findViewById(R.id.text_ticket_count1)
+
+            //user Id 확인 후 api 호출(가챠부분)
+            val userId = getUserIdFromPrefs()
+            if (userId != null) {
+                loadTicketCount(userId)
+            }
+
         }
 
         // 네비 바 버튼
@@ -349,5 +362,26 @@ class MyroomFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun loadTicketCount(userId: String) {
+        RetrofitClient.ticketApi.getTicketCount(userId)
+            .enqueue(object : Callback<com.gbsb.routiemobile.dto.TicketCountDto> {
+                override fun onResponse(
+                    call: Call<com.gbsb.routiemobile.dto.TicketCountDto>,
+                    response: Response<com.gbsb.routiemobile.dto.TicketCountDto>
+                ) {
+                    if (response.isSuccessful) {
+                        val count = response.body()?.ticketCount ?: 0
+                        ticketCountTextView.text = "${count}장"
+                    } else {
+                        Log.w("Myroom", "티켓 수 조회 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<com.gbsb.routiemobile.dto.TicketCountDto>, t: Throwable) {
+                    Log.e("Myroom", "티켓 수 조회 에러", t)
+                }
+            })
     }
 }

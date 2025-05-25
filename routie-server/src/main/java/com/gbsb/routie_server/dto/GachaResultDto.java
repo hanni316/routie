@@ -12,5 +12,7 @@ import lombok.Setter;
 public class GachaResultDto {
     private String userId; //유저 식별자
     private Long itemId; //당첨된 아이템 ID
+    private boolean isSuccess;
+    private boolean isHiddenItem;
 }
 
