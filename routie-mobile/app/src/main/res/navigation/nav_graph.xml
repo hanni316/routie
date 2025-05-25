@@ -83,8 +83,8 @@
         tools:layout="@layout/fragment_setting">
 
         <action
-            android:id="@+id/action_settingFragment_to_accountFragment"
-            app:destination="@id/AccountFragment" />
+            android:id="@+id/action_settingFragment_to_profileFragment"
+            app:destination="@id/ProfileFragment" />
 
         <action
             android:id="@+id/action_settingFragment_to_alarmFragment"
@@ -100,12 +100,6 @@
             app:popUpTo="@id/MainFragment"
             app:popUpToInclusive="true" />
     </fragment>
-
-    <!--  계정 프래그먼트  -->
-    <fragment
-        android:id="@+id/AccountFragment"
-        android:name="com.gbsb.routiemobile.fragment.AccountFragment"
-        tools:layout="@layout/fragment_account" />
 
     <!--알림 설정 프래그먼트-->
     <fragment

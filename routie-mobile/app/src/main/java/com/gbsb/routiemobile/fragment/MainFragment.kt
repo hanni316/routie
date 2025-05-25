@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import android.widget.ImageView
 import android.widget.PopupMenu
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -61,6 +62,8 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    private var backPressedTime: Long = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -93,6 +96,15 @@ class MainFragment : Fragment() {
                 })
         } else {
             binding.tvGoldAmount.text = "0G"
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (System.currentTimeMillis() - backPressedTime >= 2000) {
+                backPressedTime = System.currentTimeMillis()
+                Toast.makeText(requireContext(), "뒤로가기 버튼을 한 번 더 누르면 종료됩니다", Toast.LENGTH_SHORT).show()
+            } else {
+                requireActivity().finish()
+            }
         }
 
         val calendar = Calendar.getInstance()
@@ -196,6 +208,7 @@ class MainFragment : Fragment() {
         getUserIdFromPrefs()?.let {
             fetchRoutineLogs(it, selectedDate.toString())
         }
+
     }
 
     private fun getStartOfWeek(date: LocalDate): LocalDate {

@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import com.gbsb.routiemobile.config.ServerConfig
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.MultipartBody
+import androidx.core.content.edit
 
 class SettingFragment : Fragment() {
 
@@ -76,7 +78,10 @@ class SettingFragment : Fragment() {
                     override fun onResponse(call: Call<User>, response: Response<User>) {
                         if (response.isSuccessful) {
                             val user = response.body()
-                            binding.tvNickname.text = user?.name ?: "닉네임 없음"
+                            val nickname = user?.name ?: "닉네임 없음"
+                            binding.tvNickname.text = nickname
+
+                            prefs.edit { putString("nickname", nickname) }
 
                             val imageUrl = user?.profileImageUrl
                             if (!imageUrl.isNullOrBlank()) {
@@ -102,7 +107,19 @@ class SettingFragment : Fragment() {
         }
 
         view.findViewById<ImageButton>(R.id.accountBtn).setOnClickListener {
-            navController.navigate(R.id.action_settingFragment_to_accountFragment)
+            val profileImageUrl = prefs.getString("profile_image_url", null)
+            val nickname = prefs.getString("nickname", "닉네임 없음")
+
+            if (userId != null) {
+                val action = SettingFragmentDirections.actionSettingFragmentToProfileFragment(
+                    userId,
+                    profileImageUrl ?: "",
+                    nickname ?: "닉네임 없음"
+                )
+                findNavController().navigate(action)
+            } else {
+                Toast.makeText(requireContext(), "유저 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         view.findViewById<ImageButton>(R.id.alarmSetBtn).setOnClickListener {
