@@ -3,9 +3,11 @@ package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.dto.GachaResultDto;
 import com.gbsb.routie_server.dto.UserItemDto;
+import com.gbsb.routie_server.entity.GachaLog;
 import com.gbsb.routie_server.entity.Item;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.entity.UserItem;
+import com.gbsb.routie_server.repository.GachaLogRepository;
 import com.gbsb.routie_server.repository.ItemRepository;
 import com.gbsb.routie_server.repository.UserItemRepository;
 import com.gbsb.routie_server.repository.UserRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +27,7 @@ public class UserItemService {
     private final UserItemRepository repo;
     private final ItemRepository itemRepo;
     private final UserRepository userRepo;
+    private final GachaLogRepository gachaLogRepo;
 
     //public UserItemService(UserItemRepository repo) { this.repo = repo; }
 
@@ -48,21 +52,32 @@ public class UserItemService {
         User user = userRepo.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저"));
 
-        Item item = itemRepo.findById(dto.getItemId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템"));
+        Item item = null;
+        if (dto.getItemId() != null) {
+            item = itemRepo.findById(dto.getItemId())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템"));
+        }
 
-        // 이미 가지고 있으면 저장 안 함 (중복 방지)
-        Optional<UserItem> existing = repo.findByUserAndItem(user, item);
-        if (existing.isPresent()) return;
-
-        UserItem userItem = UserItem.builder()
+        //가챠 결과 로그 저장 (성공/실패 관계없이)
+        GachaLog log = GachaLog.builder()
                 .user(user)
-                .item(item)
-                .quantity(1)
+                .item(item) // null 가능
+                .isSuccess(dto.isSuccess())
+                .isHiddenItem(dto.isHiddenItem())
+                .drawTime(LocalDateTime.now())
                 .build();
+        gachaLogRepo.save(log);
 
-        repo.save(userItem);
+        // 성공 시에만 아이템 지급
+        if (dto.isSuccess() && item != null) {
+            if (repo.findByUserAndItem(user, item).isEmpty()) {
+                UserItem userItem = UserItem.builder()
+                        .user(user)
+                        .item(item)
+                        .quantity(1)
+                        .build();
+                repo.save(userItem);
+            }
+        }
     }
-
-
 }

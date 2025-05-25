@@ -8,7 +8,7 @@ import com.example.routie_wear.api.RoutineStartApi
 object RetrofitInstance {
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://172.30.1.6:8080") // 실제 서버 주소 넣기
+            .baseUrl("http://172.30.1.72:8080") // 실제 서버 주소 넣기
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

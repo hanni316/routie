@@ -5,9 +5,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFFF"
     android:padding="24dp">
 
-<!--    결과출력-->
+
+    <!--    결과출력-->
+
+    <FrameLayout
+        android:layout_width="202dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ticket_in_gacha"
+            android:layout_width="63dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/gacha_ticket" />
+
+        <TextView
+            android:id="@+id/text_ticket_count2"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/ownglyp"
+            android:text="--장"
+            android:textSize="25dp" />
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/text_gacha_result"
         android:layout_width="wrap_content"

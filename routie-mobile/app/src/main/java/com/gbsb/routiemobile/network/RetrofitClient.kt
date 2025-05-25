@@ -12,6 +12,7 @@ import com.gbsb.routiemobile.dto.CaloriesRequest
 import com.gbsb.routiemobile.dto.RewardResponse
 import com.gbsb.routiemobile.api.UserApiService
 import com.gbsb.routiemobile.api.ShopApiService
+import com.gbsb.routiemobile.api.TicketApi
 import com.gbsb.routiemobile.api.UserItemApi
 import com.gbsb.routiemobile.config.ServerConfig
 import com.gbsb.routiemobile.dto.Achievement
@@ -55,9 +56,6 @@ object RetrofitClient {
 
     val routineLogApi: RoutineLogApi = retrofit.create(RoutineLogApi::class.java)
 
-    val healthApi: HealthdataApi by lazy {
-        retrofit.create(HealthdataApi::class.java)
-    }
 
     val characterApi: CharacterApiService by lazy {
         retrofit.create(CharacterApiService::class.java)
@@ -110,13 +108,17 @@ object RetrofitClient {
             }
         }
     }
-    //가챠 결과 전성
+    //가챠 결과 전송
     val userItemApi: UserItemApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(UserItemApi::class.java)
+    }
+
+    val ticketApi: TicketApi by lazy {
+        retrofit.create(TicketApi::class.java)
     }
 
     // 프론트 개발자가 서버/Mock 전환 가능
