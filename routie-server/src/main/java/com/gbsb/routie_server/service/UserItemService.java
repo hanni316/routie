@@ -64,7 +64,6 @@ public class UserItemService {
         GachaLog log = GachaLog.builder()
                 .user(user)
                 .item(item) // null 가능
-                .isSuccess(dto.isSuccess())
                 .isHiddenItem(dto.isHiddenItem())
                 .drawTime(LocalDateTime.now())
                 .build();
