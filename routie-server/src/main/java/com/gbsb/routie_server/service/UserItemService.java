@@ -49,6 +49,11 @@ public class UserItemService {
                 .collect(Collectors.toList());
     }
 
+    // 가챠 실패 횟수 카운팅
+    public int getFailureCount(String userId) {
+        return gachaLogRepo.countFailuresByUserId(userId);
+    }
+
     //가챠 당첨 아이템 저장(중복 방지 포함)
     public void saveGachaItem(GachaResultDto dto) {
         User user = userRepo.findById(dto.getUserId())
@@ -66,6 +71,7 @@ public class UserItemService {
                 .item(item) // null 가능
                 .isHiddenItem(dto.isHiddenItem())
                 .drawTime(LocalDateTime.now())
+                .isSuccess(dto.isSuccess())
                 .build();
         gachaLogRepo.save(log);
 
@@ -85,5 +91,9 @@ public class UserItemService {
         if (dto.isHiddenItem()) {
             achievementService.checkHiddenAchievements(user, true);
         }
+
+        // 가챠 실패 5번 이상 달성 처리
+        int gachaFailCount = getFailureCount(user.getUserId());
+        achievementService.checkGachaAchievements(user, gachaFailCount);
     }
 }

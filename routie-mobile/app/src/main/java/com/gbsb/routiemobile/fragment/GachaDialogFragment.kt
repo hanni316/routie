@@ -57,7 +57,7 @@ class GachaDialogFragment : DialogFragment() {
                     textTicketCount.text = "${ticketCount}장"
 
                     // 가챠 시도
-                    val result = tryGacha(0.9)
+                    val result = tryGacha(0.01)
                     val isSuccess = result != null
                     val isHiddenItem = result?.itemId == 127L // 히든 조건 (네 기준으로 조정 가능)
 
@@ -75,7 +75,7 @@ class GachaDialogFragment : DialogFragment() {
                         userId = userId,
                         itemId = result?.itemId,
                         isSuccess = isSuccess,
-                        isHiddenItem = result?.itemId == 127L
+                        isHiddenItem = isHiddenItem
                     )
 
                     RetrofitClient.userItemApi.sendGachaResult(dto)
