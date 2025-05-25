@@ -23,7 +23,7 @@ class GachaDialogFragment : DialogFragment() {
 
     private var ticketCount = 0
     private lateinit var textTicketCount: TextView
-    private val rareItem = GachaItem(127, name = "모히칸천사", imageResId = R.drawable.angel)
+    private val rareItem = GachaItem(127L, name = "모히칸천사", imageResId = R.drawable.angel)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -141,9 +141,10 @@ class GachaDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        val width = (resources.displayMetrics.widthPixels * 0.9).toInt()
+        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        dialog?.window?.setLayout(width, height)
+
     }
 }
