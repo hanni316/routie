@@ -28,6 +28,7 @@ public class UserItemService {
     private final ItemRepository itemRepo;
     private final UserRepository userRepo;
     private final GachaLogRepository gachaLogRepo;
+    private final AchievementService achievementService;
 
     //public UserItemService(UserItemRepository repo) { this.repo = repo; }
 
@@ -47,6 +48,7 @@ public class UserItemService {
                 ))
                 .collect(Collectors.toList());
     }
+
     //가챠 당첨 아이템 저장(중복 방지 포함)
     public void saveGachaItem(GachaResultDto dto) {
         User user = userRepo.findById(dto.getUserId())
@@ -78,6 +80,11 @@ public class UserItemService {
                         .build();
                 repo.save(userItem);
             }
+        }
+
+        // 히든 아이템 뽑았을 때 업적 달성 처리
+        if (dto.isHiddenItem()) {
+            achievementService.checkHiddenAchievements(user, true);
         }
     }
 }
