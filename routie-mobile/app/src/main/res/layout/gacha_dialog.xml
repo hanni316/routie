@@ -40,35 +40,38 @@
 
     </FrameLayout>
 
+    <!--돌리기 버튼!-->
     <TextView
         android:id="@+id/text_gacha_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="652dp"
+        android:layout_marginTop="576dp"
         android:fontFamily="@font/ownglyp"
         android:paddingBottom="20dp"
         android:text="두근 두근! 가챠를 돌려보세요."
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <!--돌리기 버튼!-->
+
+    <!--    결과이미지-->
+    <!--가챠기계사진-->
     <Button
         android:id="@+id/btn_do_gacha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/gacha_button"
         android:fontFamily="@font/ownglyp"
         android:text="돌리기!"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_gacha_result" />
-    <!--    결과이미지-->
-    <!--가챠기계사진-->
+        app:layout_constraintTop_toBottomOf="@+id/text_gacha_result" />
+
     <ImageView
         android:id="@+id/result_image"
         android:layout_width="150dp"
