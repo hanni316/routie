@@ -6,6 +6,8 @@ import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.entity.UserAchievement;
 import com.gbsb.routie_server.repository.AchievementRepository;
 import com.gbsb.routie_server.repository.UserAchievementRepository;
+import com.gbsb.routie_server.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class AchievementService {
 
     private final AchievementRepository achievementRepository;
     private final UserAchievementRepository userAchievementRepository;
+    private final UserRepository userRepository;
 
     // 달성된 업적 조회
     public List<AchievementDto> getAllAchievementsWithStatus(String userId) {
@@ -78,6 +81,14 @@ public class AchievementService {
                     .build();
 
             userAchievementRepository.save(userAchievement);
+
+            // 업적 보상 지급 (추가)
+            int rewardGold = achievement.getRewardGold(); // 또는 하드코딩된 값
+            user.setGold(user.getGold() + rewardGold);
+            userRepository.save(user);
+
+            // 로그 출력 or 리워드 내역 기록할 수도 있음
+            System.out.println("[" + title + "] 업적을 달성하고 " + rewardGold + "골드를 받았습니다!");
         }
     }
 

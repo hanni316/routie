@@ -59,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/gacha_button"
-        android:backgroundTint="@null"
         android:fontFamily="@font/ownglyp"
         android:text="돌리기!"
         android:textColor="#FFFFFF"
