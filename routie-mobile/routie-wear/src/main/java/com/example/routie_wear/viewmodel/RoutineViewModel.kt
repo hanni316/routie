@@ -34,7 +34,12 @@ class RoutineViewModel : ViewModel() {
 
     // 오늘 루틴 목록 불러오기
     fun loadTodayRoutines() {
-        val today = LocalDate.now().dayOfWeek.name.lowercase()
+        val today = LocalDate.now().dayOfWeek.name.uppercase()
+        val uid = userId ?: run {
+            Log.e("VM", "유저 ID가 설정되지 않았습니다!")
+            return
+        }
+
         viewModelScope.launch {
             isLoading = true
             try {

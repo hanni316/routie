@@ -63,7 +63,7 @@ class GachaDialogFragment : DialogFragment() {
 
                     // 결과 UI 반영
                     if (isSuccess) {
-                        tvResult.text = "🎉${result!!.name} 당첨!"
+                        tvResult.text = "${result!!.name} 당첨!"
                         imgResult.setImageResource(result.imageResId)
                     } else {
                         tvResult.text = "꽝! 다시 도전하세요!"

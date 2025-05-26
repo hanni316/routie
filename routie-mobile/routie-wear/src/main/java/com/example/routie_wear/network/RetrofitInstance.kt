@@ -1,5 +1,6 @@
 package com.example.routie_wear.network
 
+import com.example.routie_wear.api.RewardApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.routie_wear.api.RoutineApi
@@ -8,7 +9,7 @@ import com.example.routie_wear.api.RoutineStartApi
 object RetrofitInstance {
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://172.30.1.72:8080") // 실제 서버 주소 넣기
+            .baseUrl("http://172.30.1.99:8080") // 실제 서버 주소 넣기
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -19,5 +20,9 @@ object RetrofitInstance {
 
     val routineStartApi: RoutineStartApi by lazy {
         retrofit.create(RoutineStartApi::class.java)
+    }
+
+    val rewardApi: RewardApi by lazy {
+        retrofit.create(RewardApi::class.java)
     }
 }

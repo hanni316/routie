@@ -110,11 +110,7 @@ object RetrofitClient {
     }
     //가챠 결과 전송
     val userItemApi: UserItemApi by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UserItemApi::class.java)
+        retrofit.create(UserItemApi::class.java)
     }
 
     val ticketApi: TicketApi by lazy {
