@@ -130,23 +130,25 @@
         <!-- 옷장 버튼 -->
         <ImageButton
             android:id="@+id/btn_wardrobe"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="16dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_margin="17dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="옷장"
+            android:scaleType="fitCenter"
             android:src="@drawable/wardrobe"
             app:layout_constraintEnd_toEndOf="@id/character_container"
             app:layout_constraintTop_toTopOf="@id/character_container" />
 
         <ImageButton
             android:id="@+id/btn_save_style"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginTop="17dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="스타일 저장"
-            android:src="@drawable/save_st"
+            android:scaleType="fitCenter"
+            android:src="@drawable/save_btn"
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@id/character_container" />
     </androidx.constraintlayout.widget.ConstraintLayout>
