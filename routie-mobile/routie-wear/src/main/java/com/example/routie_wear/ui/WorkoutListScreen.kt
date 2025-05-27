@@ -1,6 +1,7 @@
 package com.example.routie_wear.ui
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -22,7 +23,8 @@ import com.example.routie_wear.util.VibrationUtil
 @Composable
 fun WorkoutListScreen(
     viewModel: RoutineViewModel,
-    onWorkoutSelected: () -> Unit
+    onWorkoutSelected: () -> Unit,
+    onRoutineFinished: () -> Unit
 ) {
     val workouts = viewModel.workoutList
     val selectedWorkout = viewModel.selectedWorkout
@@ -31,7 +33,7 @@ fun WorkoutListScreen(
 
     LaunchedEffect(selectedRoutineId) {
         if (selectedRoutineId != null) {
-            viewModel.loadWorkouts(selectedRoutineId!!)
+            viewModel.loadWorkouts(selectedRoutineId)
         }
     }
 
@@ -80,6 +82,28 @@ fun WorkoutListScreen(
                             MaterialTheme.colors.surface
                     )
                 )
+            }
+            item {
+                Button(
+                    onClick = {
+                        viewModel.completeRoutineAndUpload {
+                            // 완료 후 루틴 목록
+                            viewModel.selectedWorkout = null
+                            viewModel.routineLogId = null
+                            onRoutineFinished()
+                            Toast.makeText(context, "루틴 기록 완료!", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxSize(),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.primary,
+                        contentColor = MaterialTheme.colors.onPrimary
+                    )
+                ) {
+                    Text("루틴 종료")
+                }
             }
         }
     }

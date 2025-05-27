@@ -32,19 +32,21 @@ class RoutineViewModel : ViewModel() {
     private val api = RetrofitInstance.api
     private val routineStartApi = RetrofitInstance.routineStartApi
 
+    //운동 중 기록을 저장하는 리스트
+    private val tempWorkoutRecords = mutableListOf<WorkoutRecordDto>()
+
     // 오늘 루틴 목록 불러오기
     fun loadTodayRoutines() {
-        val today = LocalDate.now().dayOfWeek.name.uppercase()
+        val today = LocalDate.now().dayOfWeek.name.lowercase()
         val uid = userId ?: run {
-            Log.e("VM", "유저 ID가 설정되지 않았습니다!")
+            Log.e("VM", "userId가 null입니다. 루틴을 불러올 수 없습니다.")
             return
         }
 
         viewModelScope.launch {
             isLoading = true
             try {
-                // 실제 호출 직후 로그를 찍습니다
-                routineList = api.getRoutinesByDay(today)
+                routineList = api.getRoutinesByDay(uid, today)
                 Log.d("VM", "받아온 루틴 개수: ${routineList.size}")
             } catch (e: Exception) {
                 Log.e("VM", "루틴 조회 에러", e)
@@ -67,44 +69,54 @@ class RoutineViewModel : ViewModel() {
         }
     }
 
-    // 루틴 시작 시 서버에 RoutineLog 생성 요청
-    fun startRoutineLog(userId: String, onStarted: () -> Unit) {
-        val routineId = selectedRoutineId ?: return
-        val uid = userId ?: run {
-            println("사용자 아이디가 설정되지 않았습니다!")
-            return
-        }
-        viewModelScope.launch {
-            try {
-                val response = routineStartApi.startRoutine(
-                    RoutineLogStartRequestDto(routineId, userId)
-                )
-                routineLogId = response
-                println("루틴 시작 완료! routineLogId: $routineLogId")
-                onStarted()
-            } catch (e: Exception) {
-                println("루틴 시작 실패: ${e.message}")
-            }
-        }
-    }
-
-    // 운동 기록 서버에 업로드
-    fun uploadWorkout() {
+    // 운동 한 개 기록을 로컬에 저장
+    fun saveWorkoutLocally(duration: Int) {
         val exercise = selectedWorkout ?: return
-        val logId = routineLogId ?: return
 
         val record = WorkoutRecordDto(
-            routineLogId = logId,
-            exerciseId = exercise.routineExerciseId,
-            duration = timerSeconds
+            routineLogId = 0L,  // 아직은 dummy
+            exerciseId = exercise.exerciseId,
+            duration = duration
+        )
+        tempWorkoutRecords.add(record)
+        Log.d("VM", "운동 로컬 저장: ${record.exerciseId}, ${record.duration}초")
+    }
+
+    // 루틴 종료 시 서버에 로그 생성 + 운동 기록 업로드
+    fun completeRoutineAndUpload(onComplete: () -> Unit = {}) {
+        val routineId = selectedRoutineId ?: return
+        val uid = userId ?: return
+
+        val exerciseDtos = tempWorkoutRecords.map {
+            ExerciseLogRequestDto(
+                exerciseId = it.exerciseId,
+                duration = it.duration
+            )
+        }.also {
+            Log.d("VM", "서버로 보낼 운동 개수: ${it.size}")
+            it.forEach { e ->
+                Log.d("VM", "운동 ID=${e.exerciseId}, duration=${e.duration}")
+            }
+        }
+
+        val request = RoutineLogRequestDto(
+            routineId = routineId,
+            userId = uid,
+            exercises = exerciseDtos
         )
 
         viewModelScope.launch {
             try {
-                api.uploadWorkoutRecord(record)
-                println("운동 기록 업로드 완료")
+                val response = api.completeRoutine(request)
+                if (response.isSuccessful) {
+                    Log.d("VM", "루틴 종료 기록 완료")
+                    tempWorkoutRecords.clear()
+                    onComplete()
+                } else {
+                    Log.e("VM", "루틴 업로드 실패 code=${response.code()}")
+                }
             } catch (e: Exception) {
-                println("업로드 실패: ${e.message}")
+                Log.e("VM", "루틴 업로드 중 예외", e)
             }
         }
     }

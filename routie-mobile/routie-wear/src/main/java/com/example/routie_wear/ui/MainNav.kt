@@ -12,7 +12,7 @@ fun MainNav(viewModel: RoutineViewModel) {
 
         composable("start") {
             StartScreen(viewModel){
-                navController.navigate("routine")  // 루틴 목록으로 이동
+                navController.navigate("routine")
             }
         }
 
@@ -21,15 +21,20 @@ fun MainNav(viewModel: RoutineViewModel) {
                 navController.navigate("workouts")
             }
         }
-        composable("workouts") {
-            WorkoutListScreen(viewModel) {
-                navController.navigate("timer")
-            }
-        }
+
         composable("timer") {
             WorkoutTimerScreen(viewModel) {
-                navController.navigate("workouts") // 운동 끝 → 루틴 화면으로 되돌아감
+                navController.navigate("workouts")
             }
+        }
+        composable("workouts") {
+            WorkoutListScreen(
+                viewModel,
+                onWorkoutSelected = { navController.navigate("timer") },
+                onRoutineFinished = {
+                    navController.popBackStack("routine", inclusive = false)
+                }
+            )
         }
     }
 }

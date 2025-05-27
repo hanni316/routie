@@ -5,7 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface RoutineStartApi {
-    @POST("/routine-start")
+    @POST("/api/routine-logs/start")
     suspend fun startRoutine(@Body dto: RoutineLogStartRequestDto): Long
 
 }
