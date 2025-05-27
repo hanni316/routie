@@ -51,4 +51,8 @@ public class Achievement {
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    //업적회득시 보상 겟또
+    @Column(nullable = false)
+    private int rewardGold = 100; //기본값 100골드로 설정(나중에 바꿔주세요)
 }

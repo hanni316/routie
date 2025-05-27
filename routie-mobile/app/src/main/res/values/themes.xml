@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.RoutieMobile" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 꼭 필요한 Material3 속성 -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="colorTertiary">@color/black</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorSurfaceVariant">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/black</item>
     </style>
 
     <style name="Theme.RoutieMobile" parent="Base.Theme.RoutieMobile" />

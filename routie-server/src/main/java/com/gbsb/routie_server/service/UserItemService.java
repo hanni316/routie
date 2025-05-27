@@ -3,9 +3,11 @@ package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.dto.GachaResultDto;
 import com.gbsb.routie_server.dto.UserItemDto;
+import com.gbsb.routie_server.entity.GachaLog;
 import com.gbsb.routie_server.entity.Item;
 import com.gbsb.routie_server.entity.User;
 import com.gbsb.routie_server.entity.UserItem;
+import com.gbsb.routie_server.repository.GachaLogRepository;
 import com.gbsb.routie_server.repository.ItemRepository;
 import com.gbsb.routie_server.repository.UserItemRepository;
 import com.gbsb.routie_server.repository.UserRepository;
@@ -13,19 +15,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class UserItemService {
 
-    private UserItemRepository repo;
-    private ItemRepository itemRepo;
-    private UserRepository userRepo;
+    private final UserItemRepository repo;
+    private final ItemRepository itemRepo;
+    private final UserRepository userRepo;
+    private final GachaLogRepository gachaLogRepo;
+    private final AchievementService achievementService;
 
-    public UserItemService(UserItemRepository repo) { this.repo = repo; }
+    //public UserItemService(UserItemRepository repo) { this.repo = repo; }
+
+    public int getTotalQuantity(String userId) {
+        return repo.getTotalQuantityByUserId(userId);
+    }
 
     public List<UserItemDto> getPurchasedItems(String userId) {
         List<UserItem> items = repo.findByUser_UserId(userId);
@@ -39,25 +48,52 @@ public class UserItemService {
                 ))
                 .collect(Collectors.toList());
     }
+
+    // 가챠 실패 횟수 카운팅
+    public int getFailureCount(String userId) {
+        return gachaLogRepo.countFailuresByUserId(userId);
+    }
+
     //가챠 당첨 아이템 저장(중복 방지 포함)
     public void saveGachaItem(GachaResultDto dto) {
         User user = userRepo.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저"));
 
-        Item item = itemRepo.findById(dto.getItemId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템"));
+        Item item = null;
+        if (dto.getItemId() != null) {
+            item = itemRepo.findById(dto.getItemId())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템"));
+        }
 
-        // 이미 가지고 있으면 저장 안 함 (중복 방지)
-        Optional<UserItem> existing = repo.findByUserAndItem(user, item);
-        if (existing.isPresent()) return;
-
-        UserItem userItem = UserItem.builder()
+        //가챠 결과 로그 저장 (성공/실패 관계없이)
+        GachaLog log = GachaLog.builder()
                 .user(user)
-                .item(item)
-                .quantity(1)
+                .item(item) // null 가능
+                .isHiddenItem(dto.isHiddenItem())
+                .drawTime(LocalDateTime.now())
+                .isSuccess(dto.isSuccess())
                 .build();
+        gachaLogRepo.save(log);
 
-        repo.save(userItem);
+        // 성공 시에만 아이템 지급
+        if (dto.isSuccess() && item != null) {
+            if (repo.findByUserAndItem(user, item).isEmpty()) {
+                UserItem userItem = UserItem.builder()
+                        .user(user)
+                        .item(item)
+                        .quantity(1)
+                        .build();
+                repo.save(userItem);
+            }
+        }
+
+        // 히든 아이템 뽑았을 때 업적 달성 처리
+        if (dto.isHiddenItem()) {
+            achievementService.checkHiddenAchievements(user, true);
+        }
+
+        // 가챠 실패 5번 이상 달성 처리
+        int gachaFailCount = getFailureCount(user.getUserId());
+        achievementService.checkGachaAchievements(user, gachaFailCount);
     }
-
 }

@@ -2,6 +2,8 @@ package com.gbsb.routie_server.controller;
 
 import com.gbsb.routie_server.dto.CaloriesRequestDto;
 import com.gbsb.routie_server.dto.RewardResponseDto;
+import com.gbsb.routie_server.dto.StepGoalRequestDto;
+import com.gbsb.routie_server.dto.StepGoalRewardResponseDto;
 import com.gbsb.routie_server.service.RewardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,4 +31,11 @@ public class RewardController {
         return ResponseEntity.ok(updatedReward);
     }
 
+    @PostMapping("/{userId}/steps")
+    public ResponseEntity<StepGoalRewardResponseDto> updateStepRewards(
+            @PathVariable String userId,
+            @RequestBody StepGoalRequestDto request) {
+        StepGoalRewardResponseDto response = rewardService.updateStepRewards(userId, request.getStepCount());
+        return ResponseEntity.ok(response);
+    }
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public final class RankingResponseDto {
     private int rank;
+    private String userId;
     private String nickname;
     private String profileImageUrl;
     private double value;

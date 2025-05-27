@@ -24,15 +24,45 @@
 
         <ImageButton
             android:id="@+id/gachaButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="66dp"
+            android:layout_height="57dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
+            android:contentDescription="가챠버튼"
             android:scaleType="centerInside"
             android:src="@drawable/gacha_machine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gacha_button"
+            app:layout_constraintEnd_toStartOf="@+id/gachaButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ticket_in_box"
+                android:layout_width="29dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/gacha_ticket" />
+
+            <TextView
+                android:id="@+id/text_ticket_count1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="53dp"
+                android:layout_marginTop="10dp"
+                android:text="--장"
+                android:fontFamily="@font/ownglyp"
+                android:textSize="12dp" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/myroom_nav_bar"
@@ -88,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
-                android:src="@drawable/body_basic" />
+                android:src="@drawable/main_character" />
 
             <!-- hair -->
             <ImageView

@@ -18,11 +18,13 @@ public class ShopService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final UserItemRepository userItemRepository;
+    private final AchievementService achievementService;
 
-    public ShopService(UserRepository userRepository, ItemRepository itemRepository, UserItemRepository userItemRepository) {
+    public ShopService(UserRepository userRepository, ItemRepository itemRepository, UserItemRepository userItemRepository, AchievementService achievementService) {
         this.userRepository = userRepository;
         this.itemRepository = itemRepository;
         this.userItemRepository = userItemRepository;
+        this.achievementService = achievementService;
     }
 
     @Transactional
@@ -53,6 +55,11 @@ public class ShopService {
                 .build();
 
         userItemRepository.save(newUserItem);
+
+        // 업적 자동 체크: 구매 후 업적 체크를 호출
+        // 구매 후 업적 자동 체크
+        int itemBuyCount = userItemRepository.getTotalQuantityByUserId(userId);
+        achievementService.checkPurchaseAchievements(user, itemBuyCount);
 
         return "구매했습니다!";
     }

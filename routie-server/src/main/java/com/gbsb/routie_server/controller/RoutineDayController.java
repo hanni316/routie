@@ -16,6 +16,10 @@ public class RoutineDayController {
         this.routineDayService = routineDayService;
 
     }
+    @GetMapping("/user")
+    public List<RoutineDayDto> getRoutineDays(@RequestParam String dayOfWeek) {
+        return routineDayService.findRoutinesByDay(dayOfWeek);
+    }
 
     @GetMapping
     public List<RoutineDayDto> getRoutineDays(

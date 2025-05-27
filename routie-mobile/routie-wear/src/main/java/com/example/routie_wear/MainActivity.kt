@@ -14,6 +14,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModel: RoutineViewModel
     private lateinit var receiver: WatchMessageReceiver
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

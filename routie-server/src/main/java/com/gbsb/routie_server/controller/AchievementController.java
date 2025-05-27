@@ -15,9 +15,9 @@ public class AchievementController {
     private final AchievementService achievementService;
 
     // 사용자의 업적 조회
-    @GetMapping("/{userId}")
-    public List<AchievementDto> getUserAchievements(@PathVariable String userId) {
-        return achievementService.getAchievementsByUserId(userId);
+    @GetMapping("/user/{userId}")
+    public List<AchievementDto> getAllAchievements(@PathVariable String userId) {
+        return achievementService.getAllAchievementsWithStatus(userId);
     }
 
     // 업적 생성
