@@ -91,6 +91,7 @@ fun RoutineListScreen(
                         onClick = {
                             VibrationUtil.vibrate(context)
                             selectedId = routine.id
+                            viewModel.selectedRoutineId = routine.id
                             viewModel.loadWorkouts(routine.id)
                             onRoutineSelected()
                         },

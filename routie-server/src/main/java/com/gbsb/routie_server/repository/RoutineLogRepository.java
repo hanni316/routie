@@ -3,6 +3,7 @@ package com.gbsb.routie_server.repository;
 import com.gbsb.routie_server.dto.UserRankingProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.gbsb.routie_server.entity.RoutineLog;
+import com.gbsb.routie_server.entity.Routine;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public interface RoutineLogRepository extends JpaRepository<RoutineLog, Long> {
     @Query(value = "SELECT * FROM routine_log WHERE user_id = :userId AND DATE(completion_date) = :date", nativeQuery = true)
     List<RoutineLog> findByUserIdAndDate(@Param("userId") String userId, @Param("date") LocalDate date);
+    List<RoutineLog> findByRoutine(Routine routine);
 
     @Query("""
     SELECT u.userId as userId, u.name as nickname, u.profileImageUrl as profileImageUrl,

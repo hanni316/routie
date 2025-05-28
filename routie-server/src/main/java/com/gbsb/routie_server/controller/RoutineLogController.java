@@ -24,13 +24,9 @@ public class RoutineLogController {
     }
 
     @PostMapping("/complete")
-    public ResponseEntity<RoutineLogDto> completeRoutine(
-            @RequestBody RoutineLogRequestDto requestDto,
-            @AuthenticationPrincipal User user) {
-
-        RoutineLog routineLog = routineLogService.completeRoutine(requestDto, user);
-        RoutineLogDto dto = new RoutineLogDto(routineLog);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<RoutineLogDto> completeRoutine(@RequestBody RoutineLogRequestDto requestDto) {
+        RoutineLog routineLog = routineLogService.completeRoutine(requestDto);
+        return ResponseEntity.ok(new RoutineLogDto(routineLog));
     }
 
     @GetMapping("/logs")

@@ -11,24 +11,21 @@ import com.example.routie_wear.ui.MainNav
 import com.example.routie_wear.communication.WatchMessageReceiver
 
 class MainActivity : ComponentActivity() {
-    private lateinit var viewModel: RoutineViewModel
+    private val viewModel by lazy { RoutineViewModel() }
     private lateinit var receiver: WatchMessageReceiver
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = RoutineViewModel()
-
-        //userId 수신 및 ViewModel에 전달
+        // 메시지 수신 리스너 등록
         receiver = WatchMessageReceiver(this) { userId ->
-            Log.d("MainActivity", "userId 수신: $userId")
+            Log.d("MainActivity", "ViewModel에 userId 저장: $userId")
             viewModel.userId = userId
         }
 
         setContent {
             AppTheme {
-                val viewModel: RoutineViewModel = viewModel
                 MainNav(viewModel = viewModel)
             }
         }

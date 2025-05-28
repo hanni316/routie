@@ -28,7 +28,6 @@ fun WorkoutTimerScreen(
     viewModel: RoutineViewModel,
     onFinish: () -> Unit = {}
 ) {
-    // 현재 선택된 운동
     val workout = viewModel.selectedWorkout
     if (workout == null) {
         Box(
@@ -44,20 +43,17 @@ fun WorkoutTimerScreen(
         return
     }
 
-    // 운동 ID
-    val id = workout.routineExerciseId
-    // Composable 내 타이머 상태
+    // 로컬에서 관리하는 경과 시간
     var elapsed by rememberSaveable { mutableStateOf(0) }
     var isRunning by rememberSaveable { mutableStateOf(false) }
     var timerJob by remember { mutableStateOf<Job?>(null) }
-    // 완료 메시지 표시 제어
     var showCompletionMessage by remember { mutableStateOf(false) }
     var triggerFinish by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    // 완료 후 네비게이션/업로드 등 onFinish 호출
+    // 완료 후 네비게이션 또는 콜백
     if (triggerFinish) {
         LaunchedEffect(Unit) {
             delay(2000)
@@ -67,6 +63,7 @@ fun WorkoutTimerScreen(
         }
     }
 
+    // 애니메이션 값
     val alpha by animateFloatAsState(
         targetValue = if (showCompletionMessage) 1f else 0f,
         animationSpec = tween(700)
@@ -85,7 +82,7 @@ fun WorkoutTimerScreen(
     ) {
         if (showCompletionMessage) {
             Text(
-                text = " ☺️운동 끝! 최고야!",
+                text = "☺️운동 끝! 최고야!👍",
                 style = MaterialTheme.typography.title2,
                 color = MaterialTheme.colors.primary,
                 modifier = Modifier.graphicsLayer(
@@ -95,16 +92,15 @@ fun WorkoutTimerScreen(
                 )
             )
         } else {
+            // 타이머 표시
             Text(
                 text = "⏱${elapsed}초",
                 style = MaterialTheme.typography.display1,
                 color = MaterialTheme.colors.primary
             )
-            // 시작/정지 버튼
             Button(
                 onClick = {
                     if (!isRunning) {
-                        // 타이머 시작
                         VibrationUtil.vibrate(context)
                         isRunning = true
                         timerJob?.cancel()
@@ -115,14 +111,13 @@ fun WorkoutTimerScreen(
                             }
                         }
                     } else {
-                        // 타이머 정지 및 완료 처리
+                        // 타이머 정지 및 서버 업로드
                         VibrationUtil.vibrate(context)
                         timerJob?.cancel()
                         isRunning = false
-                        // 네트워크 업로드는 ViewModel에 위임
-                        viewModel.uploadWorkout()
-                        // composable 상태 리셋
-                        viewModel.resetTimer()
+                        viewModel.saveWorkoutLocally(elapsed)
+                        // 로컬에서 초기화
+                        elapsed = 0
                         showCompletionMessage = true
                         triggerFinish = true
                         VibrationUtil.vibrate(context, 300)

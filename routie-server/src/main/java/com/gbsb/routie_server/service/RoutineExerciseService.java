@@ -58,4 +58,8 @@ public class RoutineExerciseService {
         routineExerciseRepository.delete(routineExercise);
         routineExerciseRepository.flush();
     }
+
+    public List<RoutineExercise> getExercisesByRoutineId(Long routineId) {
+        return routineExerciseRepository.findByRoutine_Id(routineId);
+    }
 }
