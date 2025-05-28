@@ -5,9 +5,6 @@ import android.util.Log
 import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.Wearable
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class WatchMessageReceiver(
     private val context: Context,
@@ -16,24 +13,27 @@ class WatchMessageReceiver(
 
     init {
         Wearable.getMessageClient(context).addListener(this)
+        Log.d("WatchMessageReceiver", "메시지 수신 대기 시작")
     }
 
-    override fun onMessageReceived(event: MessageEvent) {
-        if (event.path == "/user-id") {
-            val userId = String(event.data)
-            Log.d("WatchReceiver", "userId 수신됨: $userId")
+    override fun onMessageReceived(messageEvent: MessageEvent) {
+        if (messageEvent.path == "/user-id") {
+            val userId = String(messageEvent.data)
+            Log.d("WatchMessageReceiver", "userId 수신: $userId")
 
-            //SharedPreferences 등에 저장 가능
-            CoroutineScope(Dispatchers.IO).launch {
-                val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-                prefs.edit().putString("userId", userId).apply()
-            }
+            // 저장
+            context.getSharedPreferences("wear_prefs", Context.MODE_PRIVATE)
+                .edit()
+                .putString("userId", userId)
+                .apply()
 
+            // ViewModel 등으로 전달
             onUserIdReceived(userId)
         }
     }
 
     fun unregister() {
         Wearable.getMessageClient(context).removeListener(this)
+        Log.d("WatchMessageReceiver", "메시지 리스너 해제")
     }
 }

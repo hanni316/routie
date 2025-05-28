@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/routine-logs")
 public class RoutineStartController {
     private final RoutineStartService routineStartService;
 
@@ -13,7 +14,7 @@ public class RoutineStartController {
         this.routineStartService = routineStartService;
     }
 
-    @PostMapping
+    @PostMapping("/start")
     public ResponseEntity<Long> startRoutine(@RequestBody RoutineLogStartRequestDto dto) {
         Long routineLogId = routineStartService.startRoutine(dto);
         return ResponseEntity.ok(routineLogId);
