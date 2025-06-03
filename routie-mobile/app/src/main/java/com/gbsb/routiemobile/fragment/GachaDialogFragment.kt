@@ -23,7 +23,7 @@ class GachaDialogFragment : DialogFragment() {
 
     private var ticketCount = 0
     private lateinit var textTicketCount: TextView
-    private val rareItem = GachaItem(127L, name = "모히칸천사", imageResId = R.drawable.angel)
+    private val rareItem = GachaItem(128L, name = "별빛드레스", imageResId = R.drawable.starlight_dress)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,9 +40,13 @@ class GachaDialogFragment : DialogFragment() {
             .getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             .getString("userId", null)
 
-        if (userId != null) {
-            loadTicketCount(userId)
+        if (userId == null) {
+            Toast.makeText(requireContext(), "유저 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show()
+            dismiss()  // 다이얼로그 닫기
+            return view
         }
+
+        loadTicketCount(userId)
 
         btnDraw.setOnClickListener {
             if (ticketCount <= 0) {
@@ -59,7 +63,7 @@ class GachaDialogFragment : DialogFragment() {
                     // 가챠 시도
                     val result = tryGacha(0.01)
                     val isSuccess = result != null
-                    val isHiddenItem = result?.itemId == 127L // 히든 조건 (네 기준으로 조정 가능)
+                    val isHiddenItem = result?.itemId == 128L // 히든 조건 (네 기준으로 조정 가능)
 
                     // 결과 UI 반영
                     if (isSuccess) {
@@ -73,7 +77,7 @@ class GachaDialogFragment : DialogFragment() {
                     // 서버에 가챠 결과 전송
                     val dto = GachaResultDto(
                         userId = userId,
-                        itemId = result?.itemId,
+                        itemId = result?.itemId ?: -1L,
                         isSuccess = isSuccess,
                         isHiddenItem = isHiddenItem
                     )
