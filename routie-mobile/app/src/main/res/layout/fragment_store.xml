@@ -37,7 +37,7 @@
             android:background="@drawable/bg_category_button_selector"
             android:contentDescription="하의"
             android:scaleType="centerInside"
-            android:src="@drawable/bottom_store" />
+            android:src="@drawable/pants_store" />
 
         <ImageButton
             android:id="@+id/btnShoes"
@@ -67,7 +67,7 @@
             android:background="@drawable/bg_category_button_selector"
             android:contentDescription="헤어"
             android:scaleType="centerInside"
-            android:src="@drawable/sun_store" />
+            android:src="@drawable/hair_store" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
