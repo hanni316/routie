@@ -215,7 +215,7 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_category_button_selector"
-                android:src="@drawable/bottom_store"
+                android:src="@drawable/pants_store"
                 android:scaleType="centerInside"
                 android:contentDescription="하의"/>
             <ImageButton
@@ -242,7 +242,7 @@
                 android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_category_button_selector"
-                android:src="@drawable/sun_store"
+                android:src="@drawable/hair_store"
                 android:scaleType="centerInside"
                 android:contentDescription="헤어"/>
         </LinearLayout>
