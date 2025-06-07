@@ -32,7 +32,8 @@ public class ExerciseLogService {
         Exercise exercise = exerciseRepo.findById(dto.getExerciseId())
                 .orElseThrow(() -> new RuntimeException("운동을 찾을 수 없습니다."));
 
-        double calories = exercise.getCaloriesPerSecond() * dto.getDuration();
+        double rawCalories = exercise.getCaloriesPerSecond() * dto.getDuration();
+        double calories = Math.round(rawCalories * 100.0) / 100.0;
 
         ExerciseLog log = ExerciseLog.builder()
                 .routineLog(routineLog)

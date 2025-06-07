@@ -20,7 +20,7 @@ public class RoutineLog {
 
     // 완료한 루틴 참조 (템플릿 정보)
     @ManyToOne
-    @JoinColumn(name = "routine_id", nullable = false)
+    @JoinColumn(name = "routine_id", nullable = true)
     private Routine routine;
 
     // 해당 루틴을 완료한 사용자 정보

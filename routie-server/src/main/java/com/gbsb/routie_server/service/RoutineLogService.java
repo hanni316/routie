@@ -2,12 +2,14 @@ package com.gbsb.routie_server.service;
 
 import com.gbsb.routie_server.dto.*;
 import com.gbsb.routie_server.entity.*;
+import com.gbsb.routie_server.repository.UserRepository;
 import com.gbsb.routie_server.repository.RoutineLogRepository;
 import com.gbsb.routie_server.repository.RoutineRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,16 +19,22 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class RoutineLogService {
+    @Value("${reward.rate}")
+    private double rewardRate;
+
     private final RoutineRepository routineRepository;
     private final RoutineLogRepository routineLogRepository;
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
 
     public RoutineLogService(RoutineRepository routineRepository,
                              RoutineLogRepository routineLogRepository,
-                             ObjectMapper objectMapper) {
+                             ObjectMapper objectMapper,
+                             UserRepository userRepository) {
         this.routineRepository = routineRepository;
         this.routineLogRepository = routineLogRepository;
         this.objectMapper = objectMapper;
+        this.userRepository = userRepository;
     }
 
     public List<RoutineLog> getLogsByDate(String userId, LocalDate date) {
@@ -35,9 +43,12 @@ public class RoutineLogService {
 
 
 
-    public RoutineLog completeRoutine(RoutineLogRequestDto requestDto, User user) {
+    public RoutineLog completeRoutine(RoutineLogRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
         Routine routine = routineRepository.findById(requestDto.getRoutineId())
-                .orElseThrow(() -> new RuntimeException("Routine not found"));
+                .orElseThrow(() -> new RuntimeException("루틴을 찾을 수 없습니다."));
 
         List<RoutineExercise> routineExercises = routine.getExercises();
         Map<Long, Integer> actualDurationMap = requestDto.getExercises().stream()
@@ -70,6 +81,10 @@ public class RoutineLogService {
                 .totalCaloriesBurned(totalCalories)
                 .build();
 
+        long gold = Math.round(totalCalories * rewardRate);   // 소수점 반올림
+        user.setGold(user.getGold() + (int) gold);            // 유저 골드 누적
+        userRepository.save(user);                            // 저장
+
         exerciseLogs.forEach(el -> el.setRoutineLog(routineLog));
         routineLog.setExerciseLogs(exerciseLogs);
 
@@ -90,4 +105,5 @@ public class RoutineLogService {
 
         return routineLogRepository.save(routineLog);
     }
+
 }

@@ -8,6 +8,8 @@ import com.gbsb.routie_server.repository.RoutineRepository;
 import com.gbsb.routie_server.repository.UserRepository;
 import com.gbsb.routie_server.repository.ExerciseRepository;
 import com.gbsb.routie_server.repository.RoutineExerciseRepository;
+import com.gbsb.routie_server.entity.RoutineLog;
+import com.gbsb.routie_server.repository.RoutineLogRepository;
 import com.gbsb.routie_server.dto.*;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class RoutineService {
     private final UserRepository userRepository;
     private final ExerciseRepository exerciseRepository;
     private final RoutineExerciseRepository routineExerciseRepository;
+    private final RoutineLogRepository routineLogRepository;
 
     // 운동 루틴 생성
     @Transactional
@@ -104,6 +107,14 @@ public class RoutineService {
         Routine routine = routineRepository.findById(routineId)
                 .orElseThrow(() -> new IllegalArgumentException("루틴을 찾을 수 없습니다."));
 
+        List<RoutineLog> logs = routineLogRepository.findByRoutine(routine);
+        for (RoutineLog log : logs) {
+            log.setRoutine(null);
+        }
+        // 변경된 로그들 저장 (flush 포함)
+        routineLogRepository.saveAll(logs);
+
+        // 3) 루틴만 실제 삭제
         routineRepository.delete(routine);
     }
 }
