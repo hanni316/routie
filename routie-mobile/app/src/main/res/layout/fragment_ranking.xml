@@ -32,7 +32,8 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/ownglyp"
                 android:text="Routie"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:textColor="@color/font_color"/>
         </LinearLayout>
 
         <TextView
@@ -45,7 +46,8 @@
             android:letterSpacing="-0.05"
             android:text="R A N K I N G"
             android:textSize="60sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/font_color"/>
 
         <ImageView
             android:id="@+id/imageView3"
@@ -87,7 +89,8 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="1"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_1_profile"
@@ -106,7 +109,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -133,7 +137,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="2"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_2_profile"
@@ -151,7 +156,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
 
                 </FrameLayout>
@@ -178,7 +184,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="3"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_3_profile"
@@ -196,7 +203,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -221,7 +229,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="4"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_4_profile"
@@ -239,7 +248,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -264,7 +274,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="5"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_5_profile"
@@ -282,7 +293,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -307,7 +319,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="6"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_6_profile"
@@ -325,7 +338,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -350,7 +364,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="7"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_7_profile"
@@ -368,7 +383,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -393,7 +409,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="8"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_8_profile"
@@ -411,7 +428,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -436,7 +454,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="9"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_9_profile"
@@ -454,7 +473,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 
@@ -479,7 +499,8 @@
                             android:layout_marginTop="5dp"
                             android:fontFamily="@font/ownglyp"
                             android:text="10"
-                            android:textSize="50sp" />
+                            android:textSize="50sp"
+                            android:textColor="@color/font_color"/>
 
                         <ImageView
                             android:id="@+id/rk_10_profile"
@@ -497,7 +518,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/ownglyp"
                             android:text="닉네임"
-                            android:textSize="40sp" />
+                            android:textSize="40sp"
+                            android:textColor="@color/font_color"/>
                     </LinearLayout>
                 </FrameLayout>
 

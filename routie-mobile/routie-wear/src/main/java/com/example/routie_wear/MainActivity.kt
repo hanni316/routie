@@ -18,6 +18,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.userId = "user8"
+
         // 메시지 수신 리스너 등록
         receiver = WatchMessageReceiver(this) { userId ->
             Log.d("MainActivity", "ViewModel에 userId 저장: $userId")

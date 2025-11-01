@@ -46,7 +46,8 @@
                 android:fontFamily="@font/ownglyp"
                 android:gravity="center"
                 android:text="정보 수정"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                android:textColor="@color/font_color"/>
         </LinearLayout>
 
         <LinearLayout
@@ -97,7 +98,8 @@
                 android:fontFamily="@font/ownglyp"
                 android:gravity="center"
                 android:text="비밀번호 변경"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:textColor="@color/font_color"/>
 
             <EditText
                 android:id="@+id/editTextPassword2"

@@ -169,13 +169,6 @@ class MainFragment : Fragment() {
         getUserIdFromPrefs()?.let { loadCharacterStyle(it) }
         showWeekDayButtons(getStartOfWeek(selectedDate), selectedDate)
 
-
-        binding.btnBell.setOnClickListener {
-            binding.imgNoticefield.visibility =
-                if (isNoticeBubbleVisible) View.GONE else View.VISIBLE
-            isNoticeBubbleVisible = !isNoticeBubbleVisible
-        }
-
         binding.btnProfile.setOnClickListener {
             findNavController().navigate(R.id.SettingFragment)
         }

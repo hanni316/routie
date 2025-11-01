@@ -6,6 +6,13 @@
     <uses-permission android:name="com.samsung.android.health.permission.READ_STEP_COUNT_DATA" />
     <uses-permission android:name="com.samsung.android.health.permission.READ_CALORIE_DATA" />
 
+    <!-- 알림 표시 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 정확 알람 예약 -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- 재부팅 후 알람 다시 등록 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,7 +38,32 @@
             </intent-filter>
         </activity>
 
+        <!-- 아침 알림 리시버 -->
+        <receiver
+            android:name=".notification.MorningAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.routie.action.MORNING_REMINDER" />
+            </intent-filter>
+        </receiver>
 
+        <!-- 저녁 알림 리시버 -->
+        <receiver
+            android:name=".notification.EveningAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.routie.action.EVENING_REMINDER" />
+            </intent-filter>
+        </receiver>
 
+        <!-- 부팅 후 다시 알람 걸기 -->
+        <receiver
+            android:name=".notification.BootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

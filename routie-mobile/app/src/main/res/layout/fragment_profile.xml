@@ -31,7 +31,8 @@
             android:fontFamily="@font/ownglyp"
             android:gravity="center"
             android:text="닉네임"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="@color/font_color"/>
 
     </LinearLayout>
 
@@ -103,7 +104,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="두 발 요정"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +162,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="산책 괴물"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
 
             </LinearLayout>
 
@@ -215,7 +218,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="GPS 파괴자"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
 
@@ -279,7 +283,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="지갑 오픈"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
             <LinearLayout
@@ -333,7 +338,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="결제 천사"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
             <LinearLayout
@@ -388,7 +394,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="현타 마법사"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
 
@@ -452,7 +459,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="지렸다...(축축)"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
             <LinearLayout
@@ -505,7 +513,8 @@
                     android:fontFamily="@font/ownglyp"
                     android:gravity="center"
                     android:text="운빨X망겜"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/font_color"/>
             </LinearLayout>
 
             <LinearLayout

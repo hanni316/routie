@@ -23,7 +23,7 @@ class GachaDialogFragment : DialogFragment() {
 
     private var ticketCount = 0
     private lateinit var textTicketCount: TextView
-    private val rareItem = GachaItem(128L, name = "별빛드레스", imageResId = R.drawable.starlight_dress)
+    private val rareItem = GachaItem(106L, name = "별빛드레스", imageResId = R.drawable.starlight_dress)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,7 +61,7 @@ class GachaDialogFragment : DialogFragment() {
                     textTicketCount.text = "${ticketCount}장"
 
                     // 가챠 시도
-                    val result = tryGacha(0.01)
+                    val result = tryGacha(0.9)
                     val isSuccess = result != null
                     val isHiddenItem = result?.itemId == 128L // 히든 조건 (네 기준으로 조정 가능)
 
