@@ -32,6 +32,10 @@ class StepSensorListener(private val context: Context, private val userId: Strin
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
             val stepCount = event.values[0].toInt()
+
+            //최신 걸음수 캐시에 저장
+            StepCache.lastKnownTotalSteps = stepCount
+
             val caloriesBurned = stepCount * 0.04f
 
             // milestone 기준
