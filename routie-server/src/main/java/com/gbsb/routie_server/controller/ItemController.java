@@ -26,10 +26,4 @@ public class ItemController {
     public ResponseEntity<List<ItemDto>> getItemsByCategory(@PathVariable int categoryId) {
         return ResponseEntity.ok(itemService.getItemDtosByCategory(categoryId));
     }
-
-    // 가챠 아이템 조회
-    @GetMapping("/gacha")
-    public ResponseEntity<List<ItemDto>> getGachaItems() {
-        return ResponseEntity.ok(itemService.getGachaItemDtos());
-    }
 }

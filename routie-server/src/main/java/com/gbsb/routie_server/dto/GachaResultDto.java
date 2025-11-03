@@ -1,6 +1,5 @@
 package com.gbsb.routie_server.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +12,8 @@ import lombok.Setter;
 public class GachaResultDto {
     private String userId; //유저 식별자
     private Long itemId; //당첨된 아이템 ID
-
-    @JsonProperty("isSuccess")
     private boolean isSuccess;
 
-    @JsonProperty("isHiddenItem")
     private boolean isHiddenItem;
 }
 
