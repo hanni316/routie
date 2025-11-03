@@ -1,5 +1,7 @@
 package com.example.routie_wear.viewmodel
 
+import WalkSessionEndRequestDto
+import WalkSessionStartRequestDto
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,6 +37,23 @@ class RoutineViewModel : ViewModel() {
     //운동 중 기록을 저장하는 리스트
     private val tempWorkoutRecords = mutableListOf<WorkoutRecordDto>()
 
+    // 걷기 세션 관련 상태 ------------------
+    var currentWalkSessionId by mutableStateOf<Long?>(null) // 서버에서 받은 sessionId
+        private set
+
+    private var walkSessionStartTime: Long? = null // 워치에서 세션 시작한 시간(ms)
+
+    // UI에서 결과 보여주기 용: "걷기: XXX걸음" 이 XXX를 저장
+    var lastWalkResultSteps by mutableStateOf<Int?>(null)
+        private set
+
+    // 걷기 시작 시 찍은 시작 걸음수 (워치 내부 상태)
+    // -> 서버에도 보내긴 하지만, 로컬에도 들고 있으면 즉시 디버깅 가능
+    var baselineStepsAtStart by mutableStateOf<Int?>(null)
+        private set
+
+    private val walkApi = RetrofitInstance.walkSessionApi
+
     // 오늘 루틴 목록 불러오기
     fun loadTodayRoutines() {
         val today = LocalDate.now().dayOfWeek.name.lowercase()
@@ -68,6 +87,82 @@ class RoutineViewModel : ViewModel() {
             }
         }
     }
+
+    /**
+     * 걷기 운동 세션 시작:
+     * - 현재 걸음수(startStepCount)를 받아서 서버에 세션 생성 요청
+     * - sessionId를 받아서 보관
+     * - 시작 시간 기록
+     */
+    fun startWalkSession(
+        startStepCount: Int
+    ) {
+        val uid = userId ?: return
+        val routineLog = routineLogId ?: return          // 현재 루틴 로그 ID (혹시 아직 없으면? 아래 설명 참고)
+        val exercise = selectedWorkout ?: return
+
+        viewModelScope.launch {
+            try {
+                val res = walkApi.startWalkSession(
+                    WalkSessionStartRequestDto(
+                        userId = uid,
+                        exerciseId = exercise.exerciseId,
+                        startStepCount = startStepCount
+                    )
+                )
+                currentWalkSessionId = res.sessionId
+                baselineStepsAtStart = startStepCount
+                walkSessionStartTime = System.currentTimeMillis()
+
+                Log.d("VM", "걷기 세션 시작 서버에 등록 sessionId=${res.sessionId}, baseline=$startStepCount")
+            } catch (e: Exception) {
+                Log.e("VM", "걷기 세션 시작 실패: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     * 걷기 운동 세션 종료:
+     * - endStepCount(종료 시 걸음수)를 서버에 보내서 delta 계산/저장
+     * - 서버가 계산한 stepsDuringSession을 lastWalkResultSteps에 담음
+     * - 이후 UI에서 걸음수 표시 가능
+     */
+    fun endWalkSession(
+        endStepCount: Int,
+        durationSeconds: Int
+    ) {
+        val sessionId = currentWalkSessionId ?: return
+        val startMs = walkSessionStartTime ?: System.currentTimeMillis()
+        val durationMs = System.currentTimeMillis() - startMs
+
+        // 혹시 durationSeconds랑 durationMs가 다를 수 있는데
+        // durationMs를 서버에 주고, local durationSeconds는 기존 루틴 업로드에 계속 쓸 수 있어.
+        // Routie의 칼로리 로직은 durationSeconds만 보면 되니까 그대로 유지 가능.
+
+        viewModelScope.launch {
+            try {
+                val res = walkApi.endWalkSession(
+                    WalkSessionEndRequestDto(
+                        sessionId = sessionId,
+                        endStepCount = endStepCount,
+                        durationMillis = durationMs
+                    )
+                )
+
+                lastWalkResultSteps = res.stepsDuringSession
+                Log.d("VM", "걷기 세션 종료. 이번 세션 걸음수=${res.stepsDuringSession}")
+
+                // 세션 정리
+                currentWalkSessionId = null
+                walkSessionStartTime = null
+                baselineStepsAtStart = null
+
+            } catch (e: Exception) {
+                Log.e("VM", "걷기 세션 종료 실패: ${e.message}")
+            }
+        }
+    }
+
 
     // 운동 한 개 기록을 로컬에 저장
     fun saveWorkoutLocally(duration: Int) {
