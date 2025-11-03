@@ -61,6 +61,7 @@ class StoreFragment : Fragment() {
 
         adapter = StoreAdapter(
             onPreview = { item ->
+                previewedItems.removeAll { it.categoryName == item.categoryName }
                 previewedItems.add(item)
                 val resId = getDrawableResIdByName(item.nameEn)
                 when (item.categoryName) {
@@ -156,7 +157,7 @@ class StoreFragment : Fragment() {
             }
 
             AlertDialog.Builder(requireContext())
-                .setTitle("일괄 구매 확인")
+                .setTitle("착용 의상 구매")
                 .setMessage(
                     "총 ${toBuy.size}개의 옷을\n" +
                             "총 ${toBuy.sumOf { it.price }}골드에 구매하시겠습니까?"

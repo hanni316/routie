@@ -269,7 +269,8 @@ class MyroomFragment : Fragment() {
                         name         = ui.name,
                         nameEn       = ui.nameEn,
                         price        = ui.price,
-                        categoryName = ui.categoryName
+                        categoryName = ui.categoryName,
+                        gachaItem    = ui.gachaItem
                     )
                 }
 

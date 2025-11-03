@@ -28,4 +28,7 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)  // FK로 저장
     private Category category;
+
+    @Column(nullable = false)
+    private boolean gachaItem = false;
 }

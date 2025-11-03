@@ -25,6 +25,10 @@ import retrofit2.Response
 import com.google.android.material.tabs.TabLayout
 import androidx.recyclerview.widget.RecyclerView
 
+import androidx.core.content.ContextCompat
+import android.graphics.Color
+
+
 
 class MakingroutineFragment : Fragment() {
     private var _binding: FragmentMakingroutineBinding? = null
@@ -54,6 +58,18 @@ class MakingroutineFragment : Fragment() {
             binding.fridayButton,
             binding.saturdayButton
         )
+        val normalColor = ContextCompat.getColor(requireContext(), R.color.font_color)
+        val selectedColor = Color.parseColor("#FFFFFF") //선택 시 흰색 글씨
+
+        toggleButtons.forEach { button ->
+            button.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    button.setTextColor(selectedColor)   // 선택된 경우
+                } else {
+                    button.setTextColor(normalColor)     // 선택 해제된 경우
+                }
+            }
+        }
 
         // RecyclerView 설정
         exerciseAdapter = ExerciseAdapter(selectedExercises){ /* 아무 동작 없음 */ }

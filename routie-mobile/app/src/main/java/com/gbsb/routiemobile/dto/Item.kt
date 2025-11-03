@@ -5,5 +5,6 @@ data class Item(
     val name: String,
     val nameEn: String,
     val price: Int,
-    val categoryName: String
+    val categoryName: String,
+    val gachaItem: Boolean
 )

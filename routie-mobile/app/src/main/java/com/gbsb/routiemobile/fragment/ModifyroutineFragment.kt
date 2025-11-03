@@ -28,6 +28,9 @@ import com.gbsb.routiemobile.adapter.ExerciseAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.core.content.ContextCompat
+import android.graphics.Color
+
 
 class ModifyroutineFragment : Fragment() {
 
@@ -74,6 +77,19 @@ class ModifyroutineFragment : Fragment() {
             "friday" to view.findViewById(R.id.fridayButton),
             "saturday" to view.findViewById(R.id.saturdayButton),
         )
+
+        val normalColor = ContextCompat.getColor(requireContext(), R.color.font_color)
+        val selectedColor = Color.parseColor("#FFFFFF")
+
+        dayButtons.values.forEach { button ->
+            button.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    button.setTextColor(selectedColor)   // 선택됨
+                } else {
+                    button.setTextColor(normalColor)     // 선택 해제
+                }
+            }
+        }
 
         routineNameEditText = view.findViewById(R.id.routineNameEditText)
         descriptionEditText = view.findViewById(R.id.descriptionEditText)
