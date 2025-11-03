@@ -11,5 +11,4 @@ public class ItemDto {
     private String nameEn;
     private int price;
     private String categoryName;
-    private boolean gachaItem;
 }

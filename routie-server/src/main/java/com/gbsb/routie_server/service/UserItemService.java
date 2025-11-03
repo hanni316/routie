@@ -44,8 +44,7 @@ public class UserItemService {
                         ui.getItem().getName(),
                         ui.getItem().getNameEn(),
                         ui.getItem().getPrice(),
-                        ui.getItem().getCategory().getName(),
-                        ui.getItem().isGachaItem()
+                        ui.getItem().getCategory().getName()
                 ))
                 .collect(Collectors.toList());
     }
@@ -61,7 +60,7 @@ public class UserItemService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저"));
 
         Item item = null;
-        if (dto.isSuccess() && dto.getItemId() != null && dto.getItemId() > 0) {
+        if (dto.getItemId() != null) {
             item = itemRepo.findById(dto.getItemId())
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템"));
         }
